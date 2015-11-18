@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{341F01A5-DAAB-4A6B-B496-94FF772D0704}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SkySim_01</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\East101\CppLibraries\boost_1_58_0\boost_1_58_0;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetExt>.lib</TargetExt>
+    <IncludePath>D:\East101\CppLibraries\boost_1_58_0\boost_1_58_0;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseVariable.h" />
+    <ClInclude Include="BridgeFunction.h" />
+    <ClInclude Include="CommandInterpreter.h" />
+    <ClInclude Include="ComponentBalance.h" />
+    <ClInclude Include="Compressor.h" />
+    <ClInclude Include="DensityCalc.h" />
+    <ClInclude Include="ErrorLogger.h" />
+    <ClInclude Include="FlashMethod.h" />
+    <ClInclude Include="FlowBalance.h" />
+    <ClInclude Include="FlowSheet.h" />
+    <ClInclude Include="Fluid.h" />
+    <ClInclude Include="FSObject.h" />
+    <ClInclude Include="fwStream.h" />
+    <ClInclude Include="HandledException.h" />
+    <ClInclude Include="HeatBalance.h" />
+    <ClInclude Include="Heater.h" />
+    <ClInclude Include="Ideal.h" />
+    <ClInclude Include="IsentropicCompression.h" />
+    <ClInclude Include="JSONGenerator.h" />
+    <ClInclude Include="MassMolFlowCalc.h" />
+    <ClInclude Include="Mixer.h" />
+    <ClInclude Include="MolWtCalc.h" />
+    <ClInclude Include="NumericalMethods.h" />
+    <ClInclude Include="OutputLogger.h" />
+    <ClInclude Include="Phase.h" />
+    <ClInclude Include="PressureBalance.h" />
+    <ClInclude Include="PropertyCalc.h" />
+    <ClInclude Include="PropPack.h" />
+    <ClInclude Include="PropPackBuilder.h" />
+    <ClInclude Include="RealVariable.h" />
+    <ClInclude Include="RefPropFunctions.h" />
+    <ClInclude Include="RefPropPack.h" />
+    <ClInclude Include="RPEnergyCalc.h" />
+    <ClInclude Include="RPManager.h" />
+    <ClInclude Include="RPMassDensityCalc.h" />
+    <ClInclude Include="SimCase.h" />
+    <ClInclude Include="SimpleResistanceEquation.h" />
+    <ClInclude Include="Solver.h" />
+    <ClInclude Include="SolveStack.h" />
+    <ClInclude Include="Splitter.h" />
+    <ClInclude Include="StackObject.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Stream.h" />
+    <ClInclude Include="StreamCalc.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TwoPhaseSeparation.h" />
+    <ClInclude Include="TwoPhaseSeparator.h" />
+    <ClInclude Include="UnitConvertor.h" />
+    <ClInclude Include="UnitOp.h" />
+    <ClInclude Include="UnitOpBuilder.h" />
+    <ClInclude Include="Valve.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BaseVariable.cpp" />
+    <ClCompile Include="BridgeFunction.cpp" />
+    <ClCompile Include="CommandInterpreter.cpp" />
+    <ClCompile Include="ComponentBalance.cpp" />
+    <ClCompile Include="Compressor.cpp" />
+    <ClCompile Include="DensityCalc.cpp" />
+    <ClCompile Include="ErrorLogger.cpp" />
+    <ClCompile Include="FlashMethod.cpp" />
+    <ClCompile Include="FlowBalance.cpp" />
+    <ClCompile Include="FlowSheet.cpp" />
+    <ClCompile Include="Fluid.cpp" />
+    <ClCompile Include="FSObject.cpp" />
+    <ClCompile Include="fwStream.cpp" />
+    <ClCompile Include="HandledException.cpp" />
+    <ClCompile Include="HeatBalance.cpp" />
+    <ClCompile Include="Heater.cpp" />
+    <ClCompile Include="Ideal.cpp" />
+    <ClCompile Include="IsentropicCompression.cpp" />
+    <ClCompile Include="JSONGenerator.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MassMolFlowCalc.cpp" />
+    <ClCompile Include="Mixer.cpp" />
+    <ClCompile Include="MolWtCalc.cpp" />
+    <ClCompile Include="OutputLogger.cpp" />
+    <ClCompile Include="Phase.cpp" />
+    <ClCompile Include="PressureBalance.cpp" />
+    <ClCompile Include="PropertyCalc.cpp" />
+    <ClCompile Include="PropPack.cpp" />
+    <ClCompile Include="PropPackBuilder.cpp" />
+    <ClCompile Include="RealVariable.cpp" />
+    <ClCompile Include="RefPropPack.cpp" />
+    <ClCompile Include="RPEnergyCalc.cpp" />
+    <ClCompile Include="RPManager.cpp" />
+    <ClCompile Include="RPMassDensityCalc.cpp" />
+    <ClCompile Include="SimCase.cpp" />
+    <ClCompile Include="SimpleResistanceEquation.cpp" />
+    <ClCompile Include="SkySim_0.1.cpp" />
+    <ClCompile Include="Solver.cpp" />
+    <ClCompile Include="SolveStack.cpp" />
+    <ClCompile Include="Splitter.cpp" />
+    <ClCompile Include="StackObject.cpp" />
+    <ClCompile Include="Stream.cpp" />
+    <ClCompile Include="StreamCalc.cpp" />
+    <ClCompile Include="TwoPhaseSeparation.cpp" />
+    <ClCompile Include="TwoPhaseSeparator.cpp" />
+    <ClCompile Include="UnitConvertor.cpp" />
+    <ClCompile Include="UnitOp.cpp" />
+    <ClCompile Include="UnitOpBuilder.cpp" />
+    <ClCompile Include="Valve.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ComponentDatabase.csv" />
+    <None Include="ComponentDatabase.xlsm" />
+    <None Include="testvalve.out" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="inputfile2.txt" />
+    <Text Include="myinputfile.txt" />
+    <Text Include="ReadMe.txt" />
+    <Text Include="testall.txt" />
+    <Text Include="testcompressor.txt" />
+    <Text Include="testflashes.txt" />
+    <Text Include="testheater.txt" />
+    <Text Include="testmixer.txt" />
+    <Text Include="testsep.txt" />
+    <Text Include="testsplitter.txt" />
+    <Text Include="testvalve.txt" />
+    <Text Include="testvalveout.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
