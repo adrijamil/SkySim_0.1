@@ -4,32 +4,41 @@
 
 Stream::Stream()
 {
-	_phases[0] = new Phase(VAPOUR);
+	/*_phases[0] = new Phase(VAPOUR);
 	_phases[1] = new Phase(HCLIQUID);
-	_phases[2] = new Phase(AQUEOUS);
+	_phases[2] = new Phase(AQUEOUS);*/
 
 	_pressure = new RealVariable;
 	_temperature = new RealVariable;
 
-	_phases[0]->SetParent(this);
+
+	//this sets the phase P and T to the stream P and T
+	/*_phases[0]->SetParent(this);
 	_phases[1]->SetParent(this);
-	_phases[2]->SetParent(this);
+	_phases[2]->SetParent(this);*/
 	//_phases[0]->_pressure = _pressure;
+
+	AddVariable(_pressure);
+	AddVariable(_temperature);
+	AddVariable(_molenthalpy);
+	AddVariable(_molentropy);
+
+	AddVariable(_composition);
 
 	_name = "fuck";
 }
 Stream::Stream(string daname)
 {
-	_phases[0] = new Phase(VAPOUR);
+	/*_phases[0] = new Phase(VAPOUR);
 	_phases[1] = new Phase(HCLIQUID);
-	_phases[2] = new Phase(AQUEOUS);
+	_phases[2] = new Phase(AQUEOUS);*/
 
 	_pressure = new RealVariable;
 	_temperature = new RealVariable;
 
-	_phases[0]->SetParent(this);
+	/*_phases[0]->SetParent(this);
 	_phases[1]->SetParent(this);
-	_phases[2]->SetParent(this);
+	_phases[2]->SetParent(this);*/
 
 	//make a separate routine for this
 	//should be handled by flash method -> other methods may provide more or less variables
@@ -39,15 +48,15 @@ Stream::Stream(string daname)
 	AddVariable(_molentropy);
 
 	AddVariable(_composition);
-	AddVariable(_phases[0]->Composition());
-	AddVariable(_phases[1]->Composition());
+	//AddVariable(_phases[0]->Composition());
+	//AddVariable(_phases[1]->Composition());
 
 	AddVariable(_molardensity);
-	AddVariable(_phases[0]->MolarDensity());
-	AddVariable(_phases[1]->MolarDensity());
+	//AddVariable(_phases[0]->MolarDensity());
+	//AddVariable(_phases[1]->MolarDensity());
 
-	AddVariable(_phases[0]->PhaseMoleFraction());
-	AddVariable(_phases[1]->PhaseMoleFraction());
+	//AddVariable(_phases[0]->PhaseMoleFraction());
+	//AddVariable(_phases[1]->PhaseMoleFraction());
 	_name = daname;
 }
 
@@ -95,11 +104,11 @@ Stream::~Stream()
 
 bool Stream::Solve()
 {
-	/*if (_issolved == true)
+	if (_issolved == true)
 	{
 		return true;
 	}
-	*/
+	
 	bool retval=true;
 	//check DOF then call appropriate flash
 
@@ -332,4 +341,54 @@ int Stream::NStackObjects()
 	}
 	
 	return _nstreamcalcs;
+}
+
+void Stream::_addphase(PhaseTypeEnum thephasetype)
+{
+	_nphases++;
+
+	int i = thephasetype;
+	Phase* thenewphase = new Phase(thephasetype);
+	//phases must be in order -> vap,liq,aq
+
+	Phase** newphases = (Phase**)realloc(_phases, _nphases* sizeof(*thenewphase));
+	if (_phases != NULL) //if it's null then realloc tak jadi
+	{
+		_phases[i] = &(*thenewphase);
+	}
+}
+
+
+void Stream::_removephase(PhaseTypeEnum thephasetype)
+{
+	_nphases = _nphases - 1;
+
+	Phase** _newphases = (Phase**)malloc(_nphases* sizeof(*_phases[0]));
+
+	int j = 0;
+
+	for (int i = 0;i < _nphases;i++)
+	{
+		if (_phases[i]->PhaseType() == thephasetype)
+		{
+			delete _phases[i];
+		}
+		else
+		{
+			_newphases[j] = _phases[i];
+			j++;
+		}
+	}
+	_phases = (Phase**)realloc(_newphases, _nphases* sizeof(*_newphases[0]));
+}
+
+bool Stream::_phasepresent(PhaseTypeEnum thephasetype)
+{
+	for (int i = 0;i < _nphases;i++)
+	{
+		if (_phases[i]->PhaseType() == thephasetype)
+		{
+			return true;
+		}
+	}
 }

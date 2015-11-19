@@ -24,18 +24,22 @@ void fwStream::ReadStream(Stream* thestream)
 	{
 		cout << "how am i nothing";
 	}
-	NComps =thestream->NComps();
+	NComps = thestream->NComps();
 
-
-	Phases =new fwPhase[3];
+	 _nphases = thestream->NPhases();
+	Phases = new fwPhase[_nphases+1];
 	Phases[0].PhaseName = OVERALL;
-	Phases[1].PhaseName = VAPOUR;
-	Phases[2].PhaseName = HCLIQUID;
+
+	for (int i = 1;i < _nphases+1; i++)
+	{
+		Phases[i].PhaseName = thestream->Phases(i)->PhaseType();
+	}
+	
 
 	Pressure=thestream->Pressure()->GetValue();
 	Temperature = thestream->Temperature()->GetValue();
 	VapourFraction = thestream->VapourFraction()->GetValue();
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < _nphases+1; i++) // add 1 for overall
 	{
 		if (i == 0)
 		{
@@ -70,9 +74,37 @@ fwStream::~fwStream()
 {
 	
 }
+
+
+void fwStream::AddPhase(PhaseTypeEnum thephasetype)
+{
+	fwPhase* tempPhases = new fwPhase[_nphases + 1];
+	_nphases++;
+	
+	int i = thephasetype;
+	//phases must be in order -> vap,liq,aq
+
+	Phases = (fwPhase*)realloc(Phases, _nphases* sizeof(Phases[0]));
+	if (_phases != NULL) //if it's null then realloc tak jadi
+	{
+		_phases[i] = &(*thenewphase);
+	}
+
+}
+
+void fwStream::RemovePhase(PhaseTypeEnum thephasetype)
+{
+	fwPhase* tempPhases = new fwPhase[_nphases + 1];
+	_nphases++;
+
+	//complete this
+
+
+}
+
 void fwStream::WriteStream(Stream* thestream)
 {
-	
+	//put something to check if phases correspond
 	thestream->Pressure()->SetValue(Pressure);
 	thestream->Temperature()->SetValue(Temperature);
 	thestream->Phases(0)->PhaseMoleFraction()->SetValue(VapourFraction);

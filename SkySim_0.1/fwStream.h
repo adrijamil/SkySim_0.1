@@ -3,7 +3,7 @@ class Stream;
 #include "Phase.h"
 struct fwPhase
 {
-	PhaseType PhaseName;
+	PhaseTypeEnum PhaseName;
 	double MassFlow;
 	double MolarFlow;
 	double PhaseFraction;
@@ -32,8 +32,12 @@ public:
 	int NComps;
 
 	void ReadStream(Stream* thestream);
+	void AddPhase(PhaseTypeEnum thephasetype);
+	void RemovePhase(PhaseTypeEnum thephasetype);
 	void WriteStream(Stream* thestream);
-private:
 	
+private:
+	int _nphases;
+
 };
 

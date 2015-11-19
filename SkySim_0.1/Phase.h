@@ -29,7 +29,7 @@
 
 //class Stream;  //this way we avoid recursion in header files.
 
-enum  PhaseType { OVERALL = -1, VAPOUR,HCLIQUID, AQUEOUS, UNDEFINED };
+enum  PhaseTypeEnum { OVERALL = -1, VAPOUR,HCLIQUID, AQUEOUS, UNDEFINED };
 
 class Phase :
 	public Fluid
@@ -40,17 +40,21 @@ public:
 		_pressure = new RealVariable; 
 	};
 
-	Phase(PhaseType thetype){ 
+	Phase(PhaseTypeEnum thetype){ 
 		_phase_type = thetype; 
 		_phase_mol_fraction = new RealVariable;
 	};
 
+	PhaseTypeEnum PhaseType()
+	{
+		return _phase_type;
+	}
 	RealVariable* PhaseMoleFraction(){ return _phase_mol_fraction; }
 
 	~Phase();
 	void SetParent(Fluid* parentstrm);
 private:
-	PhaseType _phase_type = UNDEFINED;
+	PhaseTypeEnum _phase_type = UNDEFINED;
 	Fluid* _parent_stream;
 	RealVariable* _phase_mol_fraction;
 };
