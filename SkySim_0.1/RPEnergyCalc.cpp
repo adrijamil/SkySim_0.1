@@ -10,19 +10,26 @@ RPEnergyCalc::RPEnergyCalc()
 	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THERMdll");;
 }
 
+RPEnergyCalc::~RPEnergyCalc()
+{
+}
+
 RealVariable**  RPEnergyCalc::GetVariables(Stream* refstream)
 {
-	RealVariable** thevars = (RealVariable**)malloc(_nvars * sizeof(thevars[0]));
 
-	thevars[0] = refstream->Phases(0)->Composition();
-	thevars[1] = refstream->Phases(0)->MolarEnthalpy();
-	thevars[2] = refstream->Phases(0)->MolarEntropy();
 
-	thevars[3] = refstream->Phases(1)->Composition();
-	thevars[4] = refstream->Phases(1)->MolarEnthalpy();
-	thevars[5] = refstream->Phases(1)->MolarEntropy();
+	_nvars = (refstream->NPhases() )* 3; //2 for each composition,MolarEntropy and MolarEnthalpy of a phase. does not apply to overall phase.
 
-	return thevars;
+	RealVariable** thevariables = (RealVariable**)malloc(_nvars * sizeof(thevariables[0]));
+
+	for (int i = 0;i < _nvars / 3;i++)
+	{
+		thevariables[i ] = refstream->Phases(i)->Composition();
+		thevariables[i  + 1] = refstream->Phases(i)->MolarEnthalpy();
+		thevariables[i  + 2] = refstream->Phases(i)->MolarEntropy();
+	}
+	return thevariables;
+
 }
 
 
@@ -32,30 +39,49 @@ bool RPEnergyCalc::Solve()
 	//fwStream* tempfwstrm = new fwStream;
 	int ncomps = _parent->NComps();
 	bool retval = true;
-	double t, d, p, e, h, s, cv, cp, w, hjt;
+	double t, d, p, e, h, s, cv, cp, w, hjt,pcheck;
+	double tol = 0.000001;
+	//pcheck is to check that pressure calculated by thermdll is same as input p
 	double x[ncmax];
 
 	t = _parent->RefStream()->Temperature;
-	p = _parent->RefStream()->Pressure;
+	pcheck = _parent->RefStream()->Pressure;
 
 
-	if (t == -32767 || p == -32767)
+	if (t == -32767)
 	{
 		return false;
 	}
 	for (int i = 1; i < 3; i++)
 	{
-		if (_parent->RefStream()->Phases[0].Composition[0] != -32767)
+		if (!_parent->RefStream()->Phases[i].Composition[0] != -32767&& _parent->RefStream()->Phases[i].MolarDensity != -32767)
 		{
 			for (int k = 0; k < ncomps; k++)
 			{
-				x[k] = _parent->RefStream()->Phases[0].Composition[k];
+				x[k] = _parent->RefStream()->Phases[i].Composition[k];
 			}
+			d = _parent->RefStream()->Phases[i].MolarDensity/1000;
 			THERMdll(t, d, x, p, e, h, s, cv, cp, w, hjt);
-			_parent->RefStream()->Phases[i].Enthalpy = h;
-			_parent->RefStream()->Phases[i].Entropy = s;
-		}	
-		else if (_parent->RefStream()->Phases[i].Enthalpy==-32767)
+
+			if (abs(pcheck - p) < tol)
+			{
+				_parent->RefStream()->Phases[i].Enthalpy = h;
+				_parent->RefStream()->Phases[i].Entropy = s;
+
+				//if single phase only, then single phase flash enthalpy and entropy are taken.
+				if ((_parent->RefStream()->VapourFraction == 1 && _parent->RefStream()->Phases[i].PhaseFraction == 1) || (_parent->RefStream()->VapourFraction == 0 && _parent->RefStream()->Phases[i].PhaseFraction == 1))
+				{
+					_parent->RefStream()->Phases[0].Enthalpy = h;
+					_parent->RefStream()->Phases[0].Entropy = s;
+				}
+			}
+			else
+			{
+				cout << "Not convergerd: THERMdll calculated P: " << p << " error: " << abs(pcheck - p) << " \n";
+				retval = false;
+			}
+		}
+		else if (_parent->RefStream()->Phases[i].IsPresent)
 		{
 			retval = false;
 		}

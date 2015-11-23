@@ -53,6 +53,7 @@ protected:
 	string _name;
 	StackObject** _stackobjects;
 	int _nstackobjects = 0;
+	
 };
 
 #endif

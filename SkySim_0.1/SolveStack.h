@@ -55,8 +55,6 @@ public:
 		int j = 0 ;
 
 
-
-
 		//see who else depends on me. add to stack; 
 		//this will only work when editing a spec. first time you solve all will be dirty and added already
 		for (int i = 0; i < _count; i++)
@@ -167,10 +165,6 @@ public:
 			retval = true; 
 			std::cout << "Solved in " << solvepasses<< " passes \n";
 		}
-
-
-
-
 
 		return retval;
 	}

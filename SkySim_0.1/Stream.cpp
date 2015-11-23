@@ -2,62 +2,37 @@
 #include "Stream.h"
 #include "StreamCalc.h"
 
+
+
+void Stream::_initialise()
+{
+	_pressure = new RealVariable;
+	_temperature = new RealVariable;
+
+	//by default add a vapour phase
+	//should be handled by flash method -> other methods may provide more or less variables
+
+	_addphase(VAPOUR);
+	AddVariable(_pressure);
+	AddVariable(_temperature);
+	AddVariable(_molenthalpy);
+	AddVariable(_molentropy);
+	AddVariable(_composition);
+	AddVariable(_molardensity);
+	
+}
+
 Stream::Stream()
 {
-	/*_phases[0] = new Phase(VAPOUR);
-	_phases[1] = new Phase(HCLIQUID);
-	_phases[2] = new Phase(AQUEOUS);*/
-
-	_pressure = new RealVariable;
-	_temperature = new RealVariable;
-
-
-	//this sets the phase P and T to the stream P and T
-	/*_phases[0]->SetParent(this);
-	_phases[1]->SetParent(this);
-	_phases[2]->SetParent(this);*/
-	//_phases[0]->_pressure = _pressure;
-
-	AddVariable(_pressure);
-	AddVariable(_temperature);
-	AddVariable(_molenthalpy);
-	AddVariable(_molentropy);
-
-	AddVariable(_composition);
-
-	_name = "fuck";
+	_name = "NONAME";
+	_initialise();
 }
+
+
 Stream::Stream(string daname)
 {
-	/*_phases[0] = new Phase(VAPOUR);
-	_phases[1] = new Phase(HCLIQUID);
-	_phases[2] = new Phase(AQUEOUS);*/
-
-	_pressure = new RealVariable;
-	_temperature = new RealVariable;
-
-	/*_phases[0]->SetParent(this);
-	_phases[1]->SetParent(this);
-	_phases[2]->SetParent(this);*/
-
-	//make a separate routine for this
-	//should be handled by flash method -> other methods may provide more or less variables
-	AddVariable(_pressure);
-	AddVariable(_temperature);
-	AddVariable(_molenthalpy);
-	AddVariable(_molentropy);
-
-	AddVariable(_composition);
-	//AddVariable(_phases[0]->Composition());
-	//AddVariable(_phases[1]->Composition());
-
-	AddVariable(_molardensity);
-	//AddVariable(_phases[0]->MolarDensity());
-	//AddVariable(_phases[1]->MolarDensity());
-
-	//AddVariable(_phases[0]->PhaseMoleFraction());
-	//AddVariable(_phases[1]->PhaseMoleFraction());
 	_name = daname;
+	_initialise();
 }
 
 void Stream::SetPropertyPackage(PropPack* thePP)
@@ -72,28 +47,16 @@ void Stream::_setstreamcalcs()
 	ncalcs = _proppack->Properties()->NChildren();
 	
 	_streamcalcs = new StreamCalc[ncalcs];
-	/*_streamcalcs[0].SetPropertyCalc(_proppack->GetFlashMethod());
-	_streamcalcs[0].SetRefStream(this);*/
-	//_streamcalcs = new StreamCalc[ncalcs + 1];
 
 		for (int i = 0; i < ncalcs; i++)
 		{
 			_streamcalcs[i].Setup(_proppack->Properties()->GetProperty(i), this);
-			//_streamcalcs[i].SetRefStream(this);
-			
-			//_streamcalcs[i].SetPropertyCalc(_proppack->Properties()->GetProperty(i));
+
 		}
-		//_stackobjects[_nstackobjects - 1] = &(*theSO);
-	
-
-	
-	
-	/*delete *(_streamcalcs[0]);
-	_streamcalcs[0] = *temp;*/
-
 
 	_nstreamcalcs = ncalcs + 1;
 }
+
 
 
 
@@ -104,10 +67,6 @@ Stream::~Stream()
 
 bool Stream::Solve()
 {
-	if (_issolved == true)
-	{
-		return true;
-	}
 	
 	bool retval=true;
 	//check DOF then call appropriate flash
@@ -127,7 +86,7 @@ bool Stream::Solve()
 		nspecs = nspecs + 1;
 	}
 
-	if (_phases[0]->PhaseMoleFraction()->IsKnown())
+	if (_vapourfraction->IsKnown())
 	{
 		nspecs = nspecs + 1;
 	}
@@ -146,7 +105,7 @@ bool Stream::Solve()
 	{
 		nspecs = nspecs + 1;
 	}
-	bool* calcbythis = new bool[_nvariables]{false};
+	
 
 	if ((nspecs != 3))
 	{
@@ -156,79 +115,38 @@ bool Stream::Solve()
 		return retval;
 		
 	}
-	_proppack->RefStream()->ReadStream(this);
-		
-	for (int i = 0; i < _nvariables; i++)
-	{
-		if (!_variables[i]->IsKnown())
-		{
-			//cout << i << "\n";
-			calcbythis[i] = true;
-		}
-		else
-		{
-			calcbythis[i] = false;
-		}
-	}
-	//if ((!(_pressure->IsCalculated())) && (!(_temperature->IsCalculated())))
-	//{
+	
+
+
 		if ((_pressure->IsKnown()) && (_temperature->IsKnown()))
 		{
-			//PTFlashMe();
 			thetype = PT;
-
 		}
-	//}
-	//else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_temperature->IsCalculated())))
-	//{
 		else if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_temperature->IsKnown()))
 		{
-			//TQFlashMe();
 			thetype = TQ;
 		}
-	//}
-	//else if ((!(_phases[0]->PhaseMoleFraction()->IsCalculated())) && (!(_pressure->IsCalculated())))
-	//{
 		else if ((_phases[0]->PhaseMoleFraction()->IsKnown()) && (_pressure->IsKnown()))
 		{
-			//PQFlashMe();
 			thetype = PQ;
 		}
-	//}
-	//else if ((!(_molenthalpy->IsCalculated())) && (!(_pressure->IsCalculated())))
-	//{
 		else if ((_molenthalpy->IsKnown()) && (_pressure->IsKnown()))
 		{
-			//PQFlashMe();
 			thetype = PH;
 		}
-	//}
-	//else if ((!(_molentropy->IsCalculated())) && (!(_pressure->IsCalculated())))
-	//{
 		else if ((_molentropy->IsKnown()) && (_pressure->IsKnown()))
 		{
-			//PQFlashMe();
 			thetype = PS;
 		}
-	//}
-	//else if ((!(_molentropy->IsCalculated())) && (!(_temperature->IsCalculated())))
-	//{
 		else if ((_molentropy->IsKnown()) && (_temperature->IsKnown()))
 		{
-			//PQFlashMe();
 			thetype = TS;
 		}
-	//}
-	//else if ((!(_molenthalpy->IsCalculated())) && (!(_temperature->IsCalculated())))
-	//{
 		else if ((_molenthalpy->IsKnown()) && (_temperature->IsKnown()))
 		{
-			//PQFlashMe();
 			thetype = TH;
 		}
-	//}
-	
-	//Flash(thetype)
+
 
 		_proppack->RefStream()->ReadStream(this);
 		if (!_proppack->Flash(thetype))
@@ -237,19 +155,121 @@ bool Stream::Solve()
 		}
 
 	othercalcs:
-	/*	if (!_proppack->Properties()->Solve())
-	{
-		retval = false;
-	}*/
-	_proppack->RefStream()->WriteStream(this);
-	
-	for (int j = 0; j < _nvariables; j++)
-	{
-		if (_variables[j]->IsKnown() && calcbythis[j] == true)
-		{
-			_variables[j]->CalculatedBy(this);
-			//cout << j << ":" << _variables[j]->GetValue() << "\n";
 
+	_proppack->RefStream()->WriteStream(this);
+
+
+	cout << "variables in stack object \n";
+	for (int k = 0;k < _nvariables;k++)
+	{
+		cout << _variables[k] << "\n";
+	}
+
+	StackObject* thefsob = this;
+	if (retval)
+	{
+		cout << "variables in stream object \n";
+		switch (thetype) {
+		case PT:
+			_molardensity->CalculatedBy(thefsob);
+			cout << _molardensity << "\n";
+			_molenthalpy->CalculatedBy(thefsob);
+			cout << _molenthalpy << "\n";
+			_molentropy->CalculatedBy(thefsob);
+			cout << _molentropy << "\n";
+			_vapourfraction->CalculatedBy(thefsob);
+			cout << _vapourfraction << "\n";
+			for (int k = 0;k < _nphases;k++)
+			{
+				_phases[k]->MolarDensity()->CalculatedBy(thefsob);
+				cout << _phases[k]->MolarDensity() << "\n";
+				_phases[k]->Composition()->CalculatedBy(thefsob);
+				cout << _phases[k]->Composition() << "\n";
+				_phases[k]->PhaseMoleFraction()->CalculatedBy(thefsob);
+				cout << _phases[k]->PhaseMoleFraction() << "\n";
+			}
+
+
+			break;
+		case TQ:
+			_molardensity->CalculatedBy(thefsob);
+			_molenthalpy->CalculatedBy(thefsob);
+			_molentropy->CalculatedBy(thefsob);
+			_pressure->CalculatedBy(thefsob);
+			for (int k = 0;k < _nphases;k++)
+			{
+				_phases[k]->MolarDensity()->CalculatedBy(thefsob);
+				_phases[k]->Composition()->CalculatedBy(thefsob);
+				if (_phases[k]->PhaseType() != 0) //except vapour fraction
+				{
+					_phases[k]->PhaseMoleFraction()->CalculatedBy(thefsob);
+				}
+				
+			}
+			break;
+		case PQ:
+			_molardensity->CalculatedBy(thefsob);
+			_molenthalpy->CalculatedBy(thefsob);
+			_molentropy->CalculatedBy(thefsob);
+			_temperature->CalculatedBy(thefsob);
+			for (int k = 0;k < _nphases;k++)
+			{
+				_phases[k]->MolarDensity()->CalculatedBy(thefsob);
+				_phases[k]->Composition()->CalculatedBy(thefsob);
+				if (_phases[k]->PhaseType() != 0) //except vapour fraction
+				{
+					_phases[k]->PhaseMoleFraction()->CalculatedBy(thefsob);
+				}
+			}
+			break;
+		case PH:
+			_molardensity->CalculatedBy(thefsob);
+			_temperature->CalculatedBy(thefsob);
+			_molentropy->CalculatedBy(thefsob);
+			_vapourfraction->CalculatedBy(thefsob);
+			for (int k = 0;k < _nphases;k++)
+			{
+				_phases[k]->MolarDensity()->CalculatedBy(thefsob);
+				_phases[k]->Composition()->CalculatedBy(thefsob);
+				_phases[k]->PhaseMoleFraction()->CalculatedBy(thefsob);
+			}
+			break;
+		case PS:
+			_molardensity->CalculatedBy(thefsob);
+			_temperature->CalculatedBy(thefsob);
+			_molenthalpy->CalculatedBy(thefsob);
+			_vapourfraction->CalculatedBy(thefsob);
+			for (int k = 0;k < _nphases;k++)
+			{
+				_phases[k]->MolarDensity()->CalculatedBy(thefsob);
+				_phases[k]->Composition()->CalculatedBy(thefsob);
+				_phases[k]->PhaseMoleFraction()->CalculatedBy(thefsob);
+			}
+			break;
+		case TS:
+			_molardensity->CalculatedBy(thefsob);
+			_pressure->CalculatedBy(thefsob);
+			_molenthalpy->CalculatedBy(thefsob);
+			_vapourfraction->CalculatedBy(thefsob);
+			for (int k = 0;k < _nphases;k++)
+			{
+				_phases[k]->MolarDensity()->CalculatedBy(thefsob);
+				_phases[k]->Composition()->CalculatedBy(thefsob);
+				_phases[k]->PhaseMoleFraction()->CalculatedBy(thefsob);
+			}
+			break;
+		case TH:
+			_molardensity->CalculatedBy(thefsob);
+			_pressure->CalculatedBy(thefsob);
+			_molentropy->CalculatedBy(thefsob);
+			_vapourfraction->CalculatedBy(thefsob);
+			for (int k = 0;k < _nphases;k++)
+			{
+				_phases[k]->MolarDensity()->CalculatedBy(thefsob);
+				_phases[k]->Composition()->CalculatedBy(thefsob);
+				_phases[k]->PhaseMoleFraction()->CalculatedBy(thefsob);
+			}
+			break;
 		}
 	}
 
@@ -265,9 +285,9 @@ void Stream::Output()
 	myncomps = _proppack->NComps();
 
 	cout << "\n";
-	cout << _name<< "\n";
+	cout << _name << "\n";
 
-	cout << "Pressure  [kPa] " << Pressure()->GetValue()<< "\n";
+	cout << "Pressure  [kPa] " << Pressure()->GetValue() << "\n";
 	cout << "Temperature  [K] " << Temperature()->GetValue() << "\n";
 	cout << "MassFlow  [kg/h] " << MassFlow()->GetValue() << "\n";
 	cout << "MolarFlow  [kmol/h] " << MolarFlow()->GetValue() << "\n";
@@ -284,34 +304,34 @@ void Stream::Output()
 		cout << _proppack->GetComponent(k).Name << "  " << Composition()->GetValue(k) << "\n";
 	}
 
-	cout << "\n" << "GasPhase  " << "\n";
-	cout << "Fraction  [mol/mol] " << _phases[0]->PhaseMoleFraction()->GetValue() << "\n";
-	cout << "MassFlow  [kg/h] " << _phases[0] -> MassFlow()->GetValue() << "\n";
-	cout << "MolarFlow  [kmol/h] " << _phases[0] -> MolarFlow()->GetValue() << "\n";
-	cout << "Mw  [g/mol] " << _phases[0]->MolecularWeight()->GetValue() << "\n";
-	cout << "MassDensity  [kg/m3] " << _phases[0]->MassDensity()->GetValue() << "\n";
-	cout << "MolarDensity  [mol/m3] " << _phases[0]->MolarDensity()->GetValue() << "\n";
-	cout << "MolarEnthalpy  [J/mol] " << _phases[0]->MolarEnthalpy()->GetValue() << "\n";
-	cout << "MolarEntropy  [J/mol/K] " << _phases[0]->MolarEntropy()->GetValue() << "\n";
-	for (int k = 0; k < myncomps; k++)
+	for (int i = 0;i < _nphases;i++)
 	{
+		switch (_phases[i]->PhaseType())
+		{
+		case VAPOUR:
+			cout << "\n" << "Vapour Phase  " << "\n";
+			break;
+		case HCLIQUID:
+			cout << "\n" << "HC Liquid Phase  " << "\n";
+			break;
+		case AQUEOUS:
+			cout << "\n" << "Aqueous Phase  " << "\n";
+			break;
+		}
 
-		cout << _proppack->GetComponent(k).Name << "  " << _phases[0]->Composition()->GetValue(k) << "\n";
-	}
+		cout << "Fraction  [mol/mol] " << _phases[i]->PhaseMoleFraction()->GetValue() << "\n";
+		cout << "MassFlow  [kg/h] " << _phases[i] -> MassFlow()->GetValue() << "\n";
+		cout << "MolarFlow  [kmol/h] " << _phases[i] -> MolarFlow()->GetValue() << "\n";
+		cout << "Mw  [g/mol] " << _phases[i]->MolecularWeight()->GetValue() << "\n";
+		cout << "MassDensity  [kg/m3] " << _phases[i]->MassDensity()->GetValue() << "\n";
+		cout << "MolarDensity  [mol/m3] " << _phases[i]->MolarDensity()->GetValue() << "\n";
+		cout << "MolarEnthalpy  [J/mol] " << _phases[i]->MolarEnthalpy()->GetValue() << "\n";
+		cout << "MolarEntropy  [J/mol/K] " << _phases[i]->MolarEntropy()->GetValue() << "\n";
+		for (int k = 0; k < myncomps; k++)
+		{
 
-	cout << "\n";
-	cout << "LiquidPhase" << "\n";
-	cout << "Fraction  [mol/mol] " << _phases[1]->PhaseMoleFraction()->GetValue() << "\n";
-	cout << "MassFlow  [kg/h] " << _phases[1] -> MassFlow()->GetValue() << "\n";
-	cout << "MolarFlow  [kmol/h] " << _phases[1] ->MolarFlow()->GetValue() << "\n";
-	cout << "Mw  " << _phases[1]->MolecularWeight()->GetValue() << "\n";
-	cout << "MassDensity  [kg/m3] " << _phases[1]->MassDensity()->GetValue() << "\n";
-	cout << "MolarDensity  [mol/m3] " << _phases[1]->MolarDensity()->GetValue() << "\n";
-	cout << "MolarEnthalpy  [J/mol] " << _phases[1]->MolarEnthalpy()->GetValue() << "\n";
-	cout << "MolarEntropy  [J/mol/K] " << _phases[1]->MolarEntropy()->GetValue() << "\n";
-	for (int k = 0; k < myncomps; k++)
-	{
-		cout << _proppack->GetComponent(k).Name << "  " << _phases[1]->Composition()->GetValue(k) << "\n";
+			cout << _proppack->GetComponent(k).Name << "  " << _phases[i]->Composition()->GetValue(k) << "\n";
+		}
 	}
 }
 
@@ -329,7 +349,6 @@ StackObject* Stream::GetStackObject(int i)
 
 	StackObject* thecalc = &(_streamcalcs[i - 1]);
 
-	//dynamic_cast <StackObject*>(&(_streamcalcs[i]))
 	return thecalc;
 }
 
@@ -339,47 +358,94 @@ int Stream::NStackObjects()
 	{
 		_setstreamcalcs();
 	}
-	
 	return _nstreamcalcs;
 }
 
 void Stream::_addphase(PhaseTypeEnum thephasetype)
 {
-	_nphases++;
-
-	int i = thephasetype;
-	Phase* thenewphase = new Phase(thephasetype);
-	//phases must be in order -> vap,liq,aq
-
-	Phase** newphases = (Phase**)realloc(_phases, _nphases* sizeof(*thenewphase));
-	if (_phases != NULL) //if it's null then realloc tak jadi
+	if (_phasepresent(thephasetype))
 	{
-		_phases[i] = &(*thenewphase);
+		return;
+	}
+	bool phaseadded = false;
+
+	_nphases++;
+	int i = thephasetype;
+	int j;
+	Phase* thenewphase = new Phase(thephasetype);
+	
+	//register variables
+
+	AddVariable(thenewphase->Composition());
+	AddVariable(thenewphase->MolarDensity());
+	AddVariable(thenewphase->PhaseMoleFraction());
+
+	if (thephasetype == VAPOUR)
+	{
+		delete _vapourfraction;
+		_vapourfraction = thenewphase->PhaseMoleFraction();
+	}
+
+	// set parent . this makes it share P,T and Vfrac if its vapour
+	thenewphase->SetParent(this);
+
+	std::vector<Phase*>::iterator it = _phases.begin();
+	
+	for (std::vector<Phase*>::iterator it = _phases.begin(); it != _phases.end(); ) 
+	{
+		int k = it[0]->PhaseType();
+		if (i < k)
+		{
+			_phases.insert(it, thenewphase);
+			phaseadded = true;
+		}
+		break;
+	}
+	if (!phaseadded)
+	{
+		_phases.push_back(thenewphase);
 	}
 }
 
 
 void Stream::_removephase(PhaseTypeEnum thephasetype)
 {
+	Phase* tempphase;
 	_nphases = _nphases - 1;
 
-	Phase** _newphases = (Phase**)malloc(_nphases* sizeof(*_phases[0]));
 
-	int j = 0;
+	//unregister variables
+	Phase* thenewphase = Phases(thephasetype);
 
-	for (int i = 0;i < _nphases;i++)
+	if (thephasetype == VAPOUR)
 	{
-		if (_phases[i]->PhaseType() == thephasetype)
+		_vapourfraction = new RealVariable;
+		_vapourfraction->SetValue(0);
+		AddVariable(_vapourfraction);
+	}
+
+	RemoveVariable(thenewphase->Composition());
+	RemoveVariable(thenewphase->MolarDensity());
+	RemoveVariable(thenewphase->PhaseMoleFraction());
+
+	//if you use erase, it will remove and shift. 
+	for (std::vector<Phase*>::iterator it = _phases.begin(); it != _phases.end(); ) {
+		if (it[0]->PhaseType() == thephasetype)
 		{
-			delete _phases[i];
+			tempphase= it[0];
+			//std::vector<Phase*>::iterator it2 = it;
+			it=_phases.erase(it);
+			delete tempphase;
+
 		}
 		else
 		{
-			_newphases[j] = _phases[i];
-			j++;
+			++it;
 		}
 	}
-	_phases = (Phase**)realloc(_newphases, _nphases* sizeof(*_newphases[0]));
+
+	
+		
 }
 
 bool Stream::_phasepresent(PhaseTypeEnum thephasetype)
@@ -391,4 +457,5 @@ bool Stream::_phasepresent(PhaseTypeEnum thephasetype)
 			return true;
 		}
 	}
+	return false;
 }

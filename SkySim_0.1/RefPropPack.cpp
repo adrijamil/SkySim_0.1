@@ -171,6 +171,14 @@ RefPropPack::~RefPropPack()
 }
 
 
+void regphases(fwStream* thefw, bool vappresent, bool hcliqpresent, bool aqpresent)
+{
+	thefw->Phases[1].IsPresent=vappresent;
+	thefw->Phases[2].IsPresent = hcliqpresent;
+	thefw->Phases[3].IsPresent = aqpresent;
+}
+
+
 void RefPropPack::Solve(FlashTypeEnum theflashtype)
 {
 	long  ierr,kq;
@@ -191,20 +199,22 @@ void RefPropPack::Solve(FlashTypeEnum theflashtype)
 	int ncomps;
 	ncomps = _proppack->NComps();
 	kq = 1;//1 means molar phase fraction, 2 is mass
-	//extract components and compositions
 
+	//extract  compositions
 	for (int k = 0; k < ncomps; k++)
 	{
 		x[k] = _proppack->RefStream()->Phases[0].Composition[k]; //getvalues doesnt work?
+		cout << x[k] << "\n";
 	}
 
 
-	for (int k = 0; k < ncomps-1; k++)
-	{
-		x[k] = roundf(x[k] * 1000) / 1000;; //getvalues doesnt work?
-		sum = sum + x[k];
-	}
-	x[ncomps - 1] = 1 - sum;
+	//for (int k = 0; k < ncomps-1; k++)
+	//{
+	//	x[k] = roundf(x[k] * 100000) / 100000;; //getvalues doesnt work?
+	//	sum = sum + x[k];
+	//	cout << x[k] << "\n";
+	//}
+	//x[ncomps - 1] = 1 - sum;
 	fwStream* fw = _proppack->RefStream();
 	t = fw->Temperature;
 	p = fw->Pressure;
@@ -258,28 +268,49 @@ void RefPropPack::Solve(FlashTypeEnum theflashtype)
 	//	c           q = -998 subcooled liquid, but quality not defined(p > Pc)
 	//	c           q = 999 indicates supercritical state(t > Tc) and (p > Pc)
 	
-	if (q < 0)
+	
+	//water is always not present using this proppack
+	fw->Phases[3].IsPresent = false;
+	if (q > 0 && q < 1)
 	{
+		regphases(fw, true, true, false);
+	}
+	else if (q < 0) //subcool
+	{
+		regphases(fw, false, true, false);
 		q = 0;
 	}
-	else if (q>1)
+	else if (q == 0) //sat liq
 	{
+		regphases(fw, true, true, false);
+	}
+	else if (q>1) //superheat
+	{
+		regphases(fw, true, false, false);
 		q = 1;
 	}
-	else if (q==-998)
+	else if (q==1) //sat vap
 	{
+		regphases(fw, true, true, false);
+	}
+	else if (q==-998) //sub liq (say its liq)
+	{
+		regphases(fw, false, true, false);
 		q = 0;
+
 	}
-	else if (q == 999)
+	else if (q == 999) //supercritical (say its vapour)
 	{
-		q = 2;
+		regphases(fw, true, false, false);
+		q = 1;
 	}
+	
 
 	fw->Temperature=t;
 	fw->Pressure=p;
 	fw->Phases[0].Enthalpy = h;
-	 fw->VapourFraction=q;
-	 fw->Phases[0].Entropy = s;
+	fw->VapourFraction=q;
+	fw->Phases[0].Entropy = s;
 
 	double* xtemp = new double[ncomps];
 	double* ytemp = new double[ncomps];
@@ -288,16 +319,31 @@ void RefPropPack::Solve(FlashTypeEnum theflashtype)
 	{
 		xtemp[k] = xliq[k];
 		ytemp[k] = xvap[k];
+		cout << xvap[k] << "\n";
 	}
-	
-	fw->Phases[2].Composition = xtemp;
-	fw->Phases[1].Composition = ytemp;
-	
+
+
+
 	fw->Phases[0].MolarDensity = (d / 0.001);
-	fw->Phases[1].MolarDensity = (dv / 0.001);
-	fw->Phases[2].MolarDensity = (dl / 0.001);
 	
-
-
+	for (int j = 1;j < 3;j++)
+	{
+		if (fw->Phases[j].IsPresent)
+		{
+			if (j ==1)
+			{
+				fw->Phases[j].PhaseFraction = q;
+				fw->Phases[j].Composition = ytemp;
+				fw->Phases[j].MolarDensity = (dv / 0.001);
+			}
+			else if (j==2)
+			{
+				fw->Phases[j].PhaseFraction = 1-q;
+				fw->Phases[j].Composition = xtemp;
+				fw->Phases[j].MolarDensity = (dl / 0.001);
+			}
+			
+		}
+	}
 	
 }

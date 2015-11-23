@@ -336,5 +336,6 @@
     <Text Include="testvalve.txt" />
     <Text Include="testvalveout.txt" />
     <Text Include="testsep.txt" />
+    <Text Include="testphases.txt" />
   </ItemGroup>
 </Project>

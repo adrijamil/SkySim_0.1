@@ -36,13 +36,14 @@ class Phase :
 {
 public:
 	Phase()
-	{ 
-		_pressure = new RealVariable; 
+	{  
 	};
 
 	Phase(PhaseTypeEnum thetype){ 
 		_phase_type = thetype; 
 		_phase_mol_fraction = new RealVariable;
+		_pressure = new RealVariable;
+		_temperature = new RealVariable;
 	};
 
 	PhaseTypeEnum PhaseType()

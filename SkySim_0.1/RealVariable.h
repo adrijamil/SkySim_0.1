@@ -46,6 +46,10 @@ public:
 	void IsDirty(bool thebool)
 	{ 
 		_isdirty = thebool;
+		/*if (_isdirty)
+		{
+			_is_known = false;
+		}*/
 	};
 	bool IsDirty(){ return _isdirty; };
 	double GetValue(int i)

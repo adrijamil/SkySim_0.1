@@ -23,8 +23,9 @@
 #ifndef __STREAM_H_INCLUDED__
 #define __STREAM_H_INCLUDED__
 
-#include "Fluid.h"//actually Phase.h already declared this. just keep it its guarded anyway
+#include <vector>
 
+#include "Fluid.h"//actually Phase.h already declared this. just keep it its guarded anyway
 #include "Phase.h"
 #include "FSObject.h"
 #include "PropPack.h"
@@ -38,11 +39,16 @@ class Stream :
 	public Fluid, public FSObject, public StackObject
 	
 {
-	//friend class Fluid;
+	friend class fwStream;
 public:
 	Stream();
 	Stream(string daname);
-	RealVariable* VapourFraction(){ return _phases[0]->PhaseMoleFraction(); };
+	int NPhases() { return _nphases; };
+
+	RealVariable* VapourFraction()
+	{ 
+		return _vapourfraction;
+	};
 	string Name()
 	{ 
 		string retstr = _name;
@@ -54,6 +60,17 @@ public:
 	Phase* Phases(int i)
 	{
 		return _phases[i];
+	}
+	Phase* Phases(PhaseTypeEnum thephasetype)
+	{
+		for (std::vector<Phase*>::iterator it = _phases.begin(); it != _phases.end(); ++it) {
+			if (it[0]->PhaseType() == thephasetype)
+			{
+				return it[0];
+			}
+		}
+		//if you reach here then there's no phase. fwStream will command the stream to add a phase (if needed)
+		return NULL;
 	}
 	
 	void SetPropertyPackage(PropPack* thePP);
@@ -68,18 +85,20 @@ public:
 	}
 	StackObject* GetStackObject(int i);
 	int NStackObjects();
-	int NPhases() { return _nphases; };
+	
 private:
 	void _addphase(PhaseTypeEnum thephasetype);
 	void _removephase(PhaseTypeEnum thephasetype);
 	bool _phasepresent(PhaseTypeEnum thephasetype);
-	//void Flash(FlashTypeEnum theflashtype);
-	Phase** _phases;
+	RealVariable* _vapourfraction;
+	std::vector <Phase*> _phases;
 	PropPack* _proppack;
 	bool _issolved;
 	StreamCalc* _streamcalcs;
 	int _nstreamcalcs=0;
 	void _setstreamcalcs();
 	int _nphases = 0;
+	void _initialise();
+
 };
 #endif

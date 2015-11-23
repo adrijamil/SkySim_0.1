@@ -8,7 +8,8 @@ public:
 	StackObject();
 	~StackObject();
 	virtual bool Solve()=0;
-	void AddVariable(RealVariable* _variables);
+	void AddVariable(RealVariable* thevariable);
+		void RemoveVariable(RealVariable* thevariable);
 	bool IsDirty()
 	{ 
 		bool isthisdirty;

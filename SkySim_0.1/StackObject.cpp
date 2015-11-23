@@ -50,6 +50,44 @@ void StackObject::AddVariable(RealVariable* thevar)
 	_variables = (RealVariable**)realloc(newvariables, _nvariables* sizeof(*thevar));
 }
 
+void StackObject::RemoveVariable(RealVariable * thevariable)
+{
+
+	/*cout << "removing var " << thevariable << " \n" ;
+
+	for (int i = 0;i < _nvariables;i++)
+	{
+		cout << "var " << i << " " << _variables[i] << "\n";
+	}*/
+
+	_nvariables= _nvariables-1;
+	RealVariable** newvariables;
+	int j = 0;
+
+	newvariables = (RealVariable**)malloc(_nvariables* sizeof(*thevariable));
+	
+	for (int i = 0;i < _nvariables+1;i++)
+	{
+		if (!(_variables[i] == thevariable))
+		{
+			newvariables[i-j] = _variables[i];
+		}
+		else
+		{
+			j = 1;
+		}
+
+	}
+
+	_variables = (RealVariable**)realloc(newvariables, _nvariables* sizeof(*thevariable));
+
+	//cout << "removed " << thevariable << " \n";
+	/*for (int i = 0;i < _nvariables;i++)
+	{
+		cout << "var " << i << " " << _variables[i]<<"\n";
+	}*/
+}
+
 double StackObject::FractionKnown()//
 {
 	double retval;

@@ -270,6 +270,7 @@
     <Text Include="testflashes.txt" />
     <Text Include="testheater.txt" />
     <Text Include="testmixer.txt" />
+    <Text Include="testphases.txt" />
     <Text Include="testsep.txt" />
     <Text Include="testsplitter.txt" />
     <Text Include="testvalve.txt" />

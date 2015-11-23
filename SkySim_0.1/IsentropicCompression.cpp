@@ -15,10 +15,11 @@ IsentropicCompression::~IsentropicCompression()
 
 bool IsentropicCompression::_calculate()
 {
-	if (_solved)
-	{
-		return true;
-	}
+	//if it is solved it shouldnt be called again
+	//if (_solved)
+	//{
+	//	return true;
+	//}
 	
 	enum CalcModeEnum { CANNOTSOLVE, CALCF,CALCP1,CALCP2,CALCH1,CALCH2,CALCEFF,SOLVED }; // need to know if solved or not
 	CalcModeEnum CalcMode = CANNOTSOLVE;

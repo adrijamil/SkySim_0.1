@@ -31,15 +31,18 @@ int main()
 	ErrorLogger* glogger = ErrorLogger::Instance();
 	OutputLogger* OpLogger = OutputLogger::Instance();
 	OpLogger->Name("testvalveout.txt");
-	CommandInterpreter mycase("testheater.txt");
+	CommandInterpreter mycase("testphases.txt");
 
 	//CommandInterpreter mycase("myinputfile.txt");
 	//CommandInterpreter mycase;
 	string mycommand;
 	mycommand = "";
 	bool isexit = false;
+	//mycase.
 
-	cout << mycase.GetUnitOpJSON("E1");
+	
+
+	//cout << mycase.GetUnitOpJSON("E1");
 
 	while (!isexit)
 	{

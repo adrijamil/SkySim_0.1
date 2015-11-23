@@ -4,45 +4,57 @@
 
 MolWtCalc::MolWtCalc()
 {
-	_nvars = 6;
+	
 	_name = "MolecularWeight";
 }
 RealVariable** MolWtCalc::GetVariables(Stream* refstream)
 {
+	_nvars =( refstream->NPhases()+1) * 2; //2 for each composition and molecular weight of a phase.
+
 	RealVariable** thevariables = (RealVariable**)malloc(_nvars * sizeof(thevariables[0]));
-	thevariables[0] = refstream->Composition();
-	thevariables[1] = refstream->MolecularWeight();
 
-	thevariables[2] = refstream->Phases(0)->Composition();
-	thevariables[3] = refstream->Phases(0)->MolecularWeight();
-
-	thevariables[4] = refstream->Phases(1)->Composition();
-	thevariables[5] = refstream->Phases(1)->MolecularWeight();
-	cout << thevariables[0]->GetValue(0);
+	for (int i = 0;i < _nvars / 2;i++)
+	{
+		if (i == 0)
+		{
+			thevariables[i*2] = refstream->Composition();
+			thevariables[i*2+1] = refstream->MolecularWeight();
+		}
+		else
+		{
+			thevariables[i * 2] = refstream->Phases(i-1)->Composition();
+			thevariables[i * 2 + 1] = refstream->Phases(i - 1)->MolecularWeight();
+		}
+		
+	}
 	return thevariables;
-	
+
 }
 bool MolWtCalc::Solve()
 {
-
 	int ncomps = _parent->NComps();
 	double theMw;
 	bool retval = true;
+	
 
-	for (int k = 0; k < 3; k++)
+
+	for (int k = 0; k < 4; k++)
 	{
-		theMw = 0;
-		if (_parent->RefStream()->Phases[k].Composition[0] != -32767)
+		if (_parent->RefStream()->Phases[k].IsPresent)
 		{
-			for (int i = 0; i < ncomps; i++)
+			theMw = 0;
+			if (_parent->RefStream()->Phases[k].Composition[0] != -32767)
 			{
-				theMw = theMw + (_parent->RefStream()->Phases[k].Composition[i] * _parent->GetComponent(i).Mw);
+				for (int i = 0; i < ncomps; i++)
+				{
+					theMw = theMw + (_parent->RefStream()->Phases[k].Composition[i] * _parent->GetComponent(i).Mw);
+				}
+				_parent->RefStream()->Phases[k].MolecularWeight = theMw;
 			}
-			_parent->RefStream()->Phases[k].MolecularWeight = theMw;
-		}
-		else if (_parent->RefStream()->Phases[k].Composition[0] == -32767 && _parent->RefStream()->Phases[k].MolecularWeight==-32767)
-		{
-			retval = false;
+			else if (_parent->RefStream()->Phases[k].Composition[0] == -32767 && _parent->RefStream()->Phases[k].MolecularWeight == -32767)
+			{
+				retval = false;
+			}
 		}
 	}
 	return retval;

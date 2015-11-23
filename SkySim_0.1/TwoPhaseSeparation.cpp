@@ -24,10 +24,11 @@ bool TwoPhaseSeparation::_calculate()
 	int nflowsknown = 0;
 
 	int ncomps = In->NComps();
-	if (_solved)
+	//if it is solved it shouldnt be called again
+	/*if (_solved)
 	{
 		return true;
-	}
+	}*/
 	//case 1 inlet defined
 	//case 2 gas out defined
 	//case 3 liquid outlet defined

@@ -43,8 +43,8 @@ bool FlowSheet::Solve()
 
 	int nold = 0;
 
-	do 
-	{
+	//do 
+	//{
 		nold = _stack->Count();
 		for (int i = 0; i < _nchildren; i++)
 		{
@@ -56,12 +56,11 @@ bool FlowSheet::Solve()
 				{
 
 					cout << "Adding to stack: " << _children[i]->GetStackObject(j)->Name() << "\n";
+					
 					_stack->Add(_children[i]->GetStackObject(j));
 				}
 			}
 		}
-	} while (nold != _stack->Count());
-	
 
 	_stack->Forget();
 	
