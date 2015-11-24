@@ -26,7 +26,7 @@ RealVariable** RPMassDensityCalc::GetVariables(Stream* refstream)
 		{
 			thevariables[i * 3] = refstream->Phases(i - 1)->MassDensity();
 			thevariables[i * 3 + 1] = refstream->Phases(i - 1)->MolarDensity();
-			thevariables[i * 3 + 1] = refstream->Phases(i - 1)->MolecularWeight();
+			thevariables[i * 3 + 2] = refstream->Phases(i - 1)->MolecularWeight();
 		}
 	}
 

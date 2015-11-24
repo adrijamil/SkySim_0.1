@@ -12,13 +12,21 @@ void Stream::_initialise()
 	//by default add a vapour phase
 	//should be handled by flash method -> other methods may provide more or less variables
 
-	_addphase(VAPOUR);
+	_addphase(VAPOUR);//this sets the _vapourfraction to PhaseMoleFraction
+	std::cout << "pre adding variables\n";
+	std::cout << "Stream _vapourfraction " << _vapourfraction << "\n";
+	std::cout << "Vapour PhaseFraction " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+
 	AddVariable(_pressure);
 	AddVariable(_temperature);
 	AddVariable(_molenthalpy);
 	AddVariable(_molentropy);
 	AddVariable(_composition);
 	AddVariable(_molardensity);
+
+	std::cout << "post stream initialise \n";
+	std::cout << "Stream _vapourfraction " << VapourFraction() << "\n";
+	std::cout << "Vapour PhaseFraction " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";
 	
 }
 
@@ -67,7 +75,8 @@ Stream::~Stream()
 
 bool Stream::Solve()
 {
-	
+	std::cout << "Vapfrac isknown " << _vapourfraction->IsKnown() << "\n";
+	std::cout << "Vapfrac value " << _vapourfraction->GetValue() << "\n";
 	bool retval=true;
 	//check DOF then call appropriate flash
 
@@ -162,7 +171,7 @@ bool Stream::Solve()
 	cout << "variables in stack object \n";
 	for (int k = 0;k < _nvariables;k++)
 	{
-		cout << _variables[k] << "\n";
+		cout << _variables[k].first << "\n";
 	}
 
 	StackObject* thefsob = this;
@@ -384,8 +393,11 @@ void Stream::_addphase(PhaseTypeEnum thephasetype)
 	{
 		delete _vapourfraction;
 		_vapourfraction = thenewphase->PhaseMoleFraction();
+		
 	}
-
+	cout << "post creating vapour phase \n";
+	cout << "stream _vapourfraction: " << _vapourfraction << "\n";
+	cout << "vapour phasefraction: " << thenewphase->PhaseMoleFraction() << "\n";
 	// set parent . this makes it share P,T and Vfrac if its vapour
 	thenewphase->SetParent(this);
 
@@ -405,6 +417,9 @@ void Stream::_addphase(PhaseTypeEnum thephasetype)
 	{
 		_phases.push_back(thenewphase);
 	}
+	cout << "post adding vapour phase \n";
+	cout << "stream _vapourfraction: " << _vapourfraction << "\n";
+	cout << "vapour phasefraction: " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";
 }
 
 
@@ -417,6 +432,10 @@ void Stream::_removephase(PhaseTypeEnum thephasetype)
 	//unregister variables
 	Phase* thenewphase = Phases(thephasetype);
 
+	RemoveVariable(thenewphase->Composition());
+	RemoveVariable(thenewphase->MolarDensity());
+	RemoveVariable(thenewphase->PhaseMoleFraction());
+
 	if (thephasetype == VAPOUR)
 	{
 		_vapourfraction = new RealVariable;
@@ -424,9 +443,7 @@ void Stream::_removephase(PhaseTypeEnum thephasetype)
 		AddVariable(_vapourfraction);
 	}
 
-	RemoveVariable(thenewphase->Composition());
-	RemoveVariable(thenewphase->MolarDensity());
-	RemoveVariable(thenewphase->PhaseMoleFraction());
+	
 
 	//if you use erase, it will remove and shift. 
 	for (std::vector<Phase*>::iterator it = _phases.begin(); it != _phases.end(); ) {

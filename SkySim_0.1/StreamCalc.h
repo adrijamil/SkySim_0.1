@@ -20,5 +20,6 @@ public:
 private:
 	PropertyCalc* _propertycalc;
 	Stream* _refstream;
+	void _setup();
 };
 

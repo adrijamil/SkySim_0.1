@@ -16,7 +16,7 @@ bool BridgeFunction::Solve()
 
 	for (int i = 0; i < _nvariables; i++)
 	{
-		if (!_variables[i]->IsKnown())
+		if (!_variables[i].first->IsKnown())
 		{
 			//cout << i << "\n";
 			calcbythis[i] = true;
@@ -50,14 +50,14 @@ bool BridgeFunction::Solve()
 	{	
 		if (j == 5)
 		{
-			cout << j << ":" << _variables[j]->GetValue() << "\n";
+			cout << j << ":" << _variables[j].first->GetValue() << "\n";
 		}
 			
 		
 		
-		if (_variables[j]->IsKnown() && calcbythis[j] == true)
+		if (_variables[j].first->IsKnown() && calcbythis[j] == true)
 		{
-			_variables[j]->CalculatedBy(this);
+			_variables[j].first->CalculatedBy(this);
 				
 
 		}

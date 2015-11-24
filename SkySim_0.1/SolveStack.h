@@ -124,6 +124,7 @@ public:
 		int solvepasses=0;
 		int nitems = _count;
 
+
 		std::cout << "stack is: " << "\n";
 		for (int k = 0; k < _count; k++)//if i get to second last then must be the last one that needs to be removed;
 		{

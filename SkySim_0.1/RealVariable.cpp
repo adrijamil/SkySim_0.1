@@ -18,6 +18,11 @@ void RealVariable::SetValue(double thevalue)
 		_is_known = true;
 		_setvalue(thevalue);
 	}
+	else
+	{
+		_is_known = false;
+
+	}
 }
 void RealVariable::IsKnown(bool thebool)
 {
@@ -31,6 +36,11 @@ void RealVariable::SetValue(int i, double thevalue)
 		//_isdirty = true;
 		_setvalue(i, thevalue);
 		_is_known = true;
+	}
+	else
+	{
+		_is_known = false;
+
 	}
 }
 

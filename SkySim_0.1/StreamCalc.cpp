@@ -17,39 +17,45 @@ string StreamCalc::Name()
 	return retstring;
 }
 
-void StreamCalc::Setup(PropertyCalc* thePC, Stream* theRS)
+void StreamCalc::_setup()
 {
-	RealVariable** myvariables=0;
-	_propertycalc = thePC;
-	_refstream = theRS;
-
-	myvariables=_propertycalc->GetVariables(_refstream);
-
-	int nvar = _propertycalc->GetNVariables();
-
-	for (int i = 0; i < nvar; i++)
+	RealVariable** myvariables = 0;
+	myvariables = _propertycalc->GetVariables(_refstream);
+	int n = _propertycalc->GetNVariables();
+	_nvariables = 0;
+	_variables.clear();
+	//_variables.
+	for (int i = 0; i < n; i++)
 	{
 		RealVariable* thevar = myvariables[i];
-			AddVariable(thevar);
+		AddVariable(thevar);
 	}
+}
+void StreamCalc::Setup(PropertyCalc* thePC, Stream* theRS)
+{
+	
+	_propertycalc = thePC;
+	_refstream = theRS;
+	//_setup();
+	
 }
 
 bool StreamCalc::Solve()
 {
-	bool* calcbythis = new bool[_nvariables];
+	//bool* calcbythis = new bool[_nvariables];
 
-
+	_setup();
 
 	for (int i = 0; i < _nvariables; i++)
 	{
-		if (!_variables[i]->IsKnown())
+		if (!_variables[i].first->IsKnown())
 		{
 			//cout << i << "\n";
-			calcbythis[i] = true;
+			_variables[i].second = true;
 		}
 		else
 		{
-			calcbythis[i] = false;
+			_variables[i].second = false;
 		}
 	}
 
@@ -59,23 +65,20 @@ bool StreamCalc::Solve()
 	retval = _propertycalc->Solve();
 	//if (retval == true)
 	//{
-		_refstream->GetPropertyPackage()->RefStream()->WriteStream(_refstream);
+	_refstream->GetPropertyPackage()->RefStream()->WriteStream(_refstream);
 	//}
 	
 
 	for (int j = 0; j < _nvariables; j++)
 	{
-		if (_variables[j]->IsKnown() && calcbythis[j] == true)
+		if (_variables[j].first->IsKnown() && _variables[j].second == true)
 		{
-			_variables[j]->CalculatedBy(this);
-		//	cout << j << ":" << _variables[j]->GetValue() << "\n";
-		
-		}
-		else
-		{
-			calcbythis[j] = false;
+			_variables[j].first->CalculatedBy(this);
+
 		}
 	}
+
+	_setup();
 
 	return retval;
 

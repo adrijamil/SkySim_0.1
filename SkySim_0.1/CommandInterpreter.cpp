@@ -64,7 +64,9 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 
 		}
 	}
-
+	std::cout << "pre solve \n";
+	std::cout << "Stream _vapourfraction " << _activecase->GetStream("STRM1")->VapourFraction() << "\n";
+	std::cout << "Vapour PhaseFraction " << _activecase->GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
 	_activecase->Solve();
 	_activecase->Output();
 
@@ -141,6 +143,23 @@ std::string CommandInterpreter::GetUnitOpJSON(std::string theunitop)
 	return json;
 }
 
+void CommandInterpreter::tempDoMore()
+{
+	RealVariable* thetarg = _activecase->GetStream("STRM1")->Temperature();
+	thetarg->SetValue(-32767);
+	thetarg->IsDirty(true);
+	thetarg->IsCalculated(true);
+
+	thetarg = _activecase->GetStream("STRM1")->VapourFraction();
+	thetarg->SetValue(0.6);
+	thetarg->IsDirty(true);
+	thetarg->IsCalculated(false);
+
+	_activecase->Solve();
+	_activecase->Output();
+
+
+}
 void CommandInterpreter::OutputAll()
 {
 	_activecase->Output();
@@ -262,7 +281,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 	_activecase->AddStream(thename); //default proppack will be used
 	myncomps = _activecase->GetStream(thename)->NComps();
 	double* molecomps = new double[myncomps];
-
+	
 	while (issetup==false)
 	{
 		if (thespecs != "")
@@ -335,6 +354,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 				std::cout << "Enter molar composition. eg 0.2,0.3,0.5 \n";
 				cin >> thevar;
 			}
+			tempdb = 0; // this value will be checked for -32767 to see if a var is being emptied
 			std::istringstream  compstream(thevar);
 			i = 0;
 				while (compstream.good())
@@ -416,11 +436,10 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			{
 				thetarg->SetValues(myncomps, molecomps);
 				thetarg->IsDirty(true);
-				thetarg->IsCalculated(false);
-				for (int j = 0; j < 3; j++)
+				/*for (int j = 0; j < 3; j++)
 				{
 					std::cout << _activecase->GetStream(thename)->Composition()->GetValue(j);
-				}
+				}*/
 				
 				_activecase->GetStream(thename)->Normalise();
 			}
@@ -428,12 +447,23 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 			{
 				thetarg->SetValue(tempdb);
 				thetarg->IsDirty(true);
+				
+			}
+			if (tempdb == -32767) //check if its being emptied
+			{
+				thetarg->IsCalculated(true);
+			}
+			else
+			{
 				thetarg->IsCalculated(false);
 			}
 			
 		}
+		
 	}
 	std::cout << thename << " has been added.\n";
+
+	
 
 
 }

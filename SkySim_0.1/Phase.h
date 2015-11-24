@@ -37,6 +37,9 @@ class Phase :
 public:
 	Phase()
 	{  
+		_phase_mol_fraction = new RealVariable;
+		_pressure = new RealVariable;
+		_temperature = new RealVariable;
 	};
 
 	Phase(PhaseTypeEnum thetype){ 

@@ -40,7 +40,7 @@ int main()
 	bool isexit = false;
 	//mycase.
 
-	
+	mycase.tempDoMore();
 
 	//cout << mycase.GetUnitOpJSON("E1");
 
