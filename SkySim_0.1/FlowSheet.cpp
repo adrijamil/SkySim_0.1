@@ -42,7 +42,9 @@ bool FlowSheet::Solve()
 	int nstackobj;
 
 	int nold = 0;
-
+	std::cout << "pre adding to stack\n";
+	std::cout << "Stream _vapourfraction " << GetStream("STRM1")->VapourFraction()<<"\n";
+	std::cout << "Vapour PhaseFraction " << GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
 	//do 
 	//{
 		nold = _stack->Count();
@@ -61,9 +63,16 @@ bool FlowSheet::Solve()
 				}
 			}
 		}
-
+		std::cout << "pre forgetting \n";
+		std::cout << "Stream _vapourfraction " << GetStream("STRM1")->VapourFraction() << "\n";
+		std::cout << "Vapour PhaseFraction " << GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
 	_stack->Forget();
 	
+
+	std::cout << "post forgetting \n";
+	std::cout << "Stream _vapourfraction " << GetStream("STRM1")->VapourFraction() << "\n";
+	std::cout << "Vapour PhaseFraction " << GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+
 	retval=_stack->Solve();
 
 	for (int i = 0; i < _nchildren; i++)

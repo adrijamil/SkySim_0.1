@@ -18,15 +18,19 @@ RealVariable**  RPEnergyCalc::GetVariables(Stream* refstream)
 {
 
 
-	_nvars = (refstream->NPhases() )* 3; //2 for each composition,MolarEntropy and MolarEnthalpy of a phase. does not apply to overall phase.
+	_nvars = (refstream->NPhases() )* 3; //3 for each composition,MolarEntropy and MolarEnthalpy of a phase. does not apply to overall phase.
 
 	RealVariable** thevariables = (RealVariable**)malloc(_nvars * sizeof(thevariables[0]));
 
 	for (int i = 0;i < _nvars / 3;i++)
 	{
-		thevariables[i ] = refstream->Phases(i)->Composition();
-		thevariables[i  + 1] = refstream->Phases(i)->MolarEnthalpy();
-		thevariables[i  + 2] = refstream->Phases(i)->MolarEntropy();
+		cout << refstream->Phases(i)->Composition()->IsKnown() << "\n";
+		cout << refstream->Phases(i)->MolarEnthalpy()->IsKnown() << "\n";
+		cout << refstream->Phases(i)->MolarEnthalpy()->IsKnown() << "\n";
+
+		thevariables[i*3 ] = refstream->Phases(i)->Composition();
+		thevariables[i * 3 + 1] = refstream->Phases(i)->MolarEnthalpy();
+		thevariables[i * 3 + 2] = refstream->Phases(i)->MolarEntropy();
 	}
 	return thevariables;
 
@@ -40,7 +44,7 @@ bool RPEnergyCalc::Solve()
 	int ncomps = _parent->NComps();
 	bool retval = true;
 	double t, d, p, e, h, s, cv, cp, w, hjt,pcheck;
-	double tol = 0.000001;
+	double tol = 0.1;
 	//pcheck is to check that pressure calculated by thermdll is same as input p
 	double x[ncmax];
 

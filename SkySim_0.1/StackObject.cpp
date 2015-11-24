@@ -11,14 +11,14 @@ void StackObject::IsDirty(bool thebool)
 	{
 		for (int i = 0; i < _nvariables; i++)
 		{
-			_variables[i]->IsDirty(true);
+			_variables[i].first->IsDirty(true);
 		}
 	}
 	else if (_isdirty == true && thebool == false)
 	{
 		for (int i = 0; i < _nvariables; i++)
 		{
-			_variables[i]->IsDirty(false);
+			_variables[i].first->IsDirty(false);
 		}
 	}
 	_isdirty = thebool; 
@@ -32,60 +32,26 @@ StackObject::~StackObject()
 void StackObject::AddVariable(RealVariable* thevar)
 {
 	_nvariables++;
-	RealVariable** newvariables;
-	if (_nvariables == 1)
-	{
-		newvariables = (RealVariable**)malloc(_nvariables* sizeof(*thevar));
-	}
-	else
-	{
-		newvariables = (RealVariable**)realloc(_variables, _nvariables* sizeof(*thevar)); //allocate new array
-	}
+	std::pair <RealVariable*, bool> thepair(thevar, false); ;
 
-	if (newvariables != NULL) //if it's null then realloc tak jadi//means theres only one guy;
-	{
-		newvariables[_nvariables - 1] = &(*thevar);
-	}
+	_variables.push_back(thepair);
 
-	_variables = (RealVariable**)realloc(newvariables, _nvariables* sizeof(*thevar));
 }
 
 void StackObject::RemoveVariable(RealVariable * thevariable)
 {
 
-	/*cout << "removing var " << thevariable << " \n" ;
+	std::pair <RealVariable*, bool> temppair;
 
-	for (int i = 0;i < _nvariables;i++)
-	{
-		cout << "var " << i << " " << _variables[i] << "\n";
-	}*/
-
-	_nvariables= _nvariables-1;
-	RealVariable** newvariables;
-	int j = 0;
-
-	newvariables = (RealVariable**)malloc(_nvariables* sizeof(*thevariable));
 	
-	for (int i = 0;i < _nvariables+1;i++)
+	for (std::vector <std::pair <RealVariable*, bool>>  ::iterator it = _variables.begin(); it != _variables.end(); it++) 
 	{
-		if (!(_variables[i] == thevariable))
+		if (_variables[0].first == thevariable)
 		{
-			newvariables[i-j] = _variables[i];
+			it = _variables.erase(it);
 		}
-		else
-		{
-			j = 1;
-		}
-
 	}
 
-	_variables = (RealVariable**)realloc(newvariables, _nvariables* sizeof(*thevariable));
-
-	//cout << "removed " << thevariable << " \n";
-	/*for (int i = 0;i < _nvariables;i++)
-	{
-		cout << "var " << i << " " << _variables[i]<<"\n";
-	}*/
 }
 
 double StackObject::FractionKnown()//
@@ -95,7 +61,7 @@ double StackObject::FractionKnown()//
 
 	for (int i = 0; i < _nvariables; i++)
 	{
-		if (_variables[i]->IsKnown())
+		if (_variables[i].first->IsKnown())
 		{
 			nknown = nknown + 1;
 		}

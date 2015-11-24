@@ -59,7 +59,9 @@ public:
 
 	Phase* Phases(int i)
 	{
+		cout<<	_phases.size()<<"\n";
 		return _phases[i];
+		
 	}
 	Phase* Phases(PhaseTypeEnum thephasetype)
 	{

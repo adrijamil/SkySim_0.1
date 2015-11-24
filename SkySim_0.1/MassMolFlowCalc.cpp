@@ -14,24 +14,24 @@ RealVariable**  MassMolFlowCalc::GetVariables(Stream* refstream)
 	//mw
 
 	int nphase = refstream->NPhases();
-	_nvars = nphase* 3+1; //2 for each MassFlow,MolarFlow and MolecularWeight of a phase. + 1 for vapourfraction.
+	_nvars = nphase* 4+3; //2 for each MassFlow,MolarFlow and MolecularWeight of a phase. + 1 for vapourfraction.
 
 	RealVariable** thevariables = (RealVariable**)malloc(_nvars * sizeof(thevariables[0]));
 
-	for (int i = 0;i < nphase;i++)
+	for (int i = 0;i < nphase+1;i++)
 	{
 		if (i == 0)
 		{
-			thevariables[i * 2] = refstream->MassFlow();
-			thevariables[i * 2 + 1] = refstream->MolarFlow();
-			thevariables[i * 2 + 2] = refstream->MolecularWeight();
-			thevariables[i * 2 + 3] = refstream->Phases(0)->PhaseMoleFraction();
+			thevariables[i * 3] = refstream->MassFlow();
+			thevariables[i * 3 + 1] = refstream->MolarFlow();
+			thevariables[i * 3 + 2] = refstream->MolecularWeight();
 		}
 		else
 		{
-			thevariables[i * 2+1] = refstream->Phases(i - 1)->MassFlow();
-			thevariables[i * 2 + 2] = refstream->Phases(i - 1)->MolarFlow();
-			thevariables[i * 2 + 3] = refstream->Phases(i - 1)->MolecularWeight();
+			thevariables[i * 4 -1] = refstream->Phases(i - 1)->MassFlow();
+			thevariables[i * 4 ] = refstream->Phases(i - 1)->MolarFlow();
+			thevariables[i * 4 + 1] = refstream->Phases(i - 1)->MolecularWeight();
+			thevariables[i * 4 + 2] = refstream->Phases(i - 1)->PhaseMoleFraction();
 		}
 	}
 	return thevariables;
@@ -48,6 +48,24 @@ bool MassMolFlowCalc::Solve()
 	fwStream* thefw = _parent->RefStream();
 	int i = 0;
 	//if dunno mass try calc
+
+	//vap
+	cout << "vap fraction: " << thefw->VapourFraction<< "\n";
+	cout << "phase: " << thefw->Phases[1].PhaseName << "\n";
+	cout << "ispresent: " << thefw->Phases[1].IsPresent << "\n";
+	cout << "massflow: " << thefw->Phases[1].MassFlow << "\n";
+	cout << "moleflow: " << thefw->Phases[1].MolarFlow << "\n";
+	cout << "mw: " << thefw->Phases[1].MolecularWeight << "\n";
+	cout << "fraction: " << thefw->Phases[1].PhaseFraction << "\n";
+	//liq
+
+	cout << "phase: " << thefw->Phases[2].PhaseName << "\n";
+	cout << "ispresent: " << thefw->Phases[2].IsPresent << "\n";
+	cout << "massflow: " << thefw->Phases[2].MassFlow << "\n";
+	cout << "moleflow: " << thefw->Phases[2].MolarFlow << "\n";
+	cout << "mw: " << thefw->Phases[2].MolecularWeight << "\n";
+	cout << "fraction: " << thefw->Phases[2].PhaseFraction << "\n";
+
 	if (thefw->Phases[i].MassFlow == -32767)
 	{
 		if (thefw->Phases[i].MolarFlow != -32767)
@@ -81,21 +99,7 @@ bool MassMolFlowCalc::Solve()
 		retval = false;
 	}
 
-	//vap
-	cout << "phase: "<<thefw->Phases[1].PhaseName <<"\n";
-	cout << "ispresent: " << thefw->Phases[1].IsPresent << "\n";
-	cout << "massflow: " << thefw->Phases[1].MassFlow << "\n";
-	cout << "moleflow: " << thefw->Phases[1].MolarFlow << "\n";
-	cout << "mw: " << thefw->Phases[1].MolecularWeight << "\n";
-	cout << "fraction: " << thefw->Phases[1].PhaseFraction << "\n";
-	//liq
-
-	cout << "phase: " << thefw->Phases[2].PhaseName << "\n";
-	cout << "ispresent: " << thefw->Phases[2].IsPresent << "\n";
-	cout << "massflow: " << thefw->Phases[2].MassFlow << "\n";
-	cout << "moleflow: " << thefw->Phases[2].MolarFlow << "\n";
-	cout << "mw: " << thefw->Phases[2].MolecularWeight << "\n";
-	cout << "fraction: " << thefw->Phases[2].PhaseFraction << "\n";
+	
 
 	
 

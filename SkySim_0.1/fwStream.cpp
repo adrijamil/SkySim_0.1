@@ -61,13 +61,15 @@ void fwStream::ReadStream(Stream* thestream)
 			Phases[i].MassDensity = thestream->MassDensity()->GetValue();
 			Phases[i].MolecularWeight = thestream->MolecularWeight()->GetValue();
 			Phases[i].Composition = thestream->Composition()->GetValues();
+			Phases[i].PhaseFraction = 1;
+
 			Phases[i].IsPresent = true;
 		}
 		else
 		{
 			tempphase=thestream->Phases(Phases[i].PhaseName);
 
-			if (!tempphase == NULL)
+			if (!tempphase == NULL) //phase is present in the stream;
 			{
 				Phases[i].Composition = new double[NComps];
 				Phases[i].Composition = tempphase->Composition()->GetValues();
@@ -78,9 +80,10 @@ void fwStream::ReadStream(Stream* thestream)
 				Phases[i].MolarDensity = tempphase->MolarDensity()->GetValue();
 				Phases[i].MassDensity = tempphase->MassDensity()->GetValue();
 				Phases[i].MolecularWeight = tempphase->MolecularWeight()->GetValue();
+				Phases[i].PhaseFraction = tempphase->PhaseMoleFraction()->GetValue();;
 				Phases[i].IsPresent = true;
 			}
-			else
+			else // phase is present in the stream;
 			{
 				Phases[i].Composition = new double[NComps] {-32767};
 				Phases[i].MassFlow = -32767;
@@ -90,7 +93,7 @@ void fwStream::ReadStream(Stream* thestream)
 				Phases[i].MolarDensity = -32767;
 				Phases[i].MassDensity = -32767;
 				Phases[i].MolecularWeight = -32767;
-				
+				Phases[i].PhaseFraction = 0;
 				Phases[i].IsPresent = false;
 			}
 		}

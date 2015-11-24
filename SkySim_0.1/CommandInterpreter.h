@@ -18,6 +18,7 @@ public:
 	void ReadInputFile(string thefilepath);
 	std::string GetStreamJSON(std::string thestream);
 	std::string GetUnitOpJSON(std::string theunitop);
+	void tempDoMore();
 private:
 	void OutputAll();
 	void StreamSetup(string thename, string thespecs);

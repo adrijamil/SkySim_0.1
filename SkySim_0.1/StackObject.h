@@ -1,7 +1,7 @@
 #pragma once
 #include "RealVariable.h"
-
-
+#include <utility> 
+#include <vector>
 class StackObject
 {
 public:
@@ -18,7 +18,7 @@ public:
 			for (int i = 0; i < _nvariables; i++)
 			{
 				isthisdirty = false;
-				isthisdirty = _variables[i]->IsDirty();
+				isthisdirty = _variables[i].first->IsDirty();
 				if (isthisdirty)
 				{
 					_isdirty = true;
@@ -31,10 +31,10 @@ public:
 				//make all vars I calculate dirty
 				for (int i = 0; i < _nvariables; i++)
 				{
-					if (_variables[i]->CalculatedBy()==this)
+					if (_variables[i].first->IsCalculated()&&_variables[i].first->CalculatedBy())
 					{
-						_variables[i]->IsDirty(true);
-						_variables[i]->IsKnown(false);
+						_variables[i].first->IsDirty(true);
+						_variables[i].first->IsKnown(false);
 					}
 				}
 
@@ -51,7 +51,7 @@ public:
 		//if any of this _variables are calculated by theStackObject
 		for (int i = 0; i < _nvariables; i++)
 		{
-			if (_variables[i]->CalculatedBy() == theStackObject)
+			if (_variables[i].first->CalculatedBy() == theStackObject)
 			{
 				return true;
 			}
@@ -60,7 +60,7 @@ public:
 	}
 //
 protected:
-	RealVariable** _variables;
+	std::vector <std::pair <RealVariable*, bool>>  _variables;
 	int  _nvariables=0;
 
 	bool _isdirty = true;
