@@ -246,27 +246,32 @@ std::string JSONGenerator::_getvalve(Valve* thevalve)
 	return json;
 }
 
-std::string JSONGenerator::_getheater(Heater * thevalve)
-{
-	return "asdas";
-}
 
-////is this specialised correctly
-//template<class T> std::string JSONGenerator::_getspecificunitop(T theunitop)
-//{
-//	std::string json = "im dunno what i am";
-//	return json;
-//}
-//
-//
-//template<> std::string JSONGenerator<Valve>::_getspecificunitop(Valve theunitop)
-//{
-//	std::string json = "im a valve";
-//	return json;
-//}
-//
-//template<> std::string JSONGenerator<Heater>::_getspecificunitop(Heater theunitop)
-//{
-//	std::string json = "im a heater";
-//	return json;
-//}
+std::string JSONGenerator::_getheater(Heater* theheater)
+{
+	ptree heater_pt;
+
+	ptree variable_pt;
+
+	heater_pt.put("Name", theheater->Name());
+
+	variable_pt.put("Value", theheater->K_Resistance()->GetValue());
+	variable_pt.put("CanModify", !theheater->K_Resistance()->IsCalculated());
+	heater_pt.add_child("K_Resistance", variable_pt);
+	variable_pt.clear();
+
+	variable_pt.put("Value", theheater->PressureDrop()->GetValue());
+	variable_pt.put("CanModify", !theheater->PressureDrop()->IsCalculated());
+	heater_pt.add_child("PressureDrop", variable_pt);
+	variable_pt.clear();
+
+	variable_pt.put("Value", theheater->HeatInput()->GetValue());
+	variable_pt.put("CanModify", !theheater->HeatInput()->IsCalculated());
+	heater_pt.add_child("HeatInput", variable_pt);
+	variable_pt.clear();
+
+	std::ostringstream buf;
+	write_json(buf, heater_pt, true);
+	std::string json = buf.str();
+	return json;
+}

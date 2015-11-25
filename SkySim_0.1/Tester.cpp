@@ -59,7 +59,7 @@ void Tester::AddTestFiles(std::string mytestlist)
 
 bool Tester::TestAll()
 {
-	
+	std::string failedtests;
 	std::string myoutputstring;
 	std::string myjsonactual,myjsonexpected;
 	std::fstream myfile;
@@ -151,12 +151,23 @@ bool Tester::TestAll()
 		else
 		{
 			cout << mytests[i].Name << ": " << mytests[i].Description << " failed \n";
+			failedtests.append(mytests[i].Name);
+			failedtests.append(", ");
 		}
 		thistestok = false;
 		delete mycmd;
 	}
 	
-	return retval;
+	if (retval)
+	{
+		cout << name << " passed all tests \n";
+	}
+	else
+	{
+		cout << name << " failed. failed tests are:"<<failedtests<<"\n";
+		
+	}
+		return retval;
 }
 
 

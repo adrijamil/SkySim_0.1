@@ -26,11 +26,13 @@ public:
 	virtual bool TestAll();
 	//virtual bool TestAll();
 	void AddTestFiles(std::string mytestlist);
-	
+	std::string name;
 private:
 	//std::vector<std::string> myinputfiles;
 	//std::vector<std::string> myoutputfiles;
 	std::vector<UnitOpTest> mytests;
 	CommandInterpreter* mycmd;
+	
+
 };
 

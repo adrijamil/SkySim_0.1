@@ -169,6 +169,7 @@
     <ClInclude Include="HandledException.h" />
     <ClInclude Include="HeatBalance.h" />
     <ClInclude Include="Heater.h" />
+    <ClInclude Include="HeaterTester.h" />
     <ClInclude Include="Ideal.h" />
     <ClInclude Include="IsentropicCompression.h" />
     <ClInclude Include="JSONGenerator.h" />
@@ -224,6 +225,7 @@
     <ClCompile Include="HandledException.cpp" />
     <ClCompile Include="HeatBalance.cpp" />
     <ClCompile Include="Heater.cpp" />
+    <ClCompile Include="HeaterTester.cpp" />
     <ClCompile Include="Ideal.cpp" />
     <ClCompile Include="IsentropicCompression.cpp" />
     <ClCompile Include="JSONGenerator.cpp" />
@@ -267,6 +269,31 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="HeaterTests\HeaterTestInput_1.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_10.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_11.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_12.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_13.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_2.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_3.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_4.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_5.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_6.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_7.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_8.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_9.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_10.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_11.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_12.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_13.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_2.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_3.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_4.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_5.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_6.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_7.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_8.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_9.txt" />
+    <Text Include="HeaterTests\HeaterTests.txt" />
     <Text Include="inputfile2.txt" />
     <Text Include="myinputfile.txt" />
     <Text Include="ReadMe.txt" />

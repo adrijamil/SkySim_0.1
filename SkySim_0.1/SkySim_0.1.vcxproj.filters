@@ -174,6 +174,9 @@
     <ClInclude Include="Tester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HeaterTester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkySim_0.1.cpp">
@@ -329,6 +332,9 @@
     <ClCompile Include="Tester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HeaterTester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentDatabase.csv" />
@@ -371,5 +377,30 @@
     <Text Include="ValveTests\ValveTestOutput_9.txt" />
     <Text Include="ValveTests\ValveTestOutput_10.txt" />
     <Text Include="HeaterTests\HeaterTestInput_1.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_2.txt" />
+    <Text Include="HeaterTests\HeaterTests.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_3.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_4.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_5.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_6.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_7.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_8.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_9.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_10.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_11.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_12.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_13.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_2.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_3.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_4.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_5.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_6.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_7.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_8.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_9.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_10.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_11.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_12.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_13.txt" />
   </ItemGroup>
 </Project>

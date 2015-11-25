@@ -83,6 +83,8 @@ bool Stream::Solve()
 	//calc specs
 	FlashTypeEnum thetype;
 
+	cout << _name;
+
 	int nspecs=0;
 
 	if (_pressure->IsKnown())
@@ -124,7 +126,6 @@ bool Stream::Solve()
 		return retval;
 		
 	}
-	
 
 
 		if ((_pressure->IsKnown()) && (_temperature->IsKnown()))

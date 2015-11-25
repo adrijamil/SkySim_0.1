@@ -52,22 +52,23 @@ bool ComponentBalance::_calculate()
 		if (refstrm->MolarFlow()->IsKnown())
 		{
 			nflowknown++;
-			if (refstrm->Composition()->IsKnown())
+			
+		}
+		if (refstrm->Composition()->IsKnown())
+		{
+			for (int k = 0; k < ncomps; k++)
 			{
-				for (int k = 0; k < ncomps; k++)
-				{
-					X[k] = refstrm->Composition()->GetValue(k);
-					cout << X[k] << "\n";
-					moles[k] = moles[k] + X[k] * refstrm->MolarFlow()->GetValue();
-					cout << moles[k] << "\n";
-				}
-				ncompknown++;
+				X[k] = refstrm->Composition()->GetValue(k);
+				cout << X[k] << "\n";
+				moles[k] = moles[k] + X[k] * refstrm->MolarFlow()->GetValue();
+				cout << moles[k] << "\n";
 			}
-			else
-			{
-				molflowdir = -1;
-				UnknownX = refstrm;
-			}
+			ncompknown++;
+		}
+		else
+		{
+			molflowdir = -1;
+			UnknownX = refstrm;
 		}
 	}
 
@@ -77,23 +78,23 @@ bool ComponentBalance::_calculate()
 		if (refstrm->MolarFlow()->IsKnown())
 		{
 			nflowknown++;
-			if (refstrm->Composition()->IsKnown())
-			{
-				for (int k = 0; k < ncomps; k++)
-				{
-					X[k] = refstrm->Composition()->GetValue(k);
-					moles[k] = moles[k] - X[k] * refstrm->MolarFlow()->GetValue();
-
-				}
-				ncompknown++;
-			}
-			else
-			{
-				molflowdir = 1;
-				UnknownX = refstrm;
-			}
+			
 		}
-		
+		if (refstrm->Composition()->IsKnown())
+		{
+			for (int k = 0; k < ncomps; k++)
+			{
+				X[k] = refstrm->Composition()->GetValue(k);
+				moles[k] = moles[k] - X[k] * refstrm->MolarFlow()->GetValue();
+
+			}
+			ncompknown++;
+		}
+		else
+		{
+			molflowdir = 1;
+			UnknownX = refstrm;
+		}
 	}
 
 	//if mixer i can have nstreams-1 compositions. i need all molar flows.

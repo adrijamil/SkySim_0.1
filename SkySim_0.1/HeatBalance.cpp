@@ -181,7 +181,8 @@ bool HeatBalance::_calculate()
 			break;
 		case CalcModeEnum::CALCF:
 			retval = true;
-			F = sumH / H;
+			H = _parent->GetStream(0, OUTLET)->MolarEnthalpy()->GetValue() - _parent->GetStream(0, INLET)->MolarEnthalpy()->GetValue();
+			F = sumH / H; //sumH is heat input H is molarenthalpy
 			Uknown->SetValue(flowdir*F);
 		}
 	}
