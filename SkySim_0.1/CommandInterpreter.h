@@ -2,6 +2,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <boost/algorithm/string.hpp>
+#include <string>
+
+
 #include "SimCase.h"
 #include "PropPackBuilder.h"
 #include "UnitOpBuilder.h"
@@ -10,6 +14,7 @@
 
 class CommandInterpreter
 {
+	friend class Tester;
 public:
 	CommandInterpreter();
 	CommandInterpreter(string theinputfile);

@@ -52,14 +52,19 @@ public:
 	string Name()
 	{ 
 		string retstr = _name;
-		retstr.append(":Flash");
 			return retstr;
+	}
+	string StackName()
+	{
+		string retstr = _name;
+		retstr.append(":Flash");
+		return retstr;
 	}
 	~Stream();
 
 	Phase* Phases(int i)
 	{
-		cout<<	_phases.size()<<"\n";
+	//	cout<<	_phases.size()<<"\n";
 		return _phases[i];
 		
 	}

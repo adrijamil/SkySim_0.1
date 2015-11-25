@@ -22,7 +22,7 @@ public:
 	{
 		return _children[i];
 	}
-	string Name();
+	virtual string StackName();
 protected:
 	UnitOp* _parent;
 	BridgeFunction** _children;

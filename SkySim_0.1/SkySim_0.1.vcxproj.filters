@@ -168,6 +168,12 @@
     <ClInclude Include="JSONGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ValveTester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkySim_0.1.cpp">
@@ -317,6 +323,12 @@
     <ClCompile Include="JSONGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ValveTester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentDatabase.csv" />
@@ -337,5 +349,27 @@
     <Text Include="testvalveout.txt" />
     <Text Include="testsep.txt" />
     <Text Include="testphases.txt" />
+    <Text Include="ValveTests\ValveTestInput_1.txt" />
+    <Text Include="ValveTests\ValveTestOutput_1.txt" />
+    <Text Include="ValveTests\ValveTests.txt" />
+    <Text Include="ValveTests\ValveTestInput_2.txt" />
+    <Text Include="ValveTests\ValveTestInput_3.txt" />
+    <Text Include="ValveTests\ValveTestOutput_2.txt" />
+    <Text Include="ValveTests\ValveTestOutput_3.txt" />
+    <Text Include="ValveTests\ValveTestInput_4.txt" />
+    <Text Include="ValveTests\ValveTestInput_5.txt" />
+    <Text Include="ValveTests\ValveTestInput_6.txt" />
+    <Text Include="ValveTests\ValveTestInput_7.txt" />
+    <Text Include="ValveTests\ValveTestInput_8.txt" />
+    <Text Include="ValveTests\ValveTestInput_9.txt" />
+    <Text Include="ValveTests\ValveTestInput_10.txt" />
+    <Text Include="ValveTests\ValveTestOutput_4.txt" />
+    <Text Include="ValveTests\ValveTestOutput_5.txt" />
+    <Text Include="ValveTests\ValveTestOutput_6.txt" />
+    <Text Include="ValveTests\ValveTestOutput_7.txt" />
+    <Text Include="ValveTests\ValveTestOutput_8.txt" />
+    <Text Include="ValveTests\ValveTestOutput_9.txt" />
+    <Text Include="ValveTests\ValveTestOutput_10.txt" />
+    <Text Include="HeaterTests\HeaterTestInput_1.txt" />
   </ItemGroup>
 </Project>

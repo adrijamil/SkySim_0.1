@@ -104,11 +104,16 @@ bool ComponentBalance::_calculate()
 	{
 		if (ncompknown == 1)
 		{
-			for (int k = 0; k < ncomps; k++)
+			if (UnknownX != 0)
 			{
-				UnknownX->Composition()->SetValue(k, X[k]);
+				for (int k = 0; k < ncomps; k++)
+				{
+
+					UnknownX->Composition()->SetValue(k, X[k]);
+
+				}
+				comppassed = true;
 			}
-			comppassed = true;
 		}
 		else if (ncompknown == 2)
 		{

@@ -15,7 +15,7 @@
 #include "FlowSheet.h"
 #include "ErrorLogger.h"
 #include "OutputLogger.h"
-
+#include "ValveTester.h"
 
 
 using namespace std;
@@ -26,23 +26,63 @@ RPManager* RPManager::_instance = 0;
 OutputLogger *OutputLogger::_instance = 0;
 
 
+void runtests()
+{
+	ValveTester mytester;
+
+	bool isworking = false;
+	isworking = mytester.TestAll();
+	if (isworking)
+	{
+		cout << "Valve test passed \n";
+	}
+	else
+	{
+		cout << "Valve test failed\n";
+	}
+
+}
+
+void generateoutputfile(CommandInterpreter* thecmd)
+{
+	OutputLogger* OpLogger = OutputLogger::Instance();
+	OpLogger->Name("ValveTests//ValveTestOutput_10.txt");
+	OpLogger->Output("STREAM");
+	OpLogger->Output("STRM1");
+	std::string jsonstring = thecmd->GetStreamJSON("STRM1");
+	OpLogger->Output(jsonstring);
+
+	OpLogger->Output("STREAM");
+	OpLogger->Output("STRM2");
+	jsonstring = thecmd->GetStreamJSON("STRM2");
+	OpLogger->Output(jsonstring);
+
+	OpLogger->Output("VALVE");
+	OpLogger->Output("V1");
+	jsonstring = thecmd->GetUnitOpJSON("V1");
+	OpLogger->Output(jsonstring);
+
+}
+
 int main()
 {
 	ErrorLogger* glogger = ErrorLogger::Instance();
 	OutputLogger* OpLogger = OutputLogger::Instance();
-	OpLogger->Name("testvalveout.txt");
-	CommandInterpreter mycase("testphases.txt");
-
-	//CommandInterpreter mycase("myinputfile.txt");
-	//CommandInterpreter mycase;
+	//OpLogger->Name("testvalveout.txt");
+	
+	
+	//runtests();
 	string mycommand;
 	mycommand = "";
 	bool isexit = false;
 	//mycase.
 
-	mycase.tempDoMore();
-
-	//cout << mycase.GetUnitOpJSON("E1");
+	//mycase.tempDoMore();
+	
+CommandInterpreter mycase("HeaterTests//HeaterTestInput_1.txt");
+//
+//generateoutputfile(&mycase);
+	
 
 	while (!isexit)
 	{
@@ -53,13 +93,15 @@ int main()
 		}
 		else
 		{
-			mycase.SendCommand(mycommand);
+			//mycase.SendCommand(mycommand);
 		}
 	}
-
+	
 	cout << "Exiting. Press enter.";
 	getchar();
 
 	return 0;
 }
+
+
 

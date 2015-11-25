@@ -13,12 +13,10 @@ BridgeFunction::~BridgeFunction()
 bool BridgeFunction::Solve()
 {
 	bool* calcbythis = new bool[_nvariables];
-
 	for (int i = 0; i < _nvariables; i++)
 	{
 		if (!_variables[i].first->IsKnown())
 		{
-			//cout << i << "\n";
 			calcbythis[i] = true;
 		}
 		else
@@ -76,7 +74,7 @@ void BridgeFunction::SetParent(UnitOp* theOp)
 	_parent = theOp;
 }
 
-string BridgeFunction::Name()
+string BridgeFunction::StackName()
 {
 	string str;
 	str = _parent->Name();

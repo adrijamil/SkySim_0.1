@@ -5,6 +5,7 @@ using namespace std;
 
 CommandInterpreter::CommandInterpreter(string theinputfile)
 {
+
 	string mystring;
 	string str1, str2, str3, str4;
 
@@ -69,9 +70,12 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 	std::cout << "Vapour PhaseFraction " << _activecase->GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
 	_activecase->Solve();
 	_activecase->Output();
-
 	myfile.close();
 	//rapidxml serial;
+	
+	/*OutputLogger* oplgr=OutputLogger::Instance();
+
+	oplgr->Output("adfdfdsfa");*/
 
 }
 CommandInterpreter::CommandInterpreter()
@@ -90,6 +94,9 @@ CommandInterpreter::~CommandInterpreter()
 
 void CommandInterpreter::SendCommand(string thecommand)
 {
+
+	boost::to_upper(thecommand);
+
 	string myreply;
 	string strname;
 	if (thecommand == "ADDSTREAM")
@@ -290,7 +297,7 @@ void CommandInterpreter::StreamSetup(string thename, string thespecs)
 		}
 		else
 		{
-			std::cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION, ENTHALPY, MASSFLOW OR DONE \n";
+			std::cout << "Enter specs: PRESSURE, TEMPERATURE, COMPOSITION, VAPOURFRACTION, ENTHALPY, MASSFLOW, MOLARFLOW OR DONE \n";
 			cin >> param;
 
 		}

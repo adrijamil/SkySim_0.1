@@ -20,6 +20,8 @@
 #include "SolveStack.h"
 #include "FSObject.h"
 
+#include "OutputLogger.h"
+
 class FlowSheet :
 	public FSObject
 {
@@ -108,33 +110,12 @@ public:
 		for (int i = 0; i < _nchildren; i++)
 		{
 			_children[i]->Output();
-			//FSobject should have the an output member function then by subclasses override.
-			//strmptr = static_cast<Stream *>(_children[i]);  //downcasting to stream type. later if unit ops how?
-			//if (strmptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
-			//{
-			//	strmptr->Output();
-			//	continue;
-			//}
-			//vlvptr = dynamic_cast<Valve *>(_children[i]);
-			//if (vlvptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
-			//{
-			//	vlvptr->Output();
-			//	continue;
-			//}
-			//heatptr = dynamic_cast<Heater *>(_children[i]);
-			//if (heatptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
-			//{
-			//	heatptr->Output();
-			//	continue;
-			//}
-			//compptr = dynamic_cast<Compressor *>(_children[i]);
-			//if (compptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
-			//{
-			//	compptr->Output();
-			//	continue;
-			//}
-
 		}
+
+
+		/*OutputLogger* oplgr = OutputLogger::Instance();
+
+		oplgr->Output("asgjhkhjl");*/
 	}
 
 protected:

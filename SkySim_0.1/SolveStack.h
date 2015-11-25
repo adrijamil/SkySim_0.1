@@ -111,7 +111,7 @@ public:
 	
 		for (int i = 0; i < _count; i++)
 		{
-			std::cout << _items[i]->Name().c_str() << " fraction known "<< _items[i]->FractionKnown() << "\n";
+			std::cout << _items[i]->StackName().c_str() << " fraction known "<< _items[i]->FractionKnown() << "\n";
 		}
 	}
 
@@ -128,21 +128,21 @@ public:
 		std::cout << "stack is: " << "\n";
 		for (int k = 0; k < _count; k++)//if i get to second last then must be the last one that needs to be removed;
 		{
-			std::cout << "item " << k << " is " << _items[k]->Name().c_str()<< "\n";
+			std::cout << "item " << k << " is " << _items[k]->StackName().c_str()<< "\n";
 		}
 		bool testbool;
 		while (_count>0)
 		{
 			
 			testbool = true;
-			std::cout << "solving " << _items[i]->Name().c_str() << "\n";
+			std::cout << "solving " << _items[i]->StackName().c_str() << "\n";
 			thisitemsolved = _items[i]->Solve();
 			if (thisitemsolved)
 			{
-				std::cout << "solved " << _items[i]->Name().c_str() << "\n";
+				std::cout << "solved " << _items[i]->StackName().c_str() << "\n";
 				_items[i]->IsDirty(false);
 				testbool = _items[i]->IsDirty();
-				if (testbool == false){ std::cout << _items[i]->Name().c_str() << ":isdirty = false \n"; }
+				if (testbool == false){ std::cout << _items[i]->StackName().c_str() << ":isdirty = false \n"; }
 				_remove(_items[i]);
 				i--;
 			}
@@ -200,7 +200,7 @@ private:
 			else
 			{
 				offset = -1;
-				std::cout << "removed " << _items[i]->Name().c_str() << "\n";
+				std::cout << "removed " << _items[i]->StackName().c_str() << "\n";
 			}
 		}
 		_count--;
@@ -210,7 +210,7 @@ private:
 		std::cout << "new stack is: " << "\n";
 		for (int i = 0; i < _count ; i++)//if i get to second last then must be the last one that needs to be removed;
 		{
-			std::cout << "item " << i << " is " << _items[i]->Name().c_str() << "\n";
+			std::cout << "item " << i << " is " << _items[i]->StackName().c_str() << "\n";
 		}
 	}
 

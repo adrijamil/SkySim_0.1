@@ -9,7 +9,7 @@ public:
 	~StackObject();
 	virtual bool Solve()=0;
 	void AddVariable(RealVariable* thevariable);
-		void RemoveVariable(RealVariable* thevariable);
+	void RemoveVariable(RealVariable* thevariable);
 	bool IsDirty()
 	{ 
 		bool isthisdirty;
@@ -45,7 +45,7 @@ public:
 	}
 	void IsDirty(bool thebool);
 	double FractionKnown();//
-	virtual string Name(){ return 0; };
+	virtual string StackName() { return ""; };
 	bool DependsOn(StackObject* theStackObject)
 	{
 		//if any of this _variables are calculated by theStackObject

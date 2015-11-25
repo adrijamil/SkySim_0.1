@@ -23,7 +23,7 @@ class FSObject
 public:
 	FSObject() {
 
-		_name = " ";
+		_name = "";
 	}
 	~FSObject();
 	virtual bool Solve() = 0;// { return false; };

@@ -23,15 +23,16 @@ std::string JSONGenerator::GetStream(Stream * thestream)
 	ptree variable_pt;
 
 	//do stream properties
-	stream_pt.put("Name", "Stream1");
+	stream_pt.put("Name", thestream->Name());
 
 	//component names
 	for (int i = 0;i < thestream->NComps();i++)
 	{
 		comps_pt.put(std::to_string(i).c_str(), thestream->GetPropertyPackage()->GetComponent(i).Name);
 	}
-	variable_pt.add_child("Components", comps_pt);
+	stream_pt.add_child("Components", comps_pt);
 	comps_pt.clear();
+	variable_pt.clear();
 
 	//stream variables
 	//pressure
@@ -65,9 +66,34 @@ std::string JSONGenerator::GetStream(Stream * thestream)
 	variable_pt.clear();
 
 	//PhasesPresent
-	variable_pt.put("Vapour", true);
-	variable_pt.put("Liquid", true);
-	variable_pt.put("Aqueous", true);
+	//vap
+	if (thestream->Phases(VAPOUR) == NULL)
+	{
+		variable_pt.put("Vapour", false);
+	}
+	else
+	{
+		variable_pt.put("Vapour", true);
+	}
+	//liq
+	if (thestream->Phases(HCLIQUID) == NULL)
+	{
+		variable_pt.put("Liquid", false);
+	}
+	else
+	{
+		variable_pt.put("Liquid", true);
+	}
+	//aq
+	if (thestream->Phases(AQUEOUS) == NULL)
+	{
+		variable_pt.put("Aqueous", false);
+	}
+	else
+	{
+		variable_pt.put("Aqueous", true);
+	}
+
 	stream_pt.add_child("PhasesPresent", variable_pt);
 	variable_pt.clear();
 
@@ -119,15 +145,13 @@ std::string JSONGenerator::GetStream(Stream * thestream)
 	phase_pt.add_child("Composition", variable_pt);
 	variable_pt.clear();
 
-
 	stream_pt.add_child("Vapour", phase_pt);
 	phase_pt.clear();
 
-
 	//liquid
 	//massflow
-	variable_pt.put("Value", thestream->MassFlow()->GetValue());
-	variable_pt.put("CanModify", !thestream->MassFlow()->IsCalculated());
+	variable_pt.put("Value", thestream->Phases(1)->MassFlow()->GetValue());
+	variable_pt.put("CanModify", !thestream->Phases(1)->MassFlow()->IsCalculated());
 	phase_pt.add_child("MassFlow", variable_pt);
 	variable_pt.clear();
 
@@ -138,8 +162,8 @@ std::string JSONGenerator::GetStream(Stream * thestream)
 	variable_pt.clear();
 
 	//MolarFlow
-	variable_pt.put("Value", thestream->Phases(0)->MolarFlow()->GetValue());
-	variable_pt.put("CanModify", !thestream->Phases(0)->MolarFlow()->IsCalculated());
+	variable_pt.put("Value", thestream->Phases(1)->MolarFlow()->GetValue());
+	variable_pt.put("CanModify", !thestream->Phases(1)->MolarFlow()->IsCalculated());
 	phase_pt.add_child("MolarFlow", variable_pt);
 	variable_pt.clear();
 
@@ -168,7 +192,7 @@ std::string JSONGenerator::GetStream(Stream * thestream)
 	std::ostringstream buf;
 	write_json(buf, stream_pt, true);
 	std::string json = buf.str();
-	std::cout << json;
+	//std::cout << json;
 
 
 
@@ -200,7 +224,26 @@ std::string JSONGenerator::GetUnitOp(UnitOp * theunitop)
 
 std::string JSONGenerator::_getvalve(Valve* thevalve)
 {
-	return "asdas";
+	ptree valve_pt;
+
+	ptree variable_pt;
+
+	valve_pt.put("Name", thevalve->Name());
+
+	variable_pt.put("Value", thevalve->K_Resistance()->GetValue());
+	variable_pt.put("CanModify", !thevalve->K_Resistance()->IsCalculated());
+	valve_pt.add_child("K_Resistance", variable_pt);
+	variable_pt.clear();
+
+	variable_pt.put("Value", thevalve->PressureDrop()->GetValue());
+	variable_pt.put("CanModify", !thevalve->PressureDrop()->IsCalculated());
+	valve_pt.add_child("PressureDrop", variable_pt);
+	variable_pt.clear();
+
+	std::ostringstream buf;
+	write_json(buf, valve_pt, true);
+	std::string json = buf.str();
+	return json;
 }
 
 std::string JSONGenerator::_getheater(Heater * thevalve)

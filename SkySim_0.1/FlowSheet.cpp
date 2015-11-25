@@ -53,11 +53,11 @@ bool FlowSheet::Solve()
 			nstackobj = _children[i]->NStackObjects();
 			for (int j = 0; j < nstackobj; j++)
 			{
-				cout << "Checking stackobject: " << _children[i]->GetStackObject(j)->Name() << "\n";
+				cout << "Checking stackobject: " << _children[i]->GetStackObject(j)->StackName() << "\n";
 				if (_children[i]->GetStackObject(j)->IsDirty())
 				{
 
-					cout << "Adding to stack: " << _children[i]->GetStackObject(j)->Name() << "\n";
+					cout << "Adding to stack: " << _children[i]->GetStackObject(j)->StackName() << "\n";
 					
 					_stack->Add(_children[i]->GetStackObject(j));
 				}
@@ -82,7 +82,7 @@ bool FlowSheet::Solve()
 		{
 			if (_children[i]->GetStackObject(j)->IsDirty())
 			{
-				cout << _children[i]->GetStackObject(j)->Name() << " is still dirty yo \n";
+				cout << _children[i]->GetStackObject(j)->StackName() << " is still dirty yo \n";
 			}
 		}
 	}

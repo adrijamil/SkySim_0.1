@@ -198,12 +198,14 @@
     <ClInclude Include="Stream.h" />
     <ClInclude Include="StreamCalc.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Tester.h" />
     <ClInclude Include="TwoPhaseSeparation.h" />
     <ClInclude Include="TwoPhaseSeparator.h" />
     <ClInclude Include="UnitConvertor.h" />
     <ClInclude Include="UnitOp.h" />
     <ClInclude Include="UnitOpBuilder.h" />
     <ClInclude Include="Valve.h" />
+    <ClInclude Include="ValveTester.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseVariable.cpp" />
@@ -249,12 +251,14 @@
     <ClCompile Include="StackObject.cpp" />
     <ClCompile Include="Stream.cpp" />
     <ClCompile Include="StreamCalc.cpp" />
+    <ClCompile Include="Tester.cpp" />
     <ClCompile Include="TwoPhaseSeparation.cpp" />
     <ClCompile Include="TwoPhaseSeparator.cpp" />
     <ClCompile Include="UnitConvertor.cpp" />
     <ClCompile Include="UnitOp.cpp" />
     <ClCompile Include="UnitOpBuilder.cpp" />
     <ClCompile Include="Valve.cpp" />
+    <ClCompile Include="ValveTester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentDatabase.csv" />
@@ -262,6 +266,7 @@
     <None Include="testvalve.out" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="HeaterTests\HeaterTestInput_1.txt" />
     <Text Include="inputfile2.txt" />
     <Text Include="myinputfile.txt" />
     <Text Include="ReadMe.txt" />
@@ -275,6 +280,27 @@
     <Text Include="testsplitter.txt" />
     <Text Include="testvalve.txt" />
     <Text Include="testvalveout.txt" />
+    <Text Include="ValveTests\ValveTestInput_10.txt" />
+    <Text Include="ValveTests\ValveTestInput_2.txt" />
+    <Text Include="ValveTests\ValveTestInput_3.txt" />
+    <Text Include="ValveTests\ValveTestInput_4.txt" />
+    <Text Include="ValveTests\ValveTestInput_5.txt" />
+    <Text Include="ValveTests\ValveTestInput_6.txt" />
+    <Text Include="ValveTests\ValveTestInput_7.txt" />
+    <Text Include="ValveTests\ValveTestInput_8.txt" />
+    <Text Include="ValveTests\ValveTestInput_9.txt" />
+    <Text Include="ValveTests\ValveTestOutput_10.txt" />
+    <Text Include="ValveTests\ValveTestOutput_2.txt" />
+    <Text Include="ValveTests\ValveTestOutput_3.txt" />
+    <Text Include="ValveTests\ValveTestOutput_4.txt" />
+    <Text Include="ValveTests\ValveTestOutput_5.txt" />
+    <Text Include="ValveTests\ValveTestOutput_6.txt" />
+    <Text Include="ValveTests\ValveTestOutput_7.txt" />
+    <Text Include="ValveTests\ValveTestOutput_8.txt" />
+    <Text Include="ValveTests\ValveTestOutput_9.txt" />
+    <Text Include="ValveTests\ValveTests.txt" />
+    <Text Include="ValveTests\ValveTestOutput_1.txt" />
+    <Text Include="ValveTests\ValveTestInput_1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

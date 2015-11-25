@@ -1,0 +1,207 @@
+STREAM
+STRM1
+{
+    "Name": "STRM1",
+    "Components": {
+        "0": "METHANE",
+        "1": "ETHANE",
+        "2": "HEXANE"
+    },
+    "Pressure": {
+        "Value": "5000",
+        "CanModify": "true"
+    },
+    "Temperature": {
+        "Value": "380",
+        "CanModify": "true"
+    },
+    "MassFlow": {
+        "Value": "3162",
+        "CanModify": "true"
+    },
+    "MolarFlow": {
+        "Value": "65.462179132843502",
+        "CanModify": "false"
+    },
+    "MolarEnthalpy": {
+        "Value": "15832.9051750947",
+        "CanModify": "false"
+    },
+    "PhasesPresent": {
+        "Vapour": "true",
+        "Liquid": "true",
+        "Aqueous": "false"
+    },
+    "Composition": {
+        "Value": {
+            "0": "0.29999999999999999",
+            "1": "0.29999999999999999",
+            "2": "0.40000000000000002"
+        },
+        "CanModify": "true"
+    },
+    "Vapour": {
+        "MassFlow": {
+            "Value": "878.17382676045463",
+            "CanModify": "false"
+        },
+        "MolarFlow": {
+            "Value": "31.026577177588283",
+            "CanModify": "false"
+        },
+        "MoleFraction": {
+            "Value": "0.47396187521691768",
+            "CanModify": "true"
+        },
+        "MolarEnthalpy": {
+            "Value": "20610.398621817374",
+            "CanModify": "false"
+        },
+        "Composition": {
+            "Value": {
+                "0": "0.51219241118172221",
+                "1": "0.39122555684278548",
+                "2": "0.096582031975492227"
+            },
+            "CanModify": "false"
+        }
+    },
+    "Liquid": {
+        "MassFlow": {
+            "Value": "2283.8261736656946",
+            "CanModify": "false"
+        },
+        "MoleFraction": {
+            "Value": "0.52603812478308232",
+            "CanModify": "true"
+        },
+        "MolarFlow": {
+            "Value": "34.435601955255216",
+            "CanModify": "false"
+        },
+        "MolarEnthalpy": {
+            "Value": "11528.369731434712",
+            "CanModify": "false"
+        },
+        "Composition": {
+            "Value": {
+                "0": "0.10881402002027779",
+                "1": "0.2178055116838353",
+                "2": "0.67338046829588694"
+            },
+            "CanModify": "false"
+        }
+    }
+}
+
+STREAM
+STRM2
+{
+    "Name": "STRM2",
+    "Components": {
+        "0": "METHANE",
+        "1": "ETHANE",
+        "2": "HEXANE"
+    },
+    "Pressure": {
+        "Value": "4000.1756",
+        "CanModify": "false"
+    },
+    "Temperature": {
+        "Value": "376.81525207499971",
+        "CanModify": "false"
+    },
+    "MassFlow": {
+        "Value": "3162",
+        "CanModify": "false"
+    },
+    "MolarFlow": {
+        "Value": "65.462179132843502",
+        "CanModify": "false"
+    },
+    "MolarEnthalpy": {
+        "Value": "15832.9051750947",
+        "CanModify": "false"
+    },
+    "PhasesPresent": {
+        "Vapour": "true",
+        "Liquid": "true",
+        "Aqueous": "false"
+    },
+    "Composition": {
+        "Value": {
+            "0": "0.29999999999999999",
+            "1": "0.29999999999999999",
+            "2": "0.40000000000000002"
+        },
+        "CanModify": "false"
+    },
+    "Vapour": {
+        "MassFlow": {
+            "Value": "976.57703940022816",
+            "CanModify": "false"
+        },
+        "MolarFlow": {
+            "Value": "34.031386229739994",
+            "CanModify": "false"
+        },
+        "MoleFraction": {
+            "Value": "0.51986332689413728",
+            "CanModify": "true"
+        },
+        "MolarEnthalpy": {
+            "Value": "20823.072912142732",
+            "CanModify": "false"
+        },
+        "Composition": {
+            "Value": {
+                "0": "0.49941332880055578",
+                "1": "0.40020460729135632",
+                "2": "0.10038206390808795"
+            },
+            "CanModify": "false"
+        }
+    },
+    "Liquid": {
+        "MassFlow": {
+            "Value": "2185.4217280415473",
+            "CanModify": "false"
+        },
+        "MoleFraction": {
+            "Value": "0.48013667310586272",
+            "CanModify": "true"
+        },
+        "MolarFlow": {
+            "Value": "31.430792903103509",
+            "CanModify": "false"
+        },
+        "MolarEnthalpy": {
+            "Value": "10429.921833272012",
+            "CanModify": "false"
+        },
+        "Composition": {
+            "Value": {
+                "0": "0.084087550813089676",
+                "1": "0.19150463356601477",
+                "2": "0.72440781562089551"
+            },
+            "CanModify": "false"
+        }
+    }
+}
+
+VALVE
+V1
+{
+    "Name": "V1",
+    "K_Resistance": {
+        "Value": "100",
+        "CanModify": "false"
+    },
+    "PressureDrop": {
+        "Value": "999.82439999999997",
+        "CanModify": "false"
+    }
+}
+
+DONE
