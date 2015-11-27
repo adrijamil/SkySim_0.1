@@ -38,7 +38,7 @@ void runtests()
 void generateoutputfile(CommandInterpreter* thecmd)
 {
 	OutputLogger* OpLogger = OutputLogger::Instance();
-	OpLogger->Name("HeaterTests//HeaterTestOutput_3.txt");
+	OpLogger->Name("MixerTests//MixerTestOutput_6.txt");
 	OpLogger->Output("STREAM");
 	OpLogger->Output("STRM1");
 	std::string jsonstring = thecmd->GetStreamJSON("STRM1");
@@ -49,9 +49,14 @@ void generateoutputfile(CommandInterpreter* thecmd)
 	jsonstring = thecmd->GetStreamJSON("STRM2");
 	OpLogger->Output(jsonstring);
 
-	OpLogger->Output("HEATER");
-	OpLogger->Output("E1");
-	jsonstring = thecmd->GetUnitOpJSON("E1");
+	OpLogger->Output("STREAM");
+	OpLogger->Output("STRM3");
+	jsonstring = thecmd->GetStreamJSON("STRM3");
+	OpLogger->Output(jsonstring);
+
+	OpLogger->Output("MIXER");
+	OpLogger->Output("M1");
+	jsonstring = thecmd->GetUnitOpJSON("M1");
 	OpLogger->Output(jsonstring);
 
 	OpLogger->Output("DONE");
@@ -64,7 +69,7 @@ int main()
 	//OpLogger->Name("testvalveout.txt");
 	
 	
-	runtests();
+	//runtests();
 	string mycommand;
 	mycommand = "";
 	bool isexit = false;
@@ -72,10 +77,10 @@ int main()
 
 	//mycase.tempDoMore();
 	
-//CommandInterpreter mycase("HeaterTests//HeaterTestInput_3.txt");
+CommandInterpreter mycase("MixerTests//MixerTestInput_6.txt");
 //
-//generateoutputfile(&mycase);
-	
+generateoutputfile(&mycase);
+
 
 	while (!isexit)
 	{
