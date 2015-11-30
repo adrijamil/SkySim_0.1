@@ -177,9 +177,6 @@
     <ClInclude Include="HeaterTester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MixerTester.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkySim_0.1.cpp">
@@ -338,16 +335,11 @@
     <ClCompile Include="HeaterTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MixerTester.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentDatabase.csv" />
     <None Include="ComponentDatabase.xlsm" />
     <None Include="testvalve.out" />
-    <None Include="ValveTests\valvetestcases.xlsx" />
-    <None Include="ValveTests\new 1" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="inputfile2.txt" />
@@ -410,19 +402,5 @@
     <Text Include="HeaterTests\HeaterTestOutput_11.txt" />
     <Text Include="HeaterTests\HeaterTestOutput_12.txt" />
     <Text Include="HeaterTests\HeaterTestOutput_13.txt" />
-    <Text Include="MixerTests\MixerTestInput_2.txt" />
-    <Text Include="MixerTests\MixerTestInput_3.txt" />
-    <Text Include="MixerTests\MixerTestInput_4.txt" />
-    <Text Include="MixerTests\MixerTestInput_5.txt" />
-    <Text Include="MixerTests\MixerTestInput_6.txt" />
-    <Text Include="MixerTests\MixerTestOutput_2.txt" />
-    <Text Include="MixerTests\MixerTestOutput_3.txt" />
-    <Text Include="MixerTests\MixerTestOutput_4.txt" />
-    <Text Include="MixerTests\MixerTestOutput_5.txt" />
-    <Text Include="MixerTests\MixerTestOutput_6.txt" />
-    <Text Include="HeaterTests\HeaterTestOutput_1.txt" />
-    <Text Include="MixerTests\MixerTestInput_1.txt" />
-    <Text Include="MixerTests\MixerTestOutput_1.txt" />
-    <Text Include="MixerTests\MixerTests.txt" />
   </ItemGroup>
 </Project>
