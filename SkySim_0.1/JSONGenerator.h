@@ -16,7 +16,6 @@ using boost::property_tree::write_json;
 
 #include "Valve.h"
 #include "Heater.h"
-#include "Mixer.h"
 
 class JSONGenerator
 {
@@ -28,7 +27,6 @@ public:
 private:
 	std::string _getvalve(Valve* thevalve);
 	std::string _getheater(Heater* thevalve);
-	std::string _getmixer(Mixer * theunitop);
 	/*template <class T> std::string _getspecificunitop(T theunitop);
 	template <> std::string  _getspecificunitop(Valve theunitop);
 	template <> std::string  _getspecificunitop(Heater theunitop);*/

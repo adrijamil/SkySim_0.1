@@ -146,8 +146,6 @@ std::string CommandInterpreter::GetStreamJSON(std::string thestream)
 
 std::string CommandInterpreter::GetUnitOpJSON(std::string theunitop)
 {
-	//cout << theunitop;
-
 	std::string json = _jsongenerator->GetUnitOp(_activecase->GetUnitOp(theunitop));
 	return json;
 }
