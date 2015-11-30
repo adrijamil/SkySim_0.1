@@ -175,6 +175,7 @@
     <ClInclude Include="JSONGenerator.h" />
     <ClInclude Include="MassMolFlowCalc.h" />
     <ClInclude Include="Mixer.h" />
+    <ClInclude Include="MixerTester.h" />
     <ClInclude Include="MolWtCalc.h" />
     <ClInclude Include="NumericalMethods.h" />
     <ClInclude Include="OutputLogger.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MassMolFlowCalc.cpp" />
     <ClCompile Include="Mixer.cpp" />
+    <ClCompile Include="MixerTester.cpp" />
     <ClCompile Include="MolWtCalc.cpp" />
     <ClCompile Include="OutputLogger.cpp" />
     <ClCompile Include="Phase.cpp" />
@@ -266,6 +268,8 @@
     <None Include="ComponentDatabase.csv" />
     <None Include="ComponentDatabase.xlsm" />
     <None Include="testvalve.out" />
+    <None Include="ValveTests\new 1" />
+    <None Include="ValveTests\valvetestcases.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="HeaterTests\HeaterTestInput_1.txt" />
@@ -296,6 +300,19 @@
     <Text Include="HeaterTests\HeaterTestOutput_9.txt" />
     <Text Include="HeaterTests\HeaterTests.txt" />
     <Text Include="inputfile2.txt" />
+    <Text Include="MixerTests\MixerTests.txt" />
+    <Text Include="MixerTests\MixerTestInput_1.txt" />
+    <Text Include="MixerTests\MixerTestInput_2.txt" />
+    <Text Include="MixerTests\MixerTestInput_3.txt" />
+    <Text Include="MixerTests\MixerTestInput_4.txt" />
+    <Text Include="MixerTests\MixerTestInput_5.txt" />
+    <Text Include="MixerTests\MixerTestInput_6.txt" />
+    <Text Include="MixerTests\MixerTestOutput_1.txt" />
+    <Text Include="MixerTests\MixerTestOutput_2.txt" />
+    <Text Include="MixerTests\MixerTestOutput_3.txt" />
+    <Text Include="MixerTests\MixerTestOutput_4.txt" />
+    <Text Include="MixerTests\MixerTestOutput_5.txt" />
+    <Text Include="MixerTests\MixerTestOutput_6.txt" />
     <Text Include="myinputfile.txt" />
     <Text Include="ReadMe.txt" />
     <Text Include="testall.txt" />

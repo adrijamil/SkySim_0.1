@@ -42,7 +42,7 @@ bool HeatBalance::_calculate()
 		if (refstream->MolarFlow()->IsKnown())
 		{
 			nflowknown++;
-			F = refstream->MolarFlow()->GetValue();
+			//F = refstream->MolarFlow()->GetValue();
 			flowdir = 1;
 		}
 		else if (refstream->MolarEnthalpy()->IsKnown())
@@ -58,12 +58,14 @@ bool HeatBalance::_calculate()
 			nenthknown++;
 			flowdir = 1;
 		}
-		else
+		else if (refstream->MolarFlow()->IsKnown())
 		{
 			CalcMode = CALCH;
 			Uknown = refstream->MolarEnthalpy();
+			F = refstream->MolarFlow()->GetValue();
 			flowdir = -1;
 		}
+
 	}
 
 	for (int i = 0; i < nout; i++)
@@ -72,7 +74,7 @@ bool HeatBalance::_calculate()
 		if (refstream->MolarFlow()->IsKnown())
 		{
 			nflowknown++;
-			F = refstream->MolarFlow()->GetValue();
+			//F = refstream->MolarFlow()->GetValue();
 		}
 		else if (refstream->MolarEnthalpy()->IsKnown())
 		{
@@ -85,10 +87,12 @@ bool HeatBalance::_calculate()
 		{
 			nenthknown++;
 		}
-		else
+		else if (refstream->MolarFlow()->IsKnown())
 		{
 			CalcMode = CALCH;
 			Uknown = refstream->MolarEnthalpy();
+
+			F = refstream->MolarFlow()->GetValue();
 		}
 	}
 
@@ -108,14 +112,14 @@ bool HeatBalance::_calculate()
 
 	DOF = Qpresent + 2 * nin + 2 * nout;
 	DOF = DOF - nenthknown - nflowknown - Qknown;
-	if (CalcMode == CALCF&&nin==1&&nout==1)
+	if (CalcMode == CALCF&&nin == 1 && nout == 1)
 	{
 		DOF = DOF - 1;
 	}
 
 	if (nin == 1 && nout > 1)
 	{
-		DOF = DOF - nout+1;
+		DOF = DOF - nout + 1;
 	}
 
 
@@ -154,8 +158,8 @@ bool HeatBalance::_calculate()
 			retval = true;
 			break;
 		case CalcModeEnum::CALCH:
-			
-			
+
+
 			retval = true;
 			H = sumH / F;
 
@@ -177,7 +181,7 @@ bool HeatBalance::_calculate()
 			{
 				Uknown->SetValue(flowdir*H);
 			}
-			
+
 			break;
 		case CalcModeEnum::CALCF:
 			retval = true;

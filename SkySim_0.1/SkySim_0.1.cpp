@@ -17,7 +17,7 @@
 #include "OutputLogger.h"
 #include "ValveTester.h"
 #include "HeaterTester.h"
-
+#include "MixerTester.h"
 using namespace std;
 
 ErrorLogger *ErrorLogger::s_instance = 0;
@@ -28,7 +28,7 @@ OutputLogger *OutputLogger::_instance = 0;
 
 void runtests()
 {
-	HeaterTester mytester;
+	MixerTester mytester;
 
 	bool isworking = false;
 	isworking = mytester.TestAll();
