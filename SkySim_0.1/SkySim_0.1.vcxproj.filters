@@ -402,5 +402,6 @@
     <Text Include="HeaterTests\HeaterTestOutput_11.txt" />
     <Text Include="HeaterTests\HeaterTestOutput_12.txt" />
     <Text Include="HeaterTests\HeaterTestOutput_13.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_1.txt" />
   </ItemGroup>
 </Project>

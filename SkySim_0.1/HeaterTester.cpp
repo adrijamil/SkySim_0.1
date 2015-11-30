@@ -4,6 +4,8 @@
 
 HeaterTester::HeaterTester()
 {
+	AddTestFiles("HeaterTests/HeaterTests.txt");
+	name = "Heater Tests";
 }
 
 
