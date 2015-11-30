@@ -218,6 +218,13 @@ std::string JSONGenerator::GetUnitOp(UnitOp * theunitop)
 		json = _getheater(heaterptr);
 		return json;
 	}
+
+	Mixer* mixerptr = dynamic_cast<Mixer*> (theunitop);
+	if (mixerptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
+	{
+		json = _getmixer(mixerptr);
+		return json;
+	}
 	
 }
 
@@ -269,6 +276,20 @@ std::string JSONGenerator::_getheater(Heater* theheater)
 	variable_pt.put("CanModify", !theheater->HeatInput()->IsCalculated());
 	heater_pt.add_child("HeatInput", variable_pt);
 	variable_pt.clear();
+
+	std::ostringstream buf;
+	write_json(buf, heater_pt, true);
+	std::string json = buf.str();
+	return json;
+}
+
+std::string JSONGenerator::_getmixer(Mixer* theunitop)
+{
+	ptree heater_pt;
+
+	ptree variable_pt;
+
+	heater_pt.put("Name", theunitop->Name());
 
 	std::ostringstream buf;
 	write_json(buf, heater_pt, true);
