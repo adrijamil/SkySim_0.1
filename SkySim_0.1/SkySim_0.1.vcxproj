@@ -285,6 +285,7 @@
     <Text Include="HeaterTests\HeaterTestInput_7.txt" />
     <Text Include="HeaterTests\HeaterTestInput_8.txt" />
     <Text Include="HeaterTests\HeaterTestInput_9.txt" />
+    <Text Include="HeaterTests\HeaterTestOutput_1.txt" />
     <Text Include="HeaterTests\HeaterTestOutput_10.txt" />
     <Text Include="HeaterTests\HeaterTestOutput_11.txt" />
     <Text Include="HeaterTests\HeaterTestOutput_12.txt" />
