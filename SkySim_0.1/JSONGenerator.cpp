@@ -218,7 +218,12 @@ std::string JSONGenerator::GetUnitOp(UnitOp * theunitop)
 		json = _getheater(heaterptr);
 		return json;
 	}
-	
+	Mixer* mxrptr = dynamic_cast<Mixer*> (theunitop);
+	if (mxrptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
+	{
+		json = _getmixer(mxrptr);
+		return json;
+	}
 }
 
 
@@ -275,3 +280,20 @@ std::string JSONGenerator::_getheater(Heater* theheater)
 	std::string json = buf.str();
 	return json;
 }
+
+std::string JSONGenerator::_getmixer(Mixer * themixer)
+{
+		ptree valve_pt;
+
+		ptree variable_pt;
+
+		valve_pt.put("Name", themixer->Name());
+
+
+		std::ostringstream buf;
+		write_json(buf, valve_pt, true);
+		std::string json = buf.str();
+		return json;
+
+	}
+

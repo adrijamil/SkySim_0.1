@@ -78,10 +78,11 @@ bool Tester::TestAll()
 		cout <<"running test"<<mytests[i].Name <<": " <<mytests[i].Description<<" \n";
 		cout << mytests[i].Inputfile << " \n";
 		mycmd = new CommandInterpreter(mytests[i].Inputfile);
-		
+		thistestok = true;
 		myfile.open(mytests[i].Outputfile);
 		do
 		{
+			
 			getline(myfile, myoutputstring);
 			if (myoutputstring == "STREAM")
 			{
@@ -135,7 +136,7 @@ bool Tester::TestAll()
 			}
 			else
 			{
-				thistestok = true;
+				//thistestok = true;
 				cout << objname << " tested, passed \n";
 			}
 
@@ -154,7 +155,7 @@ bool Tester::TestAll()
 			failedtests.append(mytests[i].Name);
 			failedtests.append(", ");
 		}
-		thistestok = false;
+		
 		delete mycmd;
 	}
 	
