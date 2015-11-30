@@ -80,7 +80,6 @@ bool Tester::TestAll()
 		mycmd = new CommandInterpreter(mytests[i].Inputfile);
 		
 		myfile.open(mytests[i].Outputfile);
-		thistestok = true;
 		do
 		{
 			getline(myfile, myoutputstring);
@@ -136,7 +135,7 @@ bool Tester::TestAll()
 			}
 			else
 			{
-				
+				thistestok = true;
 				cout << objname << " tested, passed \n";
 			}
 
@@ -155,7 +154,7 @@ bool Tester::TestAll()
 			failedtests.append(mytests[i].Name);
 			failedtests.append(", ");
 		}
-		
+		thistestok = false;
 		delete mycmd;
 	}
 	
