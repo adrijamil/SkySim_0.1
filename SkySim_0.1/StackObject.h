@@ -31,7 +31,7 @@ public:
 				//make all vars I calculate dirty
 				for (int i = 0; i < _nvariables; i++)
 				{
-					if (_variables[i].first->IsCalculated()&&_variables[i].first->CalculatedBy())
+					if (_variables[i].first->IsCalculated()&&_variables[i].first->CalculatedBy()==this)
 					{
 						_variables[i].first->IsDirty(true);
 						_variables[i].first->IsKnown(false);
@@ -48,15 +48,17 @@ public:
 	virtual string StackName() { return ""; };
 	bool DependsOn(StackObject* theStackObject)
 	{
+		bool retval=false;
 		//if any of this _variables are calculated by theStackObject
 		for (int i = 0; i < _nvariables; i++)
 		{
 			if (_variables[i].first->CalculatedBy() == theStackObject)
 			{
-				return true;
+				_variables[i].first->IsKnown(false);
+				retval= true;
 			}
 		}
-		return false;
+		return retval;
 	}
 //
 protected:

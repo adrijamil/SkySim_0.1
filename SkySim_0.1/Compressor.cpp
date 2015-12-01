@@ -37,7 +37,7 @@ Compressor::Compressor(string name)
 	BF2->SetHeatInput(_energyinput);
 	_bridgefunction->AddBridge(BF2);
 	IsentropicCompression* BF3 = new IsentropicCompression;
-	BF3->SetDeltaPressure(_deltapressure); //map unit op member variable to bridge function member variable
+	BF3->SetDeltaPressure(_deltapressure); //this adds variable to bridge function
 	BF3->SetEnergyInput(_energyinput);
 	BF3->SetIsentropicEfficiency(_isentropicefficiency);
 	_bridgefunction->AddBridge(BF3);
@@ -53,7 +53,7 @@ void Compressor::_setupconnection(ConnectionType InOrOut)
 
 	if (InOrOut == INLET)
 	{
-		//for MaterialBalance inlets
+		//for FlowBalance inlets
 		_bridgefunction->GetStackObject(0)->AddVariable(_inletstreams[0]->MassFlow());
 		_bridgefunction->GetStackObject(0)->AddVariable(_inletstreams[0]->MolarFlow());
 
@@ -84,8 +84,8 @@ void Compressor::_setupconnection(ConnectionType InOrOut)
 		_bridgefunction->GetStackObject(2)->AddVariable(_outletstreams[0]->MolarFlow());
 
 		_bridgefunction->GetStackObject(3)->AddVariable(_outletstreams[0]->Pressure());
-		_bridgefunction->GetStackObject(3)->AddVariable(_inletstreams[0]->MolarEnthalpy());
-		_bridgefunction->GetStackObject(3)->AddVariable(_inletstreams[0]->MolarEntropy());
+		_bridgefunction->GetStackObject(3)->AddVariable(_outletstreams[0]->MolarEnthalpy());
+		_bridgefunction->GetStackObject(3)->AddVariable(_outletstreams[0]->MolarEntropy());
 	}
 
 

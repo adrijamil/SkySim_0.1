@@ -7,7 +7,7 @@ RPEnergyCalc::RPEnergyCalc()
 {
 	_nvars = 6;
 	_name = "PhaseEnergyCalc";
-	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THERMdll");;
+	THERMdll = (fp_THERMdllTYPE)GetProcAddress(RPManager::Instance()->hInstance(), "THERMdll");
 }
 
 RPEnergyCalc::~RPEnergyCalc()
@@ -66,6 +66,17 @@ bool RPEnergyCalc::Solve()
 			}
 			d = _parent->RefStream()->Phases[i].MolarDensity/1000;
 			THERMdll(t, d, x, p, e, h, s, cv, cp, w, hjt);
+
+			/*if (h < 0)
+			{
+				h = h*-1;
+			}
+
+			if (s < 0)
+			{
+				s = s*-1;
+			}
+*/
 
 			if (abs(pcheck - p) < tol)
 			{

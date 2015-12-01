@@ -195,6 +195,7 @@
     <ClInclude Include="Solver.h" />
     <ClInclude Include="SolveStack.h" />
     <ClInclude Include="Splitter.h" />
+    <ClInclude Include="SplitterTester.h" />
     <ClInclude Include="StackObject.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stream.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="Solver.cpp" />
     <ClCompile Include="SolveStack.cpp" />
     <ClCompile Include="Splitter.cpp" />
+    <ClCompile Include="SplitterTester.cpp" />
     <ClCompile Include="StackObject.cpp" />
     <ClCompile Include="Stream.cpp" />
     <ClCompile Include="StreamCalc.cpp" />
@@ -315,6 +317,18 @@
     <Text Include="MixerTests\MixerTestOutput_6.txt" />
     <Text Include="myinputfile.txt" />
     <Text Include="ReadMe.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_1.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_2.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_3.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_4.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_5.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_1.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_2.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_3.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_4.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_5.txt" />
+    <Text Include="SplitterTests\SplitterTests.txt" />
+    <Text Include="testDemoCase.txt" />
     <Text Include="testall.txt" />
     <Text Include="testcompressor.txt" />
     <Text Include="testflashes.txt" />

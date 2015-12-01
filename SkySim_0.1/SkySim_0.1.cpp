@@ -18,6 +18,7 @@
 #include "ValveTester.h"
 #include "HeaterTester.h"
 #include "MixerTester.h"
+#include "SplitterTester.h"
 using namespace std;
 
 ErrorLogger *ErrorLogger::s_instance = 0;
@@ -28,17 +29,73 @@ OutputLogger *OutputLogger::_instance = 0;
 
 void runtests()
 {
-	MixerTester mytester;
-
+	std::string outputstr;
 	bool isworking = false;
+	MixerTester mytester;
+	outputstr.append(mytester.name);
+	outputstr.append(": ");
+	//HeaterTester mytester;
+	isworking = false;
 	isworking = mytester.TestAll();
+	if (isworking)
+	{
+		outputstr.append("pass \n");
+	}
+	else
+	{
+		outputstr.append("fail \n");
+	}
 
+	HeaterTester mytester2;
+	outputstr.append(mytester2.name);
+	outputstr.append(": ");
+	 isworking = false;
+	isworking = mytester2.TestAll();
+	if (isworking)
+	{
+		outputstr.append("pass \n");
+	}
+	else
+	{
+		outputstr.append("fail \n");
+	}
+
+
+	ValveTester mytester3;
+	outputstr.append(mytester3.name);
+	outputstr.append(": ");
+	isworking = false;
+	isworking = mytester3.TestAll();
+	if (isworking)
+	{
+		outputstr.append("pass \n");
+	}
+	else
+	{
+		outputstr.append("fail \n");
+	}
+
+	SplitterTester mytester4;
+	outputstr.append(mytester4.name);
+	outputstr.append(": ");
+	isworking = false;
+	isworking = mytester4.TestAll();
+	if (isworking)
+	{
+		outputstr.append("pass \n");
+	}
+	else
+	{
+		outputstr.append("fail \n");
+	}
+
+	std::cout << outputstr;
 }
 
 void generateoutputfile(CommandInterpreter* thecmd)
 {
 	OutputLogger* OpLogger = OutputLogger::Instance();
-	OpLogger->Name("HeaterTests//HeaterTestOutput_3.txt");
+	OpLogger->Name("SplitterTests//SplitterTestOutput_5.txt");
 	OpLogger->Output("STREAM");
 	OpLogger->Output("STRM1");
 	std::string jsonstring = thecmd->GetStreamJSON("STRM1");
@@ -49,9 +106,9 @@ void generateoutputfile(CommandInterpreter* thecmd)
 	jsonstring = thecmd->GetStreamJSON("STRM2");
 	OpLogger->Output(jsonstring);
 
-	OpLogger->Output("HEATER");
-	OpLogger->Output("E1");
-	jsonstring = thecmd->GetUnitOpJSON("E1");
+	OpLogger->Output("SPLITTER");
+	OpLogger->Output("S1");
+	jsonstring = thecmd->GetUnitOpJSON("S1");
 	OpLogger->Output(jsonstring);
 
 	OpLogger->Output("DONE");
@@ -64,31 +121,40 @@ int main()
 	//OpLogger->Name("testvalveout.txt");
 	
 	
-	runtests();
+	//runtests();
 	string mycommand;
 	mycommand = "";
 	bool isexit = false;
-	//mycase.
 
-	//mycase.tempDoMore();
-	
-//CommandInterpreter mycase("HeaterTests//HeaterTestInput_3.txt");
-//
-//generateoutputfile(&mycase);
-	
 
-	while (!isexit)
+	
+	bool istesting = false;
+	if (istesting)
 	{
-		cin >> mycommand;
-		if (mycommand == "EXIT")
-		{
-			isexit = true;
-		}
-		else
-		{
-			//mycase.SendCommand(mycommand);
-		}
+		runtests();
 	}
+	else
+	{
+
+		CommandInterpreter mycase("testDemoCase.txt");
+		mycase.tempDoMore();
+		while (!isexit)
+		{
+			cin >> mycommand;
+			if (mycommand == "EXIT")
+			{
+				isexit = true;
+			}
+			else
+			{
+				mycase.SendCommand(mycommand);
+			}
+		}
+		//generateoutputfile(&mycase);
+	}
+
+
+	
 	
 	cout << "Exiting. Press enter.";
 	getchar();

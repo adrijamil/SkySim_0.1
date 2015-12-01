@@ -225,7 +225,14 @@ std::string JSONGenerator::GetUnitOp(UnitOp * theunitop)
 		json = _getmixer(mxrptr);
 		return json;
 	}
-	
+
+	Splitter* spltptr = dynamic_cast<Splitter*> (theunitop);
+	if (spltptr != NULL)// this is a bad workaround// come up with a better way to typecast to proper class pointer
+	{
+		json = _getsplitter(spltptr);
+		return json;
+	}
+	return "";
 }
 
 
@@ -290,6 +297,26 @@ std::string JSONGenerator::_getmixer(Mixer * theunitop)
 	ptree variable_pt;
 
 	heater_pt.put("Name", theunitop->Name());
+	std::ostringstream buf;
+	write_json(buf, heater_pt, true);
+	std::string json = buf.str();
+	return json;
+}
+
+
+std::string JSONGenerator::_getsplitter(Splitter * theunitop)
+{
+	ptree heater_pt;
+
+	ptree variable_pt;
+
+	heater_pt.put("Name", theunitop->Name());
+
+	/*variable_pt.put("Value", theunitop->()->GetValue());
+	variable_pt.put("CanModify", !theheater->K_Resistance()->IsCalculated());
+	heater_pt.add_child("K_Resistance", variable_pt);*/
+
+	variable_pt.clear();
 	std::ostringstream buf;
 	write_json(buf, heater_pt, true);
 	std::string json = buf.str();

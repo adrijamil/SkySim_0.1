@@ -67,6 +67,7 @@ public:
 			{
 				if (_parent->GetStackObject(j)->DependsOn(_items[i]))
 				{
+					_parent->GetStackObject(j)->IsDirty(true);
 					Add(_parent->GetStackObject(j));
 				}
 			}

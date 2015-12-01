@@ -24,7 +24,7 @@ bool HeatBalance::_calculate()
 	int DOF = 0;
 	double Q = -32767;
 	double H = -32767;
-	double F = -32767;
+	double F = 0;
 	bool retval = false;
 	nin = _parent->NInlets();
 	nout = _parent->NOutlets();
@@ -62,7 +62,12 @@ bool HeatBalance::_calculate()
 		{
 			CalcMode = CALCH;
 			Uknown = refstream->MolarEnthalpy();
-			F = refstream->MolarFlow()->GetValue();
+			if (F == -32767)
+			{
+				F = 0;
+
+			}
+			F = F + refstream->MolarFlow()->GetValue();
 			flowdir = -1;
 		}
 
@@ -91,8 +96,11 @@ bool HeatBalance::_calculate()
 		{
 			CalcMode = CALCH;
 			Uknown = refstream->MolarEnthalpy();
-
-			F = refstream->MolarFlow()->GetValue();
+			if (F == -32767)
+			{
+				F = 0;
+			}
+			F =F- refstream->MolarFlow()->GetValue();
 		}
 	}
 
@@ -134,6 +142,8 @@ bool HeatBalance::_calculate()
 			if (refstream->MolarFlow()->IsKnown() && refstream->MolarEnthalpy()->IsKnown())
 			{
 				sumH = sumH + refstream->MolarFlow()->GetValue()*refstream->MolarEnthalpy()->GetValue();
+				flowdir = -1;
+
 			}
 		}
 		for (int i = 0; i < nout; i++)

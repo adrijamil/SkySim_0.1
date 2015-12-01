@@ -180,6 +180,9 @@
     <ClInclude Include="MixerTester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SplitterTester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkySim_0.1.cpp">
@@ -341,6 +344,9 @@
     <ClCompile Include="MixerTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SplitterTester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentDatabase.csv" />
@@ -424,5 +430,17 @@
     <Text Include="MixerTests\MixerTestInput_1.txt" />
     <Text Include="MixerTests\MixerTestOutput_1.txt" />
     <Text Include="MixerTests\MixerTests.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_1.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_1.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_2.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_3.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_4.txt" />
+    <Text Include="SplitterTests\SplitterTestInput_5.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_2.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_3.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_4.txt" />
+    <Text Include="SplitterTests\SplitterTestOutput_5.txt" />
+    <Text Include="SplitterTests\SplitterTests.txt" />
+    <Text Include="testDemoCase.txt" />
   </ItemGroup>
 </Project>

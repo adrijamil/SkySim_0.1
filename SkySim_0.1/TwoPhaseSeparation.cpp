@@ -6,6 +6,7 @@
 
 TwoPhaseSeparation::TwoPhaseSeparation()
 {
+	_name = "TwoPhaseSeparation";
 }
 
 
@@ -24,11 +25,13 @@ bool TwoPhaseSeparation::_calculate()
 	int nflowsknown = 0;
 
 	int ncomps = In->NComps();
-	//if it is solved it shouldnt be called again
-	/*if (_solved)
-	{
-		return true;
-	}*/
+	
+	Vap->VapourFraction()->IsCalculated(false);
+	Vap->VapourFraction()->SetValue(1);
+
+	Liq->VapourFraction()->IsCalculated(false);
+	Liq->VapourFraction()->SetValue(0);
+
 	//case 1 inlet defined
 	//case 2 gas out defined
 	//case 3 liquid outlet defined
@@ -36,9 +39,9 @@ bool TwoPhaseSeparation::_calculate()
 	if (In->IsSolved()&&!Vap->Composition()->IsKnown()&&!Liq->Composition()->IsKnown())
 	{
 		Vap->Composition()->SetValues(ncomps,In->Phases(0)->Composition()->GetValues());
-		Vap->MolarEnthalpy()->SetValue(In->Phases(0)->MolarEnthalpy()->GetValue());
+	//	Vap->MolarEnthalpy()->SetValue(In->Phases(0)->MolarEnthalpy()->GetValue());
 		Liq->Composition()->SetValues(ncomps, In->Phases(1)->Composition()->GetValues());
-		Liq->MolarEnthalpy()->SetValue(In->Phases(1)->MolarEnthalpy()->GetValue());
+	//	Liq->MolarEnthalpy()->SetValue(In->Phases(1)->MolarEnthalpy()->GetValue());
 		comppassed = true;
 	}
 	else if (In->Composition()->IsKnown() && Vap->Composition()->IsKnown() && Liq->Composition()->IsKnown())
@@ -70,6 +73,11 @@ bool TwoPhaseSeparation::_calculate()
 	if (comppassed&&flowpassed)
 	{
 		_solved = true;
+	}
+	else
+	{
+		_solved = false;
+
 	}
 	return _solved;
 }

@@ -8,7 +8,7 @@ StreamCalc::StreamCalc()
 
 }
 
-string StreamCalc::Name()
+string StreamCalc::StackName()
 {
 	string retstring;
 	retstring = _refstream->Name();

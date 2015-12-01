@@ -42,9 +42,7 @@ bool FlowSheet::Solve()
 	int nstackobj;
 
 	int nold = 0;
-	std::cout << "pre adding to stack\n";
-	std::cout << "Stream _vapourfraction " << GetStream("STRM1")->VapourFraction()<<"\n";
-	std::cout << "Vapour PhaseFraction " << GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+	
 	//do 
 	//{
 		nold = _stack->Count();
@@ -53,25 +51,28 @@ bool FlowSheet::Solve()
 			nstackobj = _children[i]->NStackObjects();
 			for (int j = 0; j < nstackobj; j++)
 			{
+
+				
 				cout << "Checking stackobject: " << _children[i]->GetStackObject(j)->StackName() << "\n";
 				if (_children[i]->GetStackObject(j)->IsDirty())
 				{
 
 					cout << "Adding to stack: " << _children[i]->GetStackObject(j)->StackName() << "\n";
-					
+					std::cout << "STRM2 pressure " << GetStream("STRM2")->Pressure()->GetValue() << "\n";
 					_stack->Add(_children[i]->GetStackObject(j));
 				}
+				
 			}
 		}
-		std::cout << "pre forgetting \n";
-		std::cout << "Stream _vapourfraction " << GetStream("STRM1")->VapourFraction() << "\n";
-		std::cout << "Vapour PhaseFraction " << GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+		
+		std::cout << "pre forgetting \\n";
+		std::cout << "STRM2 pressure " << GetStream("STRM2")->Pressure()->GetValue() << "\n";
 	_stack->Forget();
 	
 
 	std::cout << "post forgetting \n";
-	std::cout << "Stream _vapourfraction " << GetStream("STRM1")->VapourFraction() << "\n";
-	std::cout << "Vapour PhaseFraction " << GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+	std::cout << "STRM2 pressure " << GetStream("STRM2")->Pressure()->GetValue() << "\n";
+	
 
 	retval=_stack->Solve();
 

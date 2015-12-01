@@ -44,7 +44,7 @@ public:
 	void IsKnown(bool thebool);
 	void IsCalculated(bool thebool){ _is_calculated = thebool; }
 	void IsDirty(bool thebool)
-	{ 
+	{
 		_isdirty = thebool;
 		/*if (_isdirty)
 		{
@@ -58,10 +58,7 @@ public:
 		double retval = -32767;
 		if (_is_known)
 		{
-			if (!_isdirty||!_is_calculated)
-			{
 				retval= _getvalue(i);
-			}
 			
 		}
 		return retval;

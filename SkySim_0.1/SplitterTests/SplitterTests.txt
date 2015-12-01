@@ -1,0 +1,26 @@
+Test1
+Specified: Stream1: Pressure, Composition, Temperature, Massflow; Splitter: K_Resistance 
+SplitterTests//SplitterTestInput_1.txt
+SplitterTests//SplitterTestOutput_1.txt
+
+Test2
+Specified: Stream1: Pressure, Composition, Temperature, Massflow; Splitter: K_Resistance 
+SplitterTests//SplitterTestInput_2.txt
+SplitterTests//SplitterTestOutput_2.txt
+
+Test3
+Specified: Stream1: Pressure, Composition, Temperature, Massflow; Splitter: K_Resistance 
+SplitterTests//SplitterTestInput_3.txt
+SplitterTests//SplitterTestOutput_3.txt
+
+Test4
+Specified: Stream1: Pressure, Composition, Temperature, Massflow; Splitter: K_Resistance 
+SplitterTests//SplitterTestInput_4.txt
+SplitterTests//SplitterTestOutput_4.txt
+
+Test5
+Specified: Stream1: Pressure, Composition, Temperature, Massflow; Splitter: K_Resistance 
+SplitterTests//SplitterTestInput_5.txt
+SplitterTests//SplitterTestOutput_5.txt
+
+DONE

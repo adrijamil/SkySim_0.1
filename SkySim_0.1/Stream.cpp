@@ -13,9 +13,9 @@ void Stream::_initialise()
 	//should be handled by flash method -> other methods may provide more or less variables
 
 	_addphase(VAPOUR);//this sets the _vapourfraction to PhaseMoleFraction
-	std::cout << "pre adding variables\n";
+	/*std::cout << "pre adding variables\n";
 	std::cout << "Stream _vapourfraction " << _vapourfraction << "\n";
-	std::cout << "Vapour PhaseFraction " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+	std::cout << "Vapour PhaseFraction " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";*/
 
 	AddVariable(_pressure);
 	AddVariable(_temperature);
@@ -23,10 +23,10 @@ void Stream::_initialise()
 	AddVariable(_molentropy);
 	AddVariable(_composition);
 	AddVariable(_molardensity);
-
-	std::cout << "post stream initialise \n";
+	
+	/*std::cout << "post stream initialise \n";
 	std::cout << "Stream _vapourfraction " << VapourFraction() << "\n";
-	std::cout << "Vapour PhaseFraction " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+	std::cout << "Vapour PhaseFraction " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";*/
 	
 }
 
@@ -169,11 +169,11 @@ bool Stream::Solve()
 	_proppack->RefStream()->WriteStream(this);
 
 
-	cout << "variables in stack object \n";
+	/*cout << "variables in stack object \n";
 	for (int k = 0;k < _nvariables;k++)
 	{
 		cout << _variables[k].first << "\n";
-	}
+	}*/
 
 	StackObject* thefsob = this;
 	if (retval)
@@ -418,9 +418,9 @@ void Stream::_addphase(PhaseTypeEnum thephasetype)
 	{
 		_phases.push_back(thenewphase);
 	}
-	cout << "post adding vapour phase \n";
-	cout << "stream _vapourfraction: " << _vapourfraction << "\n";
-	cout << "vapour phasefraction: " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+//	cout << "post adding vapour phase \n";
+//	cout << "stream _vapourfraction: " << _vapourfraction << "\n";
+	//cout << "vapour phasefraction: " << Phases(VAPOUR)->PhaseMoleFraction() << "\n";
 }
 
 

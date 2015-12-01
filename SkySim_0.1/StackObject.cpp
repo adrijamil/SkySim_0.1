@@ -51,7 +51,7 @@ void StackObject::RemoveVariable(RealVariable * thevariable)
 			it = _variables.erase(it);
 		}
 	}
-
+	_nvariables=_nvariables;
 }
 
 double StackObject::FractionKnown()//

@@ -91,5 +91,7 @@ bool PressureBalance::_calculate()
 			retval = true;
 		}
 	}
+	_solved = retval;
+
 	return retval;
 }

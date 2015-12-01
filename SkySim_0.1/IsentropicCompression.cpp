@@ -138,9 +138,11 @@ bool IsentropicCompression::_calculate()
 			//s1 = _parent->GetStream(0, INLET)->MolarEntropy()->GetValue();
 			tempfw->ReadStream(_parent->GetStream(0, INLET));
 			tempfw->Phases[0].Entropy= _parent->GetStream(0, INLET)->MolarEntropy()->GetValue();
+			cout << "entropy" << tempfw->Phases[0].Entropy << "\n";
 			tempfw->Pressure = P2->GetValue();
 			//set other state variable to empty
 			tempfw->VapourFraction = -32767;
+			tempfw->Phases[1].PhaseFraction = -32767;
 			tempfw->Temperature = -32767;
 			tempfw->Phases[0].Enthalpy = -32767;
 

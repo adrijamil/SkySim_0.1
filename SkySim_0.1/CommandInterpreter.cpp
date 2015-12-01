@@ -152,15 +152,15 @@ std::string CommandInterpreter::GetUnitOpJSON(std::string theunitop)
 
 void CommandInterpreter::tempDoMore()
 {
-	RealVariable* thetarg = _activecase->GetStream("STRM1")->Temperature();
-	thetarg->SetValue(-32767);
-	thetarg->IsDirty(true);
-	thetarg->IsCalculated(true);
-
-	thetarg = _activecase->GetStream("STRM1")->VapourFraction();
-	thetarg->SetValue(0.6);
+	RealVariable* thetarg = _activecase->GetStream("STRM5")->Temperature();
+	thetarg->SetValue(290);
 	thetarg->IsDirty(true);
 	thetarg->IsCalculated(false);
+
+	/*thetarg = _activecase->GetStream("STRM1")->VapourFraction();
+	thetarg->SetValue(0.6);
+	thetarg->IsDirty(true);
+	thetarg->IsCalculated(false);*/
 
 	_activecase->Solve();
 	_activecase->Output();

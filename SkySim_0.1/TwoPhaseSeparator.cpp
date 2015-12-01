@@ -68,16 +68,14 @@ void TwoPhaseSeparator::_setupconnection(ConnectionType InOrOut)
 	else if (InOrOut == VAPOUROUTLET)
 	{
 		//spec the vfrac
-		_outletstreams[0]->VapourFraction()->IsCalculated(true);
+		_outletstreams[0]->VapourFraction()->IsCalculated(false);
 		_outletstreams[0]->VapourFraction()->SetValue(1);
 
 		//for separation outlets
+		_bridgefunction->GetStackObject(0)->AddVariable(_outletstreams[0]->VapourFraction());
 		_bridgefunction->GetStackObject(0)->AddVariable(_outletstreams[0]->Composition());
-		_bridgefunction->GetStackObject(0)->AddVariable(_outletstreams[0]->MolarEnthalpy());
+		_bridgefunction->GetStackObject(0)->AddVariable(_outletstreams[0]->MolarFlow());
 
-		// for flow balance outlets
-		//_bridgefunction->GetStackObject(1)->AddVariable(_outletstreams[0]->MassFlow());
-		//_bridgefunction->GetStackObject(1)->AddVariable(_outletstreams[0]->MolarFlow());
 
 		//pressure balance outlets
 		_bridgefunction->GetStackObject(1)->AddVariable(_outletstreams[0]->Pressure());
@@ -85,16 +83,13 @@ void TwoPhaseSeparator::_setupconnection(ConnectionType InOrOut)
 	else if (InOrOut == LIQUIDOUTLET)
 	{
 		//spec the vfrac
-		_outletstreams[1]->VapourFraction()->IsCalculated(true);
+		_outletstreams[1]->VapourFraction()->IsCalculated(false);
 		_outletstreams[1]->VapourFraction()->SetValue(0);
 
 		//for separation outlets
+		_bridgefunction->GetStackObject(0)->AddVariable(_outletstreams[1]->VapourFraction());
 		_bridgefunction->GetStackObject(0)->AddVariable(_outletstreams[1]->Composition());
-		_bridgefunction->GetStackObject(0)->AddVariable(_outletstreams[1]->MolarEnthalpy());
-
-		// for flow balance outlets
-		//_bridgefunction->GetStackObject(1)->AddVariable(_outletstreams[1]->MassFlow());
-		//_bridgefunction->GetStackObject(1)->AddVariable(_outletstreams[1]->MolarFlow());
+		_bridgefunction->GetStackObject(0)->AddVariable(_outletstreams[1]->MolarFlow());
 
 		//pressure balance outlets
 		_bridgefunction->GetStackObject(1)->AddVariable(_outletstreams[1]->Pressure());
