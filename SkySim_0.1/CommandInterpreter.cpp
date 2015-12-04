@@ -6,71 +6,7 @@ using namespace std;
 CommandInterpreter::CommandInterpreter(string theinputfile)
 {
 
-	string mystring;
-	string str1, str2, str3, str4;
-
-	fstream myfile;
-	string mylongstring;
-	OutputLogger* op= OutputLogger::Instance();
-
-	bool isdone;
-	isdone = false;
-	//std::stringstream  mypartstream;
-	myfile.open(theinputfile);
-	while (myfile.good())
-	{
-		getline(myfile, mystring);
-		if (mystring == "PROPPACK") //go into parsing for proppack setup
-		{
-			getline(myfile, str1);//this will be flash method
-			getline(myfile, str2);//this will be components
-			str2.append(",DONE");
-			CaseSetup(str1, str2);
-		}
-
-		else if (mystring == "STREAM")
-		{
-			getline(myfile, str1);//this will be the name
-			do
-			{
-				getline(myfile, str2);
-				if (str3 != "")
-				{
-					str3.append("\n");
-				}
-				str3.append(str2);
-				
-			} while (str2!="");
-			str3.append("DONE");
-			StreamSetup(str1, str3);
-			str3 = "";
-
-		}
-		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER" || mystring == "SPLITTER"||mystring=="COMPRESSOR" || mystring == "TWOPHASESEPARATOR")
-		{
-			getline(myfile, str1);//this will be the name
-			do
-			{
-				getline(myfile, str2);
-				if (str3 != "")
-				{
-					str3.append("\n");
-				}
-				str3.append(str2);
-
-			} while (str2 != "");
-			str3.append("DONE");
-			UnitOpSetup(mystring,str1, str3);
-			str3 = "";
-
-		}
-	}
-	std::cout << "pre solve \n";
-	std::cout << "Stream _vapourfraction " << _activecase->GetStream("STRM1")->VapourFraction() << "\n";
-	std::cout << "Vapour PhaseFraction " << _activecase->GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
-	_activecase->Solve();
-	_activecase->Output();
-	myfile.close();
+	_initfrominput(theinputfile);
 	//rapidxml serial;
 	
 	/*OutputLogger* oplgr=OutputLogger::Instance();
@@ -80,7 +16,7 @@ CommandInterpreter::CommandInterpreter(string theinputfile)
 }
 CommandInterpreter::CommandInterpreter()
 { 
-	CaseSetup("","");
+	//CaseSetup("","");
 
 }
 
@@ -91,9 +27,180 @@ CommandInterpreter::~CommandInterpreter()
 
 }
 
+void CommandInterpreter::altSendCommand(string thecommand)
+{
+	bool lastline = true;
+	string filename = thecommand;
+
+	string allcommands;
+
+	fstream myfile;
+	
+	cout << thecommand.substr(thecommand.find_last_of(".")+1);
+
+	if (thecommand.substr(thecommand.find_last_of(".") + 1) == "txt")
+	{
+	
+		filename = thecommand;
+
+		myfile.open(filename);
+	readcommandfile:
+		getline(myfile, thecommand);
+		if (myfile.good())
+		{
+			lastline = false;
+		}
+		else
+		{
+			lastline = true;
+		}
+	}
+	/*
+	I need the following commands
+
+
+	1.	SETUP REFPROP Comp1,comp2,comp3
+	2.	ADDSTREAM STRM1 PRESSURE 2000 TEMPERATURE 3000 COMPOSITION 0.3,0.4,0.4
+		ADDSTREAM STRM1
+	3.	ADDUNITOP VALVE V1 INLET STRM1 OUTLET STRM2 K 1000
+	4.	SPECVARIABLE STRM1 PRESSURE 4000
+	5.	SOLVE
+	5.	INPUTFILE THEFILENAME
+	6.	CONNECT STRM1 INLET V1
+	7. 
+
+
+	*/
+
+	vector<string> strs;
+	boost::split(strs, thecommand, boost::is_any_of(" "));
+	std::string specs;
+
+	/*cout << "* size of the vector: " << strs.size() << endl;
+	for (vector<string>::iterator it2 = strs.begin(); it2 != strs.end(); ++it2)
+	{
+		cout << *it2 << endl;
+	}*/
+
+	if (strs[0]=="SETUP")
+	{
+		CaseSetup(strs[1], strs[2].append(",DONE"));
+	}
+	else if (strs[0] == "ADDSTREAM")
+	{
+		vector<string>::iterator it = strs.begin();
+		it ++;
+		it++;
+		for (it; it != strs.end();++it)
+		{
+			specs.append(*it);
+			specs.append(" ");
+			++it;
+			specs.append(*it);
+			specs.append("\n");
+			cout << specs;
+		}
+		specs.append("DONE");
+		cout << specs;
+		StreamSetup(strs[1], specs);
+	}
+
+	else if (strs[0] == "ADDUNITOP")
+	{
+		
+		
+		vector<string>::iterator it = strs.begin();
+		it++;
+		it++;
+		it++;
+		specs.append("NONE\nNONE\n");
+		for (it; it != strs.end();++it)
+		{
+			specs.append(*it);
+			specs.append(" ");
+			++it;
+			specs.append(*it);
+			specs.append("\n");
+			cout << specs;
+		}
+		specs.append("DONE");
+		cout << specs;
+		UnitOpSetup(strs[1],strs[2], specs);
+	}
+	else if (strs[0] == "CONNECT")
+	{
+
+		ConnectionType contype;
+		if (strs[2] == "INLET")
+		{
+			contype = INLET;
+		}
+		else if (strs[2] == "OUTLET")
+		{
+			contype = OUTLET;
+		}
+		else if (strs[2]=="VAPOUROUTLET")
+		{
+			contype = VAPOUROUTLET;
+		}
+		else if (strs[2] == "LIQUIDOUTLET")
+		{
+			contype = LIQUIDOUTLET;
+		}
+		_activecase->GetUnitOp(strs[1])->Connect(_activecase->GetStream(strs[3]),contype);
+		
+	}
+
+	else if (strs[0] == "SOLVE")
+	{
+		_activecase->Solve();
+		_activecase->Output();
+
+
+	}
+
+	else if (strs[0] == "SPECIFYVARIABLE")
+	{
+		string specs;
+		specs.append(strs[3]);
+		specs.append(" ");
+		specs.append(strs[4]);
+		specs.append("\nDONE");
+		if (strs[1] == "STREAM")
+		{
+			
+
+			StreamSetup(strs[2], specs);
+		}
+		else
+		{
+			UnitOpSetup(strs[1], strs[2], specs);
+		}
+
+
+	}
+	if (!lastline)
+	{
+		goto readcommandfile;
+	}
+}
+
+
 
 void CommandInterpreter::SendCommand(string thecommand)
 {
+
+
+	if (thecommand == "TEST")
+	{
+		cout << "SendCommand received";
+		return ;
+	}
+	else
+	{
+		altSendCommand(thecommand);
+		return;
+	}
 
 	boost::to_upper(thecommand);
 
@@ -102,6 +209,10 @@ void CommandInterpreter::SendCommand(string thecommand)
 	if (thecommand == "ADDSTREAM")
 	{
 		StreamSetup("","");
+	}
+	else if (thecommand == "SETUP")
+	{
+		CaseSetup("", "");
 	}
 	else if (thecommand == "OUTPUT")
 	{
@@ -122,6 +233,8 @@ void CommandInterpreter::SendCommand(string thecommand)
 		cin >> myreply;
 		StreamSetup(myreply, "");
 	}
+
+
 	else if (thecommand == "HELP")
 	{
 		std::cout << "COMMANDS AVAILABLE ARE: ADDSTREAM, ADDUNITOP, SOLVE, OUTPUT, EDITSTREAM \n";
@@ -479,7 +592,8 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 {
 	//string myreply;
 	//string strname;
-	
+	std::istringstream  streamstreami, streamstreamo;
+	string nozzle;
 	if (theop == "")
 	{
 		std::cout << "Enter unit operation : VALVE, HEATER,  MIXER, SPLITTER, COMPRESSOR \n";
@@ -539,16 +653,21 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 		cin >> param;
 	}
 
-	std::istringstream  streamstreami(param);
-	
-	
+	  
+
+	  if (param == "NONE")
+	  {
+		  goto skipconnectinlet;
+
+	  }
+	streamstreami= std::istringstream(param);
 		while (streamstreami.good())
 		{
 			getline(streamstreami, param, ',');
 			_theuobuilder->Connect(_activecase->GetStream(param), INLET);
 		}
 	
-	
+	skipconnectinlet:
 
 
 	//connect outlet
@@ -557,14 +676,21 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	{
 		getline(mypartstream, param, '\n');
 	}
-	else
+	else 
+
 	{
 		std::cout << "Enter outlet stream(s) name. eg. Strm1,Strm2  \n";
 		cin >> param;
 	}
+	  if (param == "NONE")
+	  {
+		  goto skipconnectoutlet;
 
-	std::istringstream streamstreamo(param);
-	string nozzle;
+	  }
+
+	streamstreamo= std::istringstream(param);
+	
+
 
 	if (theop == "TWOPHASESEPARATOR")
 	{
@@ -593,7 +719,7 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 			_theuobuilder->Connect(_activecase->GetStream(param), OUTLET);
 		}
 	}
-	
+skipconnectoutlet:
 
 	while (issetup == false)
 	{
@@ -706,4 +832,78 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	std::cout << thename << " has been added.\n";
 
 
+}
+
+void CommandInterpreter::tempsetup()
+{
+	_initfrominput("testDemoCase.txt");
+}
+
+void CommandInterpreter::_initfrominput(string theinputfile)
+{
+	string mystring;
+	string str1, str2, str3, str4;
+
+	fstream myfile;
+	string mylongstring;
+	OutputLogger* op = OutputLogger::Instance();
+
+	bool isdone;
+	isdone = false;
+	//std::stringstream  mypartstream;
+	myfile.open(theinputfile);
+	while (myfile.good())
+	{
+		getline(myfile, mystring);
+		if (mystring == "PROPPACK") //go into parsing for proppack setup
+		{
+			getline(myfile, str1);//this will be flash method
+			getline(myfile, str2);//this will be components
+			str2.append(",DONE");
+			CaseSetup(str1, str2);
+		}
+
+		else if (mystring == "STREAM")
+		{
+			getline(myfile, str1);//this will be the name
+			do
+			{
+				getline(myfile, str2);
+				if (str3 != "")
+				{
+					str3.append("\n");
+				}
+				str3.append(str2);
+
+			} while (str2 != "");
+			str3.append("DONE");
+			StreamSetup(str1, str3);
+			str3 = "";
+
+		}
+		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER" || mystring == "SPLITTER" || mystring == "COMPRESSOR" || mystring == "TWOPHASESEPARATOR")
+		{
+			getline(myfile, str1);//this will be the name
+			do
+			{
+				getline(myfile, str2);
+				if (str3 != "")
+				{
+					str3.append("\n");
+				}
+				str3.append(str2);
+
+			} while (str2 != "");
+			str3.append("DONE");
+			UnitOpSetup(mystring, str1, str3);
+			str3 = "";
+
+		}
+	}
+	std::cout << "pre solve \n";
+	std::cout << "Stream _vapourfraction " << _activecase->GetStream("STRM1")->VapourFraction() << "\n";
+	std::cout << "Vapour PhaseFraction " << _activecase->GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+	_activecase->Solve();
+	_activecase->Output();
+	myfile.close();
 }

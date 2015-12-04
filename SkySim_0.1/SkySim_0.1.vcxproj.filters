@@ -183,6 +183,9 @@
     <ClInclude Include="SplitterTester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ICommandInterpreter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkySim_0.1.cpp">
@@ -347,6 +350,9 @@
     <ClCompile Include="SplitterTester.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ICommandInterpreter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentDatabase.csv" />
@@ -442,5 +448,6 @@
     <Text Include="SplitterTests\SplitterTestOutput_5.txt" />
     <Text Include="SplitterTests\SplitterTests.txt" />
     <Text Include="testDemoCase.txt" />
+    <Text Include="InputCommands.txt" />
   </ItemGroup>
 </Project>

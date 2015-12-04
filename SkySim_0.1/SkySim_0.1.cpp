@@ -19,13 +19,12 @@
 #include "HeaterTester.h"
 #include "MixerTester.h"
 #include "SplitterTester.h"
+
 using namespace std;
 
 ErrorLogger *ErrorLogger::s_instance = 0;
 RPManager* RPManager::_instance = 0;
-
 OutputLogger *OutputLogger::_instance = 0;
-
 
 void runtests()
 {
@@ -126,36 +125,56 @@ int main()
 	mycommand = "";
 	bool isexit = false;
 
-
-	
 	bool istesting = false;
-	if (istesting)
-	{
-		runtests();
-	}
-	else
-	{
+	//if (istesting)
+	//{
+	//	runtests();
+	//}
+	//else
+	//{
 
-		CommandInterpreter mycase("testDemoCase.txt");
-		mycase.tempDoMore();
-		while (!isexit)
-		{
-			cin >> mycommand;
-			if (mycommand == "EXIT")
-			{
-				isexit = true;
-			}
-			else
-			{
-				mycase.SendCommand(mycommand);
-			}
-		}
-		//generateoutputfile(&mycase);
-	}
+	//	CommandInterpreter mycase("testDemoCase.txt");
+	//	mycase.tempDoMore();
+	//	while (!isexit)
+	//	{
+	//		cin >> mycommand;
+	//		if (mycommand == "EXIT")
+	//		{
+	//			isexit = true;
+	//		}
+	//		else
+	//		{
+	//			mycase.SendCommand(mycommand);
+	//		}
+	//	}
+	//	//generateoutputfile(&mycase);
+	//}
 
 
+	CommandInterpreter mycase;
+	mycase.SendCommand("InputCommands.txt");
 	
+	/*mycase.SendCommand("SETUP REFPROP METHANE,ETHANE,HEXANE");
+
+	mycase.SendCommand("ADDSTREAM STRM1 PRESSURE 5000 TEMPERATURE 330 COMPOSITION 0.3,0.4,0.3");
+
+	mycase.SendCommand("SPECIFYVARIABLE STREAM STRM1 MASSFLOW 3162");
+
+	mycase.SendCommand("ADDSTREAM STRM2");
+
+	mycase.SendCommand("ADDUNITOP VALVE V1 K 100");
 	
+	mycase.SendCommand("CONNECT V1 INLET STRM1");
+	
+	mycase.SendCommand("CONNECT V1 OUTLET STRM2");
+	
+	mycase.SendCommand("SOLVE");*/
+
+	string myoutput;
+	myoutput = mycase.GetStreamJSON("STRM1");
+	
+	cout << myoutput;
+
 	cout << "Exiting. Press enter.";
 	getchar();
 

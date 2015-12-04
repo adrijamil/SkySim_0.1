@@ -76,7 +76,7 @@ public:
 		//go through each item
 		//arrange by isknown?
 	arrange:
-		double fracknownj, fracknownj_ ;
+	//	double fracknownj, fracknownj_ ;
 
 		cout << "";
 		for (int i = 0; i < _count; i++)

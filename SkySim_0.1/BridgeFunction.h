@@ -2,7 +2,7 @@
 // to be used by unit ops
 //could make this a composite
 
-#include "RealVariable.h".
+#include "RealVariable.h"
 #include "StackObject.h"
 
 class UnitOp;

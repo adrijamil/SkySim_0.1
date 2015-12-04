@@ -19,6 +19,7 @@ public:
 	CommandInterpreter();
 	CommandInterpreter(string theinputfile);
 	~CommandInterpreter();
+	void altSendCommand(string thecommand);
 	void SendCommand(string thecommand);
 	void ReadInputFile(string thefilepath);
 	std::string GetStreamJSON(std::string thestream);
@@ -33,8 +34,12 @@ private:
 	//void HeaterSetup(string thename, string thespecs);
 	void UnitOpSetup(string theop,string thename, string thespecs);
 	JSONGenerator* _jsongenerator = new JSONGenerator();
+	void tempsetup();
 
+	
 	PropPackBuilder* thePPBuilder=new PropPackBuilder;
 	UnitOpBuilder* _theuobuilder = new UnitOpBuilder;
+protected:
+	void _initfrominput(string theinputfile);
 };
 

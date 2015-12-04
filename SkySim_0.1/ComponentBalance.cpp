@@ -101,7 +101,7 @@ bool ComponentBalance::_calculate()
 	//if valve i dont need flows. need 1 composition
 	//if splitter i can have 1 known composition. i dont actually need any flows
 
-	if (nin == 1 & nout == 1)
+	if (nin == 1 && nout == 1)
 	{
 		if (ncompknown == 1)
 		{
@@ -128,7 +128,7 @@ bool ComponentBalance::_calculate()
 			for (int i = 0; i < nin; i++)
 			{
 				refstrm = _parent->GetStream(i, INLET);
-				if (refstrm->Composition()->IsKnown() == false);
+				if (refstrm->Composition()->IsKnown() == false)
 				{
 					for (int k = 0; k < ncomps; k++)
 					{
@@ -139,7 +139,7 @@ bool ComponentBalance::_calculate()
 			for (int i = 0; i < nout; i++)
 			{
 				refstrm = _parent->GetStream(i, OUTLET);
-				if (refstrm->Composition()->IsKnown() == false);
+				if (refstrm->Composition()->IsKnown() == false)
 				{
 					for (int k = 0; k < ncomps; k++)
 					{

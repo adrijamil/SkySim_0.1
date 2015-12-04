@@ -55,15 +55,15 @@ bool IsentropicCompression::_calculate()
 	Stream* tempstream = new Stream;
 	fwStream* tempfw = new fwStream;
 
-	double q;
+//	double q;
 	double n;
 	double h1;
-	double s1;
+	//double s1;
 	double h2p;//h2p is isetropic h2 (100% eff)
 	double f;
 	double err = 1000;
 	double tol = 0.00001;
-	double targ1, targ2;
+	//double targ1, targ2;
 
 
 	if (!P2->IsKnown())

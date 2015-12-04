@@ -101,21 +101,15 @@ public:
 	void Output()
 	{
 
-		Stream* strmptr;
-		Valve* vlvptr;
-		Heater* heatptr;
-		Compressor* compptr;
+		
 
-		strmptr = 0;
+		
 		for (int i = 0; i < _nchildren; i++)
 		{
 			_children[i]->Output();
 		}
 
 
-		/*OutputLogger* oplgr = OutputLogger::Instance();
-
-		oplgr->Output("asgjhkhjl");*/
 	}
 
 protected:
