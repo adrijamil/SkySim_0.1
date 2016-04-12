@@ -19,7 +19,7 @@
 #include "HeaterTester.h"
 #include "MixerTester.h"
 #include "SplitterTester.h"
-
+#include "CompressorTester.h"
 using namespace std;
 
 ErrorLogger *ErrorLogger::s_instance = 0;
@@ -30,55 +30,71 @@ void runtests()
 {
 	std::string outputstr;
 	bool isworking = false;
-	MixerTester mytester;
-	outputstr.append(mytester.name);
+
+
+	//MixerTester mytester;
+	//outputstr.append(mytester.name);
+	//outputstr.append(": ");
+	////HeaterTester mytester;
+	//isworking = false;
+	//isworking = mytester.TestAll();
+	//if (isworking)
+	//{
+	//	outputstr.append("pass \n");
+	//}
+	//else
+	//{
+	//	outputstr.append("fail \n");
+	//}
+
+	//HeaterTester mytester2;
+	//outputstr.append(mytester2.name);
+	//outputstr.append(": ");
+	// isworking = false;
+	//isworking = mytester2.TestAll();
+	//if (isworking)
+	//{
+	//	outputstr.append("pass \n");
+	//}
+	//else
+	//{
+	//	outputstr.append("fail \n");
+	//}
+
+
+	//ValveTester mytester3;
+	//outputstr.append(mytester3.name);
+	//outputstr.append(": ");
+	//isworking = false;
+	//isworking = mytester3.TestAll();
+	//if (isworking)
+	//{
+	//	outputstr.append("pass \n");
+	//}
+	//else
+	//{
+	//	outputstr.append("fail \n");
+	//}
+
+	//SplitterTester mytester4;
+	//outputstr.append(mytester4.name);
+	//outputstr.append(": ");
+	//isworking = false;
+	//isworking = mytester4.TestAll();
+	//if (isworking)
+	//{
+	//	outputstr.append("pass \n");
+	//}
+	//else
+	//{
+	//	outputstr.append("fail \n");
+	//}
+
+	CompressorTester mytester5;
+	outputstr.append(mytester5.name);
 	outputstr.append(": ");
-	//HeaterTester mytester;
 	isworking = false;
-	isworking = mytester.TestAll();
-	if (isworking)
-	{
-		outputstr.append("pass \n");
-	}
-	else
-	{
-		outputstr.append("fail \n");
-	}
-
-	HeaterTester mytester2;
-	outputstr.append(mytester2.name);
-	outputstr.append(": ");
-	 isworking = false;
-	isworking = mytester2.TestAll();
-	if (isworking)
-	{
-		outputstr.append("pass \n");
-	}
-	else
-	{
-		outputstr.append("fail \n");
-	}
-
-
-	ValveTester mytester3;
-	outputstr.append(mytester3.name);
-	outputstr.append(": ");
-	isworking = false;
-	isworking = mytester3.TestAll();
-	if (isworking)
-	{
-		outputstr.append("pass \n");
-	}
-	else
-	{
-		outputstr.append("fail \n");
-	}
-
-	SplitterTester mytester4;
-	outputstr.append(mytester4.name);
-	outputstr.append(": ");
-	isworking = false;
-	isworking = mytester4.TestAll();
+	isworking = mytester5.TestAll();
 	if (isworking)
 	{
 		outputstr.append("pass \n");
@@ -94,7 +110,7 @@ void runtests()
 void generateoutputfile(CommandInterpreter* thecmd)
 {
 	OutputLogger* OpLogger = OutputLogger::Instance();
-	OpLogger->Name("SplitterTests//SplitterTestOutput_5.txt");
+	OpLogger->Name("CompressorTests//CompressorTestInput_1.txt");
 	OpLogger->Output("STREAM");
 	OpLogger->Output("STRM1");
 	std::string jsonstring = thecmd->GetStreamJSON("STRM1");
@@ -126,33 +142,33 @@ int main()
 	bool isexit = false;
 
 	bool istesting = false;
-	//if (istesting)
-	//{
-	//	runtests();
-	//}
-	//else
-	//{
-
-	//	CommandInterpreter mycase("testDemoCase.txt");
-	//	mycase.tempDoMore();
-	//	while (!isexit)
-	//	{
-	//		cin >> mycommand;
-	//		if (mycommand == "EXIT")
-	//		{
-	//			isexit = true;
-	//		}
-	//		else
-	//		{
-	//			mycase.SendCommand(mycommand);
-	//		}
-	//	}
-	//	//generateoutputfile(&mycase);
-	//}
+	if (istesting)
+	{
+		runtests();
+	}
+	else
+	{
+		CommandInterpreter mycase("testheatexchanger.txt");
+		//CommandInterpreter mycase("CompressorTests//CompressorTestInput_4.txt");
+		//mycase.tempDoMore();
+		while (!isexit)
+		{
+			cin >> mycommand;
+			if (mycommand == "EXIT")
+			{
+				isexit = true;
+			}
+			else
+			{
+				mycase.SendCommand(mycommand);
+			}
+		}
+		//generateoutputfile(&mycase);
+	}
 
 
 	CommandInterpreter mycase;
-	mycase.SendCommand("InputCommands.txt");
+	//mycase.SendCommand("testcompressor.txt");
 	
 	/*mycase.SendCommand("SETUP REFPROP METHANE,ETHANE,HEXANE");
 
@@ -170,10 +186,10 @@ int main()
 	
 	mycase.SendCommand("SOLVE");*/
 
-	string myoutput;
-	myoutput = mycase.GetStreamJSON("STRM1");
+	//string myoutput;
+	//myoutput = mycase.GetStreamJSON("STRM1");
 	
-	cout << myoutput;
+	//cout << myoutput;
 
 	cout << "Exiting. Press enter.";
 	getchar();

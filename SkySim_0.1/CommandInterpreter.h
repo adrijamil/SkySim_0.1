@@ -5,7 +5,6 @@
 #include <boost/algorithm/string.hpp>
 #include <string>
 
-
 #include "SimCase.h"
 #include "PropPackBuilder.h"
 #include "UnitOpBuilder.h"

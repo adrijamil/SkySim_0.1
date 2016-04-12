@@ -6,8 +6,9 @@
 #include "Splitter.h"
 #include "TwoPhaseSeparator.h"
 #include "Compressor.h"
+#include "HeatExchanger.h"
 
-enum UnitOpEnum { VALVE, HEATER, MIXER, SPLITTER, COMPRESSOR,TWOPHASESEPARATOR };
+enum UnitOpEnum { VALVE, HEATER, MIXER, SPLITTER, COMPRESSOR,TWOPHASESEPARATOR,HEATEXCHANGER };
 class UnitOpBuilder
 {
 public:
@@ -36,6 +37,9 @@ public:
 			break;
 		case UnitOpEnum::TWOPHASESEPARATOR:
 			_currentunitop = new TwoPhaseSeparator;
+			break;
+		case UnitOpEnum::HEATEXCHANGER:
+			_currentunitop = new HeatExchanger;
 			break;
 		default:
 			break;

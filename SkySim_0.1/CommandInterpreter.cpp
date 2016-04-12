@@ -624,6 +624,10 @@ void CommandInterpreter::UnitOpSetup(string theop, string thename, string thespe
 	{
 		_theuobuilder->BuildUnitOp(TWOPHASESEPARATOR);
 	}
+	else if (theop == "HEATEXCHANGER")
+	{
+		_theuobuilder->BuildUnitOp(HEATEXCHANGER);
+	}
 	bool issetup;
 
 	double tempdb;
@@ -807,6 +811,51 @@ skipconnectoutlet:
 			tempdb = stod(thevar);
 			_theuobuilder->SpecifyVariable(ENERGYINPUT, tempdb);
 		}
+		else if (param == "UA")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				std::cout << "Enter UA in W/C \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_theuobuilder->SpecifyVariable(TYPEUA, tempdb);
+		}
+		else if (param == "SHELL_PRESSUREDROP")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				std::cout << "Enter Shell side dP in kPa \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_theuobuilder->SpecifyVariable(SHELL_PRESSUREDROP, tempdb);
+		}
+		else if (param == "TUBE_PRESSUREDROP")
+		{
+			if (thespecs != "")
+			{
+				getline(mypartstream, thevar);
+			}
+			else
+			{
+				std::cout << "Enter Tube side dP in kPa \n";
+				cin >> thevar;
+			}
+
+			tempdb = stod(thevar);
+			_theuobuilder->SpecifyVariable(TUBE_PRESSUREDROP, tempdb);
+		}
 		else if (param == "ISENTROPICEFFICIENCY")
 		{
 			if (thespecs != "")
@@ -881,7 +930,7 @@ void CommandInterpreter::_initfrominput(string theinputfile)
 			str3 = "";
 
 		}
-		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER" || mystring == "SPLITTER" || mystring == "COMPRESSOR" || mystring == "TWOPHASESEPARATOR")
+		else if (mystring == "VALVE" || mystring == "HEATER" || mystring == "MIXER" || mystring == "SPLITTER" || mystring == "COMPRESSOR" || mystring == "TWOPHASESEPARATOR" || mystring == "HEATEXCHANGER")
 		{
 			getline(myfile, str1);//this will be the name
 			do
@@ -901,8 +950,8 @@ void CommandInterpreter::_initfrominput(string theinputfile)
 		}
 	}
 	std::cout << "pre solve \n";
-	std::cout << "Stream _vapourfraction " << _activecase->GetStream("STRM1")->VapourFraction() << "\n";
-	std::cout << "Vapour PhaseFraction " << _activecase->GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
+	//std::cout << "Stream _vapourfraction " << _activecase->GetStream("STRM1")->VapourFraction() << "\n";
+	//std::cout << "Vapour PhaseFraction " << _activecase->GetStream("STRM1")->Phases(VAPOUR)->PhaseMoleFraction() << "\n";
 	_activecase->Solve();
 	_activecase->Output();
 	myfile.close();

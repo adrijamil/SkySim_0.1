@@ -70,6 +70,7 @@ void Compressor::_setupconnection(ConnectionType InOrOut)
 		_bridgefunction->GetStackObject(3)->AddVariable(_inletstreams[0]->MassFlow());
 		_bridgefunction->GetStackObject(3)->AddVariable(_inletstreams[0]->MolarEnthalpy());
 		_bridgefunction->GetStackObject(3)->AddVariable(_inletstreams[0]->MolarEntropy());
+		_bridgefunction->GetStackObject(3)->AddVariable(_inletstreams[0]->Temperature());
 	}
 	else
 	{
@@ -86,6 +87,7 @@ void Compressor::_setupconnection(ConnectionType InOrOut)
 		_bridgefunction->GetStackObject(3)->AddVariable(_outletstreams[0]->Pressure());
 		_bridgefunction->GetStackObject(3)->AddVariable(_outletstreams[0]->MolarEnthalpy());
 		_bridgefunction->GetStackObject(3)->AddVariable(_outletstreams[0]->MolarEntropy());
+		_bridgefunction->GetStackObject(3)->AddVariable(_outletstreams[0]->Temperature());
 	}
 
 

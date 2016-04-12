@@ -58,7 +58,7 @@ bool FlowSheet::Solve()
 				{
 
 					cout << "Adding to stack: " << _children[i]->GetStackObject(j)->StackName() << "\n";
-					std::cout << "STRM2 pressure " << GetStream("STRM2")->Pressure()->GetValue() << "\n";
+
 					_stack->Add(_children[i]->GetStackObject(j));
 				}
 				
@@ -66,12 +66,12 @@ bool FlowSheet::Solve()
 		}
 		
 		std::cout << "pre forgetting \\n";
-		std::cout << "STRM2 pressure " << GetStream("STRM2")->Pressure()->GetValue() << "\n";
+	//	std::cout << "STRM2 pressure " << GetStream("STRM2")->Pressure()->GetValue() << "\n";
 	_stack->Forget();
 	
 
 	std::cout << "post forgetting \n";
-	std::cout << "STRM2 pressure " << GetStream("STRM2")->Pressure()->GetValue() << "\n";
+//	std::cout << "STRM2 pressure " << GetStream("STRM2")->Pressure()->GetValue() << "\n";
 	
 
 	retval=_stack->Solve();

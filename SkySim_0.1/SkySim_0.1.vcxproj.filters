@@ -186,6 +186,18 @@
     <ClInclude Include="ICommandInterpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CompressorTester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeatExchanger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SetFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SetOperation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkySim_0.1.cpp">
@@ -353,6 +365,18 @@
     <ClCompile Include="ICommandInterpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CompressorTester.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeatExchanger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentDatabase.csv" />
@@ -449,5 +473,11 @@
     <Text Include="SplitterTests\SplitterTests.txt" />
     <Text Include="testDemoCase.txt" />
     <Text Include="InputCommands.txt" />
+    <Text Include="CompressorTests\CompressorTestInput_1.txt" />
+    <Text Include="CompressorTests\CompressorTests.txt" />
+    <Text Include="CompressorTests\CompressorTestInput_2.txt" />
+    <Text Include="CompressorTests\CompressorTestInput_3.txt" />
+    <Text Include="CompressorTests\CompressorTestInput_4.txt" />
+    <Text Include="testheatexchanger.txt" />
   </ItemGroup>
 </Project>

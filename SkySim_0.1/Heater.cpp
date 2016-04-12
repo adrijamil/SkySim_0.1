@@ -4,6 +4,7 @@
 #include "HeatBalance.h"
 #include "SimpleResistanceEquation.h"
 #include "FlowBalance.h"
+
 Heater::Heater()
 {
 	_bridgefunction = new BridgeFunction;
@@ -98,8 +99,6 @@ void Heater::_setupconnection(ConnectionType InOrOut)
 
 		_bridgefunction->GetStackObject(3)->AddVariable(_outletstreams[0]->Pressure());
 	}
-
-
 
 }
 

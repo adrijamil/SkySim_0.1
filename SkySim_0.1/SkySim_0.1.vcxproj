@@ -161,6 +161,7 @@
     <ClInclude Include="CommandInterpreter.h" />
     <ClInclude Include="ComponentBalance.h" />
     <ClInclude Include="Compressor.h" />
+    <ClInclude Include="CompressorTester.h" />
     <ClInclude Include="DensityCalc.h" />
     <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="FlashMethod.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="HeatBalance.h" />
     <ClInclude Include="Heater.h" />
     <ClInclude Include="HeaterTester.h" />
+    <ClInclude Include="HeatExchanger.h" />
     <ClInclude Include="ICommandInterpreter.h" />
     <ClInclude Include="Ideal.h" />
     <ClInclude Include="IsentropicCompression.h" />
@@ -194,6 +196,8 @@
     <ClInclude Include="RPEnergyCalc.h" />
     <ClInclude Include="RPManager.h" />
     <ClInclude Include="RPMassDensityCalc.h" />
+    <ClInclude Include="SetFunction.h" />
+    <ClInclude Include="SetOperation.h" />
     <ClInclude Include="SimCase.h" />
     <ClInclude Include="SimpleResistanceEquation.h" />
     <ClInclude Include="Solver.h" />
@@ -220,6 +224,7 @@
     <ClCompile Include="CommandInterpreter.cpp" />
     <ClCompile Include="ComponentBalance.cpp" />
     <ClCompile Include="Compressor.cpp" />
+    <ClCompile Include="CompressorTester.cpp" />
     <ClCompile Include="DensityCalc.cpp" />
     <ClCompile Include="ErrorLogger.cpp" />
     <ClCompile Include="FlashMethod.cpp" />
@@ -232,6 +237,7 @@
     <ClCompile Include="HeatBalance.cpp" />
     <ClCompile Include="Heater.cpp" />
     <ClCompile Include="HeaterTester.cpp" />
+    <ClCompile Include="HeatExchanger.cpp" />
     <ClCompile Include="ICommandInterpreter.cpp" />
     <ClCompile Include="Ideal.cpp" />
     <ClCompile Include="IsentropicCompression.cpp" />
@@ -252,6 +258,8 @@
     <ClCompile Include="RPEnergyCalc.cpp" />
     <ClCompile Include="RPManager.cpp" />
     <ClCompile Include="RPMassDensityCalc.cpp" />
+    <ClCompile Include="SetFunction.cpp" />
+    <ClCompile Include="SetOperation.cpp" />
     <ClCompile Include="SimCase.cpp" />
     <ClCompile Include="SimpleResistanceEquation.cpp" />
     <ClCompile Include="SkySim_0.1.cpp" />
@@ -279,6 +287,11 @@
     <None Include="ValveTests\valvetestcases.xlsx" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CompressorTests\CompressorTestInput_1.txt" />
+    <Text Include="CompressorTests\CompressorTests.txt" />
+    <Text Include="CompressorTests\CompressorTestInput_2.txt" />
+    <Text Include="CompressorTests\CompressorTestInput_3.txt" />
+    <Text Include="CompressorTests\CompressorTestInput_4.txt" />
     <Text Include="HeaterTests\HeaterTestInput_1.txt" />
     <Text Include="HeaterTests\HeaterTestInput_10.txt" />
     <Text Include="HeaterTests\HeaterTestInput_11.txt" />
@@ -339,6 +352,7 @@
     <Text Include="testcompressor.txt" />
     <Text Include="testflashes.txt" />
     <Text Include="testheater.txt" />
+    <Text Include="testheatexchanger.txt" />
     <Text Include="testmixer.txt" />
     <Text Include="testphases.txt" />
     <Text Include="testsep.txt" />

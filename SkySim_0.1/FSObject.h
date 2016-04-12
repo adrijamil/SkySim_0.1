@@ -28,13 +28,13 @@ public:
 	~FSObject();
 	virtual bool Solve() = 0;// { return false; };
 	string Name() { return _name; }
-	void SetName(string thename) { _name = thename; }
+	virtual void SetName(string thename) { _name = thename; }
 	virtual StackObject* GetStackObject(int i){ return _stackobjects[i]; }
 	virtual void AddStackObject(StackObject* theSO)
 	{
 		_nstackobjects = _nstackobjects + 1; //update count
 		StackObject** newchildren;
-		std::cout << "\n";
+		//std::cout << "\n";
 
 		//realloc is similar to redim preserve. members of array are preserved and sent to new array (newchildren)
 		//should be possible to reallocate straight to itself ie _children = (FSObject**)realloc(...... but this is safer. can catch errors.

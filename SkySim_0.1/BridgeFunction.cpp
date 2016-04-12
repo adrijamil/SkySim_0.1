@@ -56,8 +56,7 @@ bool BridgeFunction::Solve()
 		if (_variables[j].first->IsKnown() && calcbythis[j] == true)
 		{
 			_variables[j].first->CalculatedBy(this);
-				
-
+			
 		}
 		else
 		{

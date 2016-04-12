@@ -15,12 +15,7 @@ IsentropicCompression::~IsentropicCompression()
 
 bool IsentropicCompression::_calculate()
 {
-	//if it is solved it shouldnt be called again
-	//if (_solved)
-	//{
-	//	return true;
-	//}
-	
+
 	enum CalcModeEnum { CANNOTSOLVE, CALCF,CALCP1,CALCP2,CALCH1,CALCH2,CALCEFF,SOLVED }; // need to know if solved or not
 	CalcModeEnum CalcMode = CANNOTSOLVE;
 	bool pressuresolved = false;
@@ -28,6 +23,8 @@ bool IsentropicCompression::_calculate()
 	RealVariable* P2 = _parent->GetStream(0, OUTLET)->Pressure();
 	RealVariable* H1 = _parent->GetStream(0, INLET)->MolarEnthalpy();
 	RealVariable* H2 = _parent->GetStream(0, OUTLET)->MolarEnthalpy();
+	RealVariable* T1 = _parent->GetStream(0, INLET)->Temperature();
+	RealVariable* T2 = _parent->GetStream(0, OUTLET)->Temperature();
 	RealVariable* dP = _deltapressure;
 	RealVariable* F = _parent->GetStream(0, INLET)->MolarFlow();
 	RealVariable* Eff = _isentropicefficiency;
@@ -55,14 +52,14 @@ bool IsentropicCompression::_calculate()
 	Stream* tempstream = new Stream;
 	fwStream* tempfw = new fwStream;
 
-//	double q;
+	double q;
 	double n;
-	double h1;
+	double h1,h2;
 	//double s1;
 	double h2p;//h2p is isetropic h2 (100% eff)
 	double f;
 	double err = 1000;
-	double tol = 0.00001;
+	double tol = 0.000001;
 	//double targ1, targ2;
 
 
@@ -89,6 +86,10 @@ bool IsentropicCompression::_calculate()
 			tempfw->VapourFraction = -32767;
 			tempfw->Temperature = -32767;
 			tempfw->Phases[0].Enthalpy = -32767;
+
+			tempfw->Phases[1].PhaseFraction = -32767;
+
+
 			tempfw->WriteStream(tempstream);
 			tempstream->SetPropertyPackage(_parent->GetStream(0, INLET)->GetPropertyPackage());
 			tempstream->Solve();
@@ -121,13 +122,122 @@ bool IsentropicCompression::_calculate()
 
 			H2->SetValue(H1->GetValue()+Q->GetValue()/f);
 			P2->SetValue(xguess);
+			_deltapressure->SetValue(xguess-P1->GetValue());
 			pressuresolved = true;
 
 		}
 		
 		
 	}//if (!P2->IsKnown())
-	
+	else if (!P1->IsKnown())
+	{
+		//try calc based on Q,P2,T1,F and eff
+		//if h2 is known, then energy balance should set the Q
+		if (Q->IsKnown() && P2->IsKnown() && T1->IsKnown() && F->IsKnown() && Eff->IsKnown())
+		{
+			//got T1,
+			//guess P1,
+			//get S1
+			//flash P2S2
+			//get h and compare
+			
+
+			tempfw->ReadStream(_parent->GetStream(0, INLET));
+			f = tempfw->Phases[0].MolarFlow;
+			n = _isentropicefficiency->GetValue();
+			q = Q->GetValue();
+			//get h2p
+			//h2p = tempfw->Phases[0].Enthalpy + Q->GetValue()*Eff->GetValue() / f;
+
+			double fx, fxold, xguess, xguessold, temp;
+			xguessold = P2->GetValue() * 0.5;
+			xguess = 5000;
+			//xguess = P2->GetValue() * 0.6;
+
+
+			tempfw->Pressure = xguess;
+			tempfw->VapourFraction = -32767;
+			tempfw->Phases[0].Enthalpy = -32767;
+			tempfw->Phases[1].PhaseFraction = -32767;
+
+			tempfw->WriteStream(tempstream);
+			tempstream->SetPropertyPackage(_parent->GetStream(0, INLET)->GetPropertyPackage());
+
+			tempstream->Solve(); //get S1
+			h1 = tempstream->MolarEnthalpy()->GetValue();
+
+			tempstream->Pressure()->SetValue(P2->GetValue());
+			tempstream->MolarEnthalpy()->IsKnown(false);
+			tempstream->Temperature()->IsKnown(false);
+			tempstream->VapourFraction()->IsKnown(false);
+			tempstream->Solve();
+			h2p = tempstream->MolarEnthalpy()->GetValue();
+
+			fx = (h2p - h1)/n* f - q;
+
+			tempfw->Pressure = xguessold;
+			tempfw->VapourFraction = -32767;
+			tempfw->Phases[0].Enthalpy = -32767;
+			tempfw->Phases[1].PhaseFraction = -32767;
+			tempfw->WriteStream(tempstream);
+
+			//tempstream->SetPropertyPackage(_parent->GetStream(0, INLET)->GetPropertyPackage());
+
+			tempstream->Solve(); //get S1
+			h1 = tempstream->MolarEnthalpy()->GetValue();
+
+			tempstream->Pressure()->SetValue(P2->GetValue());
+			tempstream->MolarEnthalpy()->IsKnown(false);
+			tempstream->Temperature()->IsKnown(false);
+			tempstream->VapourFraction()->IsKnown(false);
+			tempstream->Solve();
+			h2p = tempstream->MolarEnthalpy()->GetValue();
+
+			fxold = (h2p - h1) / n* f - q;
+			
+
+			////secant to desired h2
+
+			while (abs(fx) > tol)
+			{
+				temp = xguess;
+
+				xguess = xguess - fx*(xguess - xguessold) / (fx - fxold);
+				xguessold = temp;
+				fxold = fx;
+
+				tempfw->Pressure = xguess;
+				tempfw->VapourFraction = -32767;
+				tempfw->Phases[0].Enthalpy = -32767;
+				tempfw->Phases[1].PhaseFraction = -32767;
+				tempfw->Pressure = xguess;
+				tempfw->WriteStream(tempstream);
+				//tempstream->SetPropertyPackage(_parent->GetStream(0, INLET)->GetPropertyPackage());
+
+				tempstream->Solve(); //get S1
+				h1 = tempstream->MolarEnthalpy()->GetValue();
+
+				tempstream->Pressure()->SetValue(P2->GetValue());
+				tempstream->MolarEnthalpy()->IsKnown(false);
+				tempstream->Temperature()->IsKnown(false);
+				tempstream->VapourFraction()->IsKnown(false);
+				tempstream->Solve();
+				h2p = tempstream->MolarEnthalpy()->GetValue();
+
+				fx = (h2p - h1) / n* f - q;
+				cout << "fx: " << fx << "\n";
+			}
+
+			//H1->IsKnown(false);
+			H2->SetValue(h1+ (h2p - h1) / n);
+			//P1->SetValue(xguess);
+			_deltapressure->SetValue(P2->GetValue()-xguess);
+			pressuresolved = true;
+
+		}
+
+
+	}//if (!P2->IsKnown())
 	else if (!H2->IsKnown())
 	{
 		//calc based on P1,P2,H1 and eff,F. let energy balance backout the Q
@@ -154,12 +264,45 @@ bool IsentropicCompression::_calculate()
 			h2p = tempstream->MolarEnthalpy()->GetValue();
 			h1 = H1->GetValue();
 			n = Eff->GetValue();
+
 			H2->SetValue(h1 + (h2p - h1) / n);
+			Q->SetValue((H2->GetValue() - h1 )* F->GetValue());
 			pressuresolved = true;
 		}
 	}
-	else if (!P1->IsKnown())
+	else if (!Eff->IsKnown())
 	{
+		if (P1->IsKnown() && P2->IsKnown() && H1->IsKnown() && F->IsKnown()&&Q->IsKnown())
+		{
+			//calc eff if Q known
+			//calc h2p
+			//calc eff
+			tempfw->ReadStream(_parent->GetStream(0, INLET));
+			tempfw->Phases[0].Entropy = _parent->GetStream(0, INLET)->MolarEntropy()->GetValue();
+			cout << "entropy" << tempfw->Phases[0].Entropy << "\n";
+			tempfw->Pressure = P2->GetValue();
+			//set other state variable to empty
+			tempfw->VapourFraction = -32767;
+			tempfw->Phases[1].PhaseFraction = -32767;
+			tempfw->Temperature = -32767;
+			tempfw->Phases[0].Enthalpy = -32767;
+
+			tempstream = new Stream;
+			tempfw->WriteStream(tempstream);
+
+			tempstream->SetPropertyPackage(_parent->GetStream(0, INLET)->GetPropertyPackage());
+			tempstream->Solve();
+			h2p = tempstream->MolarEnthalpy()->GetValue();
+			h1 = H1->GetValue();
+			q = Q->GetValue()/ F->GetValue();
+			n = (h2p - h1) / q;
+
+			Eff->SetValue(n);
+
+			H2->SetValue(h1 + (h2p - h1) / n);
+			//Q->SetValue((H2->GetValue() - h1)* F->GetValue());
+			pressuresolved = true;
+		}
 
 	}
 

@@ -4,7 +4,7 @@
 
 enum ConnectionType
 {
-	INLET, OUTLET,VAPOUROUTLET,LIQUIDOUTLET
+	INLET, OUTLET,VAPOUROUTLET,LIQUIDOUTLET,SHELLINLET,SHELLOUTLET,TUBEINLET,TUBEOUTLET
 };
 
 class Stream;
@@ -32,7 +32,9 @@ public:
 	{
 		return _bridgefunction->GetStackObject(i);
 	}
+	BridgeFunction* GetBridgeFunction() { return _bridgefunction; }
 protected:
+
 	Stream** _inletstreams=0;
 	Stream** _outletstreams=0;
 	int _ninlets=0;
